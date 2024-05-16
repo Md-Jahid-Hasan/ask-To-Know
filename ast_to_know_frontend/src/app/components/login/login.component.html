@@ -1,0 +1,21 @@
+<h1 class="mb-5 text-center">Login</h1>
+
+<div class="d-flex justify-content-center">
+    <form class="col-8 row g-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="loginForm">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="emailInput" placeholder="name@gmail.com">
+            <label for="emailInput">Gmail</label>
+            <div id="emailError" class="text-danger d-none">Please enter a valid email.</div>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="form-floating">
+                <input type="password" class="form-control" id="passwordInput" placeholder="Username">
+                <label for="passwordInput">Password</label>
+            </div>
+            <span class="input-group-text"><i class="bi bi-eye"></i></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>

@@ -1,0 +1,23 @@
+/*@import '~quill/dist/quill.core.css';*/
+/*@import '~quill/dist/quill.snow.css';*/
+
+body {
+    background-color: #edf2f9;
+}
+.c-pointer {
+    cursor: pointer;
+}
+
+/* Fixed column */
+.fixed-column {
+  position: fixed;
+  background-color: #C0C0C0;
+  height: 100vh; /* Set fixed height (viewport height) */
+  overflow: hidden; /* Hide overflow content */
+}
+
+/* Scrollable column */
+.scrollable-column {
+  overflow-y: auto; /* Enable vertical scrolling */
+  /* Add any other styling for the scrollable column */
+}

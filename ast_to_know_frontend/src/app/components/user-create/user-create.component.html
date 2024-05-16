@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+    <form class="col-8 row g-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded" id="userForm">
+        <!-- Email Field -->
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+            <label for="emailInput">Email</label>
+            <div id="emailError" class="text-danger d-none">Please enter a valid email.</div>
+        </div>
+
+        <!-- Username Field -->
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="usernameInput" placeholder="Username" required>
+            <label for="usernameInput">Username</label>
+            <div id="usernameError" class="text-danger d-none">Username is required.</div>
+        </div>
+
+        <!-- Mobile Number Field -->
+        <div class="form-floating mb-3">
+            <input type="tel" class="form-control" id="mobileInput" placeholder="123-456-7890"
+                   pattern="\d{3}-\d{3}-\d{4}"
+                   required>
+            <label for="mobileInput">Mobile Number</label>
+            <div id="mobileError" class="text-danger d-none">Please enter a valid mobile number (123-456-7890).</div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="input-group mb-3">
+            <div class="form-floating flex-grow-1">
+                <input type="password" class="form-control" id="passwordInput" placeholder="Password" required>
+                <label for="passwordInput">Password</label>
+            </div>
+            <button class="btn btn-outline-secondary rounded-end" type="button" id="togglePassword"
+                    aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+            </button>
+            <div id="passwordError" class="text-danger d-none">Password is required.</div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="input-group mb-3">
+            <div class="form-floating flex-grow-1">
+                <input type="password" class="form-control" id="confirmPasswordInput" placeholder="Confirm Password"
+                       required>
+                <label for="confirmPasswordInput">Confirm Password</label>
+            </div>
+            <button class="btn btn-outline-secondary rounded-end" type="button" id="toggleConfirmPassword"
+                    aria-label="Toggle confirm password visibility">
+                <i class="bi bi-eye"></i>
+            </button>
+            <div id="confirmPasswordError" class="text-danger d-none">Passwords do not match.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Create User</button>
+    </form>
+</div>
