@@ -4,20 +4,40 @@
 body {
     background-color: #edf2f9;
 }
+
 .c-pointer {
     cursor: pointer;
 }
 
 /* Fixed column */
 .fixed-column {
-  position: fixed;
-  background-color: #C0C0C0;
-  height: 100vh; /* Set fixed height (viewport height) */
-  overflow: hidden; /* Hide overflow content */
+    position: fixed;
+    background-color: #C0C0C0;
+    height: 100vh; /* Set fixed height (viewport height) */
+    overflow: hidden; /* Hide overflow content */
 }
 
 /* Scrollable column */
 .scrollable-column {
-  overflow-y: auto; /* Enable vertical scrolling */
-  /* Add any other styling for the scrollable column */
+    overflow-y: auto; /* Enable vertical scrolling */
+    /* Add any other styling for the scrollable column */
+}
+
+.dropdown-menu-notification {
+    min-width: 20rem;
+}
+
+.dropdown-menu-scrollable {
+    max-height: 20rem;
+    overflow-y: auto;
+}
+
+.font-sans-serif {
+    font-family: sans-serif;
+}
+
+.avatar {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: block;
 }

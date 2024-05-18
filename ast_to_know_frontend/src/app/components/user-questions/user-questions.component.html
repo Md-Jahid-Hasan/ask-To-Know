@@ -1,1 +1,117 @@
-<p>user-questions works!</p>
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col d-flex align-items-center">
+                <div class="form-check mb-0 d-none d-sm-block">
+                    <input class="form-check-input checkbox-bulk-select" type="checkbox">
+                </div>
+                <button class="btn btn-light border btn-sm ms-sm-1 text-secondary" type="button" onclick="location.reload()">
+                    <i class="bi bi-arrow-clockwise"></i></button>
+
+                <div class="border-start ms-3 ps-3" id="emails-actions">
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-light border text-secondary" type="button" data-bs-toggle="tooltip"
+                                data-bs-placement="bottom" data-bs-title="Tooltip on bottom">
+                            <i class="bi bi-trash3"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-light me-1 mb-1 shadow-lg border fw-semibold text-primary"><i class="bi bi-plus-lg fw-bold"></i>Compose</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+        <div [ngClass]="shadow==1 ? 'shadow' : ''" (mouseover)="addShadow($event, 1)"
+             (mouseleave)="addShadow($event, 1)" class="row border-bottom border-2 py-2 px-1 mx-0">
+
+<!--            <div class="btn-group btn-group-sm z-2 hover-actions end-0 me-3" style="width: 10rem;">-->
+<!--                <button class="btn btn-tertiary hover-bg-200" type="button" data-bs-toggle="tooltip"-->
+<!--                        data-bs-placement="top" aria-label="Archive" data-bs-original-title="Archive">-->
+<!--                    <i class="bi bi-archive"></i>-->
+<!--                </button>-->
+<!--                <button class="btn btn-tertiary hover-bg-200" type="button" data-bs-toggle="tooltip"-->
+<!--                        data-bs-placement="top" aria-label="Delete" data-bs-original-title="Delete">-->
+<!--                    <i class="bi bi-trash"></i></button>-->
+<!--                <button class="btn btn-tertiary hover-bg-200" type="button" data-bs-toggle="tooltip"-->
+<!--                        data-bs-placement="top" aria-label="Mark as read" data-bs-original-title="Mark as read">-->
+<!--                    <i class="bi bi-envelope"></i></button>-->
+<!--            </div>-->
+
+            <div class="col-auto d-none d-sm-block">
+                <div class="d-flex">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="checkbox-1"
+                               data-bulk-select-row="data-bulk-select-row">
+                    </div>
+                    <i class="bi bi-star"></i>
+                </div>
+            </div>
+            <div class="col col-md-9 col-xxl-10">
+                <div class="row">
+                    <div class="col-md-4 col-xl-3 col-xxl-2 ps-md-0 mb-1 mb-md-0">
+                        <div class="d-flex position-relative">
+                            <div class="flex-1 ms-2">
+                                <a class="fw-bold text-reset text-decoration-none text-light-emphasis" href="#">Diana</a>
+                                <span class="badge text-bg-success ms-2 p-1">NEW</span></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a class="d-block fw-bold text-reset text-decoration-none text-light-emphasis" href="#">
+                            <span class="fw-bold">Your Daily Work Summary</span> -
+                            <span>And they'd probably do a lot of damage to an...</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto ms-auto d-flex flex-column justify-content-between">
+                <span class="fw-bold text-light-emphasis">Mar 26</span>
+            </div>
+        </div>
+         <div [ngClass]="shadow==2 ? 'shadow' : ''" (mouseover)="addShadow($event, 2)"
+              (mouseleave)="addShadow($event, 2)" class="row border-bottom border-2 py-2 px-1 mx-0">
+<!--            <div class="btn-group btn-group-sm z-2 hover-actions end-0 me-3" style="width: 10rem;">-->
+<!--                <button class="btn btn-tertiary hover-bg-200" type="button" data-bs-toggle="tooltip"-->
+<!--                        data-bs-placement="top" aria-label="Archive" data-bs-original-title="Archive">-->
+<!--                    <i class="bi bi-archive"></i>-->
+<!--                </button>-->
+<!--                <button class="btn btn-tertiary hover-bg-200" type="button" data-bs-toggle="tooltip"-->
+<!--                        data-bs-placement="top" aria-label="Delete" data-bs-original-title="Delete">-->
+<!--                    <i class="bi bi-trash"></i></button>-->
+<!--                <button class="btn btn-tertiary hover-bg-200" type="button" data-bs-toggle="tooltip"-->
+<!--                        data-bs-placement="top" aria-label="Mark as read" data-bs-original-title="Mark as read">-->
+<!--                    <i class="bi bi-envelope"></i></button>-->
+<!--            </div>-->
+            <div class="col-auto d-none d-sm-block">
+                <div class="d-flex">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="checkbox-2"
+                               data-bulk-select-row="data-bulk-select-row">
+                    </div>
+                    <i class="bi bi-star"></i>
+                </div>
+            </div>
+            <div class="col col-md-9 col-xxl-10">
+                <div class="row">
+                    <div class="col-md-4 col-xl-3 col-xxl-2 ps-md-0 mb-1 mb-md-0">
+                        <div class="d-flex position-relative">
+                            <div class="flex-1 ms-2">
+                                <a class="fw-bold text-reset text-decoration-none text-light-emphasis"
+                                   routerLink="question/1">Diana</a>
+                                <span class="badge text-bg-success ms-2 p-1">NEW</span></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a class="d-block fw-bold text-reset text-decoration-none text-light-emphasis"
+                           routerLink="http://localhost:4200/question/1">
+                            <span class="fw-bold">Your Daily Work Summary</span> -
+                            <span>And they'd probably do a lot of damage to an...</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto ms-auto d-flex flex-column justify-content-between">
+                <span class="fw-bold text-light-emphasis">Mar 26</span>
+            </div>
+        </div>
+    </div>
+</div>
