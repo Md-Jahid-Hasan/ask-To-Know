@@ -14,4 +14,5 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 })
 export class AppComponent {
   title = 'ast_to_know_frontend';
+  api_host: string = "http://127.0.0.1:8000/";
 }

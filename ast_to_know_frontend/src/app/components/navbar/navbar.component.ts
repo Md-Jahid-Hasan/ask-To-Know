@@ -11,5 +11,9 @@ import {RouterLink} from "@angular/router";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
+    doLogout() {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.removeItem("token")
+        }
+    }
 }

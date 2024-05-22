@@ -19,15 +19,15 @@
 
             <div class="card-body bg-body-tertiary">
                 <h5 class="card-title text-center">Card title</h5>
-                <div class="card-text">
-                    <select class="form-select mb-2" aria-label="Default select example">
-                        <option selected="">Select Your Category</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                <form class="card-text" (ngSubmit)="submitQuestion()">
+                    <select class="form-select mb-2" aria-label="Default select example"
+                            [(ngModel)]="question.category" name="category">
+                        <option>Select Your Category</option>
+                        <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
                     </select>
 
-                    <textarea class="form-control mb-2" rows="3"></textarea>
+                    <textarea class="form-control mb-2" rows="3" [(ngModel)]="question.question"
+                                name="question"></textarea>
                     <small class="text-secondary">
                         into electronic typesetting, remaining essentially unchanged. It was
                         popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
@@ -35,11 +35,16 @@
                         Lorem Ipsum</small>
                     <div class="d-flex justify-content-end col-4 ms-auto col-sm-10">
                         <button
+                            class="btn btn-sm btn-outline-primary me-1 mb-1 shadow-lg rounded-pill border pt-1
+                            border-secondary-subtle" type="button">My Questions
+                        </button>
+
+                        <button
                             class="btn btn-lg btn-outline-primary me-1 mb-1 shadow-lg rounded-pill border pt-1
-                            border-secondary-subtle" type="button">All Query
+                            border-secondary-subtle" type="submit">Submit Question
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
