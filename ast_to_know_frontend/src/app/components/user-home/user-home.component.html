@@ -1,438 +1,113 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="col-11 card-group">
-        <div class="card shadow me-1  rounded-3">
-            <div class="card-body bg-body-tertiary">
-                <h5 class="card-title text-center">Card title</h5>
-                <div class="card-text">
-                    <div class="list-group col-12">
-                        <a class="list-group-item list-group-item-action" href="#">News Feed</a>
-                        <a class="list-group-item list-group-item-action" href="#">Messages</a>
-                        <a class="list-group-item list-group-item-action" href="#">Events</a>
-                        <a class="list-group-item list-group-item-action" href="#">Groups</a>
-                        <a class="list-group-item list-group-item-action" href="#">Pages</a>
-                    </div>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-light navbar-vertical p-0" style="background-color: #edf2f9">
+    <div class="container">
+        <div class="">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house-door"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-person"></i> Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        <i class="bi bi-envelope"></i> Messages
 
-            </div>
+                        <i class="bi bi-caret-down ms-5 pt-2"></i>
+                    </a>
+
+                    <ul class="navbar-nav collapse ps-4" id="collapseExample">
+                        <li class="nav-item"><a class="nav-link" href="#">Action</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Another action</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-gear"></i> Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                </li>
+            </ul>
         </div>
-        <div class="card shadow  rounded-3">
+    </div>
+</nav>
 
-            <div class="card-body bg-body-tertiary">
-                <h5 class="card-title text-center">Card title</h5>
-                <div class="card-text">
-                    <select class="form-select mb-2" aria-label="Default select example">
-                        <option selected="">Select Your Category</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-
-                    <textarea class="form-control mb-2" rows="3"></textarea>
-                    <small class="text-secondary">
-                        into electronic typesetting, remaining essentially unchanged. It was
-                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                        and more recently with desktop publishing software like Aldus PageMaker including versions of
-                        Lorem Ipsum</small>
-                    <div class="d-flex justify-content-end col-4 ms-auto col-sm-10">
-                        <button
-                            class="btn btn-lg btn-outline-primary me-1 mb-1 shadow-lg rounded-pill border pt-1
-                            border-secondary-subtle" type="button">All Query
-                        </button>
-                    </div>
-                </div>
+<div class="card my-3 " style="margin-left: 16rem">
+    <div class="card-header bg-body-tertiary overflow-hidden">
+        <div class="d-flex align-items-center">
+            <div class="flex-1 ms-2">
+                <h5 class="mb-0 fs-9">Ask Question</h5>
             </div>
         </div>
     </div>
+    <div class="card-body p-0">
+        <form>
+            <textarea
+                class="shadow-none form-control rounded-0 resize-none px-3 border-top-0 border-bottom-0 border-opacity-10"
+                placeholder="What do you want to talk about?" rows="4">
+            </textarea>
+
+            <div class="row g-0 justify-content-between mt-3 px-2 py-2 border-top">
+                <div class="col">
+                    <label class="btn btn-light btn-sm rounded-pill shadow-none fs-6 mb-0 me-1 border" for="imageInput">
+                        <i class="bi bi-archive-fill"></i>
+                        <span class="ms-2 d-none d-md-inline-block">Image</span>
+                    </label>
+                    <input type="file" class="d-none" id="imageInput" accept="image/*">
+                </div>
+
+                <div class="col-auto">
+                    <button class="btn btn-primary btn-sm px-4 px-sm-5" type="submit">Share</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
-<!--<div class="row gx-3 p-3 mb-5 rounded">-->
-<!--    &lt;!&ndash; Left side (Buttons) &ndash;&gt;-->
-<!--    <div class="col-md-4 shadow-lg">-->
-<!--        <div class="sticky-top">-->
-<!--            <div class="card">-->
-<!--                <table class="table table-hover table-dashboard mb-0 table-borderless fs-10 border-200">-->
-<!--                    <tbody>-->
-<!--                    <tr class="border-bottom border-200 c-pointer">-->
-<!--                        <td>-->
-<!--                            <p>Test</p>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr class="border-bottom border-200 c-pointer">-->
-<!--                        <td>-->
-<!--                            <p>Test</p>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr class="border-bottom border-200 c-pointer">-->
-<!--                        <td>-->
-<!--                            <p>Test</p>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr class="border-bottom border-200 c-pointer">-->
-<!--                        <td>-->
-<!--                            <p>Test</p>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr class="border-bottom border-200 c-pointer">-->
-<!--                        <td>-->
-<!--                            <p>Test</p>-->
-<!--                        </td>-->
-<!--                    </tr>-->
+<!--<div class="d-flex justify-content-center align-items-center min-vh-100" style="margin-left: 15rem">-->
+<!--    <div class="col-11 card-group">-->
+<!--        <div class="card shadow me-1  rounded-3">-->
+<!--            <div class="card-body bg-body-tertiary">-->
+<!--                <h5 class="card-title text-center">Card title</h5>-->
+<!--                <div class="card-text">-->
+<!--                    <div class="list-group col-12">-->
+<!--                        <a class="list-group-item list-group-item-action" href="#">News Feed</a>-->
+<!--                        <a class="list-group-item list-group-item-action" href="#">Messages</a>-->
+<!--                        <a class="list-group-item list-group-item-action" href="#">Events</a>-->
+<!--                        <a class="list-group-item list-group-item-action" href="#">Groups</a>-->
+<!--                        <a class="list-group-item list-group-item-action" href="#">Pages</a>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-<!--                    </tbody>-->
-<!--                </table>-->
 <!--            </div>-->
 <!--        </div>-->
-<!--    </div>-->
-<!--    &lt;!&ndash; Right side (QA section) &ndash;&gt;-->
-<!--    <div class="col-md-8 shadow-lg">-->
-<!--        <div class="card">-->
-<!--            <div class="m-3">-->
-<!--                <div class="input-group">-->
-<!--                    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"-->
-<!--                            data-bs-toggle="dropdown">-->
-<!--                        <span class="visually-hidden">Toggle Dropdown</span>-->
-<!--                    </button>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <input type="text" class="dropdown-item form-control form-control-sm border border-3"-->
-<!--                               placeholder="Search your category">-->
-<!--                        <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-<!--                        <li>-->
-<!--                            <hr class="dropdown-divider">-->
-<!--                        </li>-->
-<!--                        <li><a class="dropdown-item" href="#">Separated link</a></li>-->
-<!--                    </ul>-->
-<!--                    <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">-->
-<!--                    <button type="button" class="btn btn-outline-secondary">Action</button>-->
+<!--        <div class="card shadow  rounded-3">-->
 
+<!--            <div class="card-body bg-body-tertiary">-->
+<!--                <h5 class="card-title text-center">Card title</h5>-->
+<!--                <div class="card-text">-->
+<!--                    <select class="form-select mb-2" aria-label="Default select example">-->
+<!--                        <option selected="">Select Your Category</option>-->
+<!--                        <option value="1">One</option>-->
+<!--                        <option value="2">Two</option>-->
+<!--                        <option value="3">Three</option>-->
+<!--                    </select>-->
+
+<!--                    <textarea class="form-control mb-2" rows="3"></textarea>-->
+<!--                    <small class="text-secondary">-->
+<!--                        into electronic typesetting, remaining essentially unchanged. It was-->
+<!--                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,-->
+<!--                        and more recently with desktop publishing software like Aldus PageMaker including versions of-->
+<!--                        Lorem Ipsum</small>-->
+<!--                    <div class="d-flex justify-content-end col-4 ms-auto col-sm-10">-->
+<!--                        <button-->
+<!--                            class="btn btn-lg btn-outline-primary me-1 mb-1 shadow-lg rounded-pill border pt-1-->
+<!--                            border-secondary-subtle" type="button">All Query-->
+<!--                        </button>-->
+<!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-
-<!--            <table class="table table-sm mb-0 fs-10">-->
-
-<!--                <tbody class="list" id="table-ticket-body">-->
-<!--                <tr class="c-pointer" data-bs-toggle="collapse" data-bs-target="#collapseExample">-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        Synapse Design #1125-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr class="collapse collapse-horizontal" id="collapseExample">-->
-<!--                    <td colspan="2" class="align-middle status fs-9 pe-4">-->
-<!--                        Some placeholder content for the collapse component. This panel is hidden by default but-->
-<!--                        revealed when the user activates the relevant trigger.-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr class="c-pointer" data-bs-toggle="collapse" data-bs-target="#collapseExample2">-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr class="collapse collapse-horizontal" id="collapseExample2">-->
-<!--                    <td colspan="2" class="align-middle status fs-9 pe-4">-->
-<!--                        Another placeholder content for the collapse component. This panel is hidden by default but-->
-<!--                        revealed when the user activates the relevant trigger.-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="align-middle status fs-9 pe-4">-->
-<!--                        <span class="badge text-bg-success">Success</span>-->
-<!--                    </td>-->
-<!--                    <td class="align-middle subject py-2 pe-4">-->
-<!--                        <a class="fw-semi-bold" href="#">Synapse Design #1125</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-
-
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
-
