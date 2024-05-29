@@ -15,7 +15,8 @@ import {FormsModule} from "@angular/forms";
 })
 export class UserHomeComponent implements OnInit {
     categories: any[] = []
-    question = {
+    selected_category: string|null = null
+    question:{question:string, category: number|null} = {
         question: "",
         category: null
     }
@@ -27,6 +28,11 @@ export class UserHomeComponent implements OnInit {
         if (typeof window !== 'undefined' && window.localStorage) {
             this.user_home.getAllCategory().subscribe(categories => this.categories = categories)
         }
+    }
+
+    selectCategory(category: {id:number, name:string}) {
+        this.question.category = category.id
+        this.selected_category = category.name
     }
 
     submitQuestion() {
