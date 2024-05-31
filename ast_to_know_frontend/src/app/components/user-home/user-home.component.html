@@ -10,7 +10,7 @@
     </div>
     <div class="card-body p-0">
         <form (ngSubmit)="submitQuestion()">
-            <textarea [(ngModel)]="question.question" name="question" id="question"
+            <textarea [(ngModel)]="question.question" name="question" id="question" required
                 class="shadow-none form-control rounded-0 px-3 border-0 border-opacity-10"
                 placeholder="What do you want to talk about?" rows="4">
             </textarea>
@@ -32,12 +32,14 @@
                         <ul class="dropdown-menu pt-0">
                             <li class="nav-item">
                                 <div class="dropdown-header p-0">
-                                    <input type="text" class="form-control" placeholder="Search Category">
+                                    <input type="text" class="form-control" placeholder="Search Category"
+                                           (input)="searchCategory($event)">
                                 </div>
                             </li>
-                            <li *ngFor="let category of categories" (click)="selectCategory(category)">
+                            <li *ngFor="let category of searched_categories" (click)="selectCategory(category)" class="border border-bottom">
                                 <a class="dropdown-item pe-auto">{{ category.name }}</a>
                             </li>
+                            <p *ngIf="searched_categories.length==0" class="text-center text-wrap text-body-secondary p-2">No Categories found</p>
                         </ul>
                     </div>
                 </div>
