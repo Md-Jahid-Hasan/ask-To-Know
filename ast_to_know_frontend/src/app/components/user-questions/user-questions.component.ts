@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
 import {NgClass} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {PaginationComponent} from "../pagination/pagination.component";
 
 @Component({
     selector: 'app-user-questions',
     standalone: true,
     imports: [
         NgClass,
-        RouterLink
+        RouterLink,
+        PaginationComponent
     ],
     templateUrl: './user-questions.component.html',
     styleUrl: './user-questions.component.css'
