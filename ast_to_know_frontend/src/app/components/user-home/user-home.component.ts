@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {UserQuestionsComponent} from "../user-questions/user-questions.component";
+import {UserHomeSidepanelComponent} from "../user-home-sidepanel/user-home-sidepanel.component";
 import {UserHomeService} from "../../services/user-home.service";
-import {NgForOf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
 @Component({
-    selector: 'app-user-home',
-    standalone: true,
+  selector: 'app-user-home',
+  standalone: true,
     imports: [
-        NgForOf,
+        UserQuestionsComponent,
+        UserHomeSidepanelComponent,
         FormsModule
     ],
-    templateUrl: './user-home.component.html',
-    styleUrl: './user-home.component.css'
+  templateUrl: './user-home.component.html',
+  styleUrl: './user-home.component.css'
 })
 export class UserHomeComponent implements OnInit {
     categories: any[] = []
