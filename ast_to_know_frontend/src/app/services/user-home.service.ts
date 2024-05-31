@@ -16,4 +16,8 @@ export class UserHomeService {
     createQuestion(question:any): Observable<any> {
         return this.http.post<any>("api/question/list/", question)
     }
+
+    getQuestions(): Observable<any> {
+        return this.http.get<any>("api/question/list/")
+    }
 }

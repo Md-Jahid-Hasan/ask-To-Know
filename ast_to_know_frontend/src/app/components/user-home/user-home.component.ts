@@ -3,6 +3,7 @@ import {UserQuestionsComponent} from "../user-questions/user-questions.component
 import {UserHomeSidepanelComponent} from "../user-home-sidepanel/user-home-sidepanel.component";
 import {UserHomeService} from "../../services/user-home.service";
 import {FormsModule} from "@angular/forms";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-user-home',
@@ -10,7 +11,8 @@ import {FormsModule} from "@angular/forms";
     imports: [
         UserQuestionsComponent,
         UserHomeSidepanelComponent,
-        FormsModule
+        FormsModule,
+        NgForOf
     ],
   templateUrl: './user-home.component.html',
   styleUrl: './user-home.component.css'
@@ -19,7 +21,7 @@ export class UserHomeComponent implements OnInit {
     categories: any[] = []
     selected_category: string|null = null
     question:{question:string, category: number|null} = {
-        question: "",
+        question: "test",
         category: null
     }
 
@@ -27,7 +29,8 @@ export class UserHomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (typeof window !== 'undefined' && window.localStorage) {
+        if (typeof window !== 'undefined') {
+            console.log("testeing")
             this.user_home.getAllCategory().subscribe(categories => this.categories = categories)
         }
     }

@@ -3,59 +3,27 @@
         <h5 class="mb-0">My Questions</h5>
     </div>
     <div class="card-body p-0 border-end border-start rounded-bottom">
-        <a class="border-top p-2 d-flex text-decoration-none accordion-button collapsed" type="button" data-bs-toggle="collapse"
-           data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-            <div class="d-flex align-items-center">
-                <span class="badge text-bg-success me-3">Success</span>
-            </div>
+        <div *ngFor="let question of questions">
+            <div class="border-top p-2 d-flex text-decoration-none"
+                 [ngClass]="question.answer && 'accordion-button collapsed'" type="button" data-bs-toggle="collapse"
+                 [attr.data-bs-target]="'#'+question.id" aria-expanded="false" aria-controls="collapseOne">
+                <div class="d-flex align-items-center col-1_5">
+                    <span *ngIf="question.answer" class="badge text-bg-success me-3">Answered</span>
+                    <span *ngIf="!question.answer" class="badge text-bg-warning me-3">Not Answered</span>
+                </div>
 
-            <div class="mb-1 text-primary-emphasis">
-                <p class="mb-1"><strong>Anthony Hopkins FollowedMassachusetts Institute of Technology</strong></p>
-                <span class="mb-1 text-body-tertiary">Just Now</span>
+                <div class="mb-1 text-primary-emphasis">
+                    <p class="mb-1"><strong>{{ question.question }}</strong></p>
+                    <span class="mb-1 text-body-tertiary">Just Now</span>
+                </div>
             </div>
-        </a>
-        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse
-                plugin adds the appropriate classes that we use to style each element. These classes control the overall
-                appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go
-                within the <code>.accordion-body</code>, though the transition does limit overflow.
+            <div [id]="question.id" [ngClass]="question.answer ? 'accordion-collapse collapse' : 'd-none'"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {{question.answer}}
+                </div>
             </div>
         </div>
-
-        <a class="border-top p-2 d-flex text-decoration-none" href="#!">
-            <div class="d-flex align-items-center">
-                <span class="badge text-bg-success me-3">Success</span>
-            </div>
-
-            <div class="mb-1 text-primary-emphasis">
-                <p class="mb-1"><strong>Anthony Hopkins FollowedMassachusetts Institute of Technology</strong></p>
-                <span class="mb-1 text-body-tertiary">Just Now</span>
-            </div>
-        </a>
-
-        <a class="border-top p-2 d-flex text-decoration-none" href="#!">
-            <div class="d-flex align-items-center">
-                <span class="badge text-bg-success me-3">Success</span>
-            </div>
-
-            <div class="mb-1 text-primary-emphasis">
-                <p class="mb-1"><strong>Anthony Hopkins FollowedMassachusetts Institute of Technology</strong></p>
-                <span class="mb-1 text-body-tertiary">Just Now</span>
-            </div>
-        </a>
-
-        <a class="border-top p-2 d-flex text-decoration-none" href="#!">
-            <div class="d-flex align-items-center">
-                <span class="badge text-bg-success me-3">Success</span>
-            </div>
-
-            <div class="mb-1 text-primary-emphasis">
-                <p class="mb-1"><strong>Anthony Hopkins FollowedMassachusetts Institute of Technology</strong></p>
-                <span class="mb-1 text-body-tertiary">Just Now</span>
-            </div>
-        </a>
     </div>
 
     <div class="card-footer border border-0" style="background-color: #edf2f9">
