@@ -1,0 +1,20 @@
+.navbar-vertical {
+    height: 100vh;
+    position: fixed;
+    display: inline-block;
+    top: 5rem;
+    left: inherit;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    /*padding-top: 20px;*/
+    width: 100%;
+    max-width: 15rem;
+}
+
+.navbar-vertical .navbar-nav {
+    flex-direction: column;
+}
+
+.nav-link {
+    padding: 10px 20px;
+}
