@@ -12,7 +12,7 @@ from question.serializers import QuestionSerializer, CategorySerializer
 
 
 class BasePagination(PageNumberPagination):
-    page_size = 10
+    page_size = 5
     page_size_query_param = 'offset'
     max_page_size = 100
 

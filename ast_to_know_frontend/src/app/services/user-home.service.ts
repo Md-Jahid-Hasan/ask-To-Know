@@ -17,7 +17,8 @@ export class UserHomeService {
         return this.http.post<any>("api/question/list/", question)
     }
 
-    getQuestions(): Observable<any> {
-        return this.http.get<any>("api/question/list/")
+    getQuestions(query_params:string=""): Observable<any> {
+        let url = "api/question/list/" + query_params
+        return this.http.get<any>(url)
     }
 }
