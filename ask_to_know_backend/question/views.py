@@ -1,8 +1,9 @@
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
 
 from question.models import Question, Category
@@ -41,10 +42,15 @@ class QuestionListCreateView(ListCreateAPIView):
         return Response({"message": "Successfully Created"}, status=status.HTTP_201_CREATED)
 
 
-class AnswerQuestionView(UpdateAPIView):
+class AnswerQuestionView(RetrieveUpdateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdminUser,)
+
+    def get_object(self):
+        lookup_field = self.kwargs.get('pk')
+        obj = get_object_or_404(Question, pk=lookup_field, assignee=self.request.user)
+        return obj
 
 
 class CategoryListCreateView(ListCreateAPIView):

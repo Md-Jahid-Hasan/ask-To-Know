@@ -5,6 +5,6 @@ app_name = 'question'
 
 urlpatterns = [
     path('list/', QuestionListCreateView.as_view(), name='question-list'),
-    path('client-answer/<int:id>/', AnswerQuestionView.as_view(), name='question-answer'),
+    path('client-answer/<int:pk>/', AnswerQuestionView.as_view(), name='question-answer'),
     path('category/', CategoryListCreateView.as_view(), name='question-category')
 ]
