@@ -11,10 +11,10 @@ import {Question} from "../../services/Question";
     templateUrl: './agent-task.component.html',
     styleUrl: './agent-task.component.css'
 })
-export class AgentTaskComponent implements OnInit{
-    question_id:string|null = null
-    question:Question|null = null
-    answer:string = ""
+export class AgentTaskComponent implements OnInit {
+    question_id: string | null = null
+    question: any = undefined
+    answer: string = ""
 
     constructor(private activeRoute: ActivatedRoute, private agent_service: AgentService) {
         this.activeRoute.params.subscribe(value => {
@@ -23,11 +23,19 @@ export class AgentTaskComponent implements OnInit{
     }
 
     ngOnInit(): void {
-         if (typeof window !== 'undefined' && window.localStorage) {
-             this.agent_service.getSingleQuestion(this.question_id).subscribe(
-                 value => this.question=value
-             )
-         }
+        if (typeof window !== 'undefined' && window.localStorage) {
+            this.agent_service.getSingleQuestion(this.question_id).subscribe(
+                value => this.question = value
+            )
+        }
+    }
+
+    getCategoryName(category:any): string {
+        if (typeof category === 'number') {
+            return 'Unknown';
+        } else {
+            return category.name;
+        }
     }
 
 

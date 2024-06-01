@@ -18,7 +18,7 @@ import {RouterLink} from "@angular/router";
     styleUrl: './agent-home.component.css'
 })
 export class AgentHomeComponent implements OnInit {
-    questions: Question[] = []
+    questions: any = []
     current_page: number = 1
     total_pages: number = 1
 

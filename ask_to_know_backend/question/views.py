@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from question.models import Question, Category
 from django.contrib.auth import get_user_model as User
 
-from question.serializers import QuestionSerializer, CategorySerializer
+from question.serializers import QuestionSerializer, CategorySerializer, AdminQuestionSerializer
 
 
 class BasePagination(PageNumberPagination):
@@ -22,7 +22,6 @@ class QuestionListCreateView(ListCreateAPIView):
     queryset = Question.objects.all()
     pagination_class = BasePagination
     permission_classes = (IsAuthenticated,)
-    serializer_class = QuestionSerializer
 
     def get_queryset(self):
         user = self.request.user
@@ -30,6 +29,11 @@ class QuestionListCreateView(ListCreateAPIView):
             return Question.objects.filter(assignee=user)
         else:
             return Question.objects.filter(user=user)
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return AdminQuestionSerializer
+        return QuestionSerializer
 
     def perform_create(self, serializer):
         admin = User().objects.filter(is_staff=True).annotate(
@@ -44,13 +48,17 @@ class QuestionListCreateView(ListCreateAPIView):
 
 class AnswerQuestionView(RetrieveUpdateAPIView):
     queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
     permission_classes = (IsAdminUser,)
 
     def get_object(self):
         lookup_field = self.kwargs.get('pk')
         obj = get_object_or_404(Question, pk=lookup_field, assignee=self.request.user)
         return obj
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return AdminQuestionSerializer
+        return QuestionSerializer
 
 
 class CategoryListCreateView(ListCreateAPIView):

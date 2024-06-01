@@ -10,6 +10,12 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         fields = ['name', 'email', 'is_staff']
 
 
+class UserNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User()
+        fields = ['name']
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Serializer for the user token/login. As a login user will get a new token and user details by using
     UserDetailsSerializer."""
