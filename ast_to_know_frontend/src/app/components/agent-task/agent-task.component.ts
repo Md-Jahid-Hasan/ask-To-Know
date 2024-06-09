@@ -25,16 +25,23 @@ export class AgentTaskComponent implements OnInit {
     ngOnInit(): void {
         if (typeof window !== 'undefined' && window.localStorage) {
             this.agent_service.getSingleQuestion(this.question_id).subscribe(
-                value => this.question = value
+                value => {
+                    this.question = value;
+                    this.answer = value && value.answer
+                    // value && this.answer=value.answer;
+                    // if (value){
+                    //     this.answer = value
+                    // }
+                }
             )
         }
     }
 
-    getCategoryName(category:any): string {
-        if (typeof category === 'number') {
-            return 'Unknown';
-        } else {
-            return category.name;
+    saveAnswer(){
+        if (this.answer){
+            this.agent_service.answerQuestion(this.question_id, {answer: this.answer}).subscribe(
+                value => console.log(value)
+            )
         }
     }
 

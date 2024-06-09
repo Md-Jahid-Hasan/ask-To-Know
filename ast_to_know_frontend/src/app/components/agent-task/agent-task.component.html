@@ -30,7 +30,7 @@
 
             <textarea class="form-control" rows="5" [(ngModel)]="answer"></textarea>
 
-<!--            Code segment for File show-->
+            <!--                        Code segment for File show-->
             <div class="p-2 bg-body-tertiary rounded-3 mt-3">
                 <div class="d-inline-flex flex-column">
                     <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2">
@@ -61,6 +61,10 @@
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-auto float-end mt-3">
+                <button class="btn btn-primary btn-sm px-4 px-sm-5" type="button" (click)="saveAnswer()">Submit Answer</button>
             </div>
         </div>
 
