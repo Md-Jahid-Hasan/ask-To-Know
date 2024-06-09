@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {AgentService} from "../../services/agent.service";
-import {Question} from "../../services/Question";
+import moment from 'moment';
+import {formatDate, NgForOf, NgIf} from "@angular/common";
 
 @Component({
     selector: 'app-agent-task',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, NgForOf, NgIf],
     templateUrl: './agent-task.component.html',
     styleUrl: './agent-task.component.css'
 })
@@ -20,6 +21,10 @@ export class AgentTaskComponent implements OnInit {
         this.activeRoute.params.subscribe(value => {
             this.question_id = value['id']
         })
+    }
+
+    getTimeDifference(time:string){
+        return moment(time).fromNow()
     }
 
     ngOnInit(): void {
@@ -46,4 +51,6 @@ export class AgentTaskComponent implements OnInit {
     }
 
 
+    protected readonly formatDate = formatDate;
+    protected readonly moment = moment;
 }

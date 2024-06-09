@@ -16,33 +16,29 @@
                 <p class="mb-0">
                     <a class="fw-semi-bold mb-0 text-decoration-none d-block">{{ question.user.name }}</a>
                     <span class="text-muted text-800 fw-normal mx-2">Category -</span>
-                    <span class="badge text-bg-dark px-4">{{question.category.name}}</span>
-
+                    <span class="badge text-bg-dark px-4">{{ question.category.name }}</span>
                 </p>
             </div>
-            <p class="text-muted mb-0 fs-11 fs-sm-10 fw-semi-bold mt-2 mt-md-0 mt-xl-2 mt-xxl-0">01 March, 2020
-                <span class="mx-1">|</span><span class="fst-italic">8:30 AM (1 Day ago)</span>
+            <p class="text-muted mb-0 fs-11 fs-sm-10 fw-semi-bold mt-2 mt-md-0 mt-xl-2 mt-xxl-0">{{formatDate(question.created_at, "dd MMMM - yyyy", 'en-US')}}
+                <span class="mx-1">|</span><span class="fst-italic">
+                    {{formatDate(question.created_at, "h:mm a", 'en-US')}} ({{getTimeDifference(question.created_at)}})</span>
                 <!--                <i class="bi bi-star-fill"></i>-->
             </p>
         </div>
         <div class="text-body-secondary">
-            <h6 class="mb-3 fw-semi-bold fw-bold">{{question?.question}}</h6>
+            <h6 class="mb-3 fw-semi-bold fw-bold">{{ question?.question }}</h6>
 
             <textarea class="form-control" rows="5" [(ngModel)]="answer"></textarea>
 
             <!--                        Code segment for File show-->
             <div class="p-2 bg-body-tertiary rounded-3 mt-3">
                 <div class="d-inline-flex flex-column">
-                    <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2">
+                    <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2" *ngFor="let attachment of question.question_attachments">
                         <i class="bi bi-image-fill"></i>
                         <span class="ms-2 me-3">broken_tv_solve.jpg (873kb)</span>
                         <a class="text-300 ms-auto" href="#">
                             <i class="bi bi-arrow-down text-dark"></i></a>
                     </div>
-                    <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000">
-                        <i class="bi bi-file-earmark-zip-fill"></i><span
-                        class="ms-2 me-3">broken_tv_solve.zip (342kb)</span><a class="text-300 ms-auto" href="#">
-                        <i class="bi bi-arrow-down text-dark"></i></a></div>
                 </div>
 
                 <hr class="my-2">
@@ -50,12 +46,12 @@
                 <div class="row justify-content-between gx-4 gy-2">
                     <div class="col-auto">
                         <p class="fw-semibold mb-0">
-                            <i class="bi bi-link-45deg"></i>2 files
-                            attached
+                            <i class="bi bi-link-45deg"></i>
+                            {{ question.question_attachments.length || "No" }} files attached
                         </p>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-sm btn-light shadow m-1 border">
+                        <button class="btn btn-sm btn-light shadow m-1 border" *ngIf="question.quesetion_attachments.length">
                             <i class="bi bi-file-arrow-down-fill"></i>
                             Download all
                         </button>
@@ -64,7 +60,8 @@
             </div>
 
             <div class="col-auto float-end mt-3">
-                <button class="btn btn-primary btn-sm px-4 px-sm-5" type="button" (click)="saveAnswer()">Submit Answer</button>
+                <button class="btn btn-primary btn-sm px-4 px-sm-5" type="button" (click)="saveAnswer()">Submit Answer
+                </button>
             </div>
         </div>
 

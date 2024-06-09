@@ -4,6 +4,7 @@ import {UserHomeSidepanelComponent} from "../user-home-sidepanel/user-home-sidep
 import {UserHomeService} from "../../services/user-home.service";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
+import {File} from "node:buffer";
 
 @Component({
     selector: 'app-user-home',
@@ -22,10 +23,11 @@ export class UserHomeComponent implements OnInit {
     categories: any[] = []
     searched_categories: any[] = []
     selected_category: string | null = null
-    question: { question: string, category: number | null } = {
+    question: { question: string, category: number | null} = {
         question: "test",
         category: null
     }
+    attached_files: File[] = []
 
     constructor(private user_home: UserHomeService) {
     }
@@ -44,22 +46,38 @@ export class UserHomeComponent implements OnInit {
         this.selected_category = category.name
     }
 
+    selectFile(event: any) {
+        // console.log(event.target.files[0].name)
+        this.attached_files.push(event.target.files[0])
+    }
+
+    deleteFile(file: File) {
+        this.attached_files = this.attached_files.filter(f => f != file)
+    }
+
     searchCategory(event: any) {
         let query = event.target.value
-        if (query=="") this.searched_categories = this.categories
+        if (query == "") this.searched_categories = this.categories
         else this.searched_categories = this.categories.filter(cat => cat.name.toLowerCase().includes(query))
     }
 
     submitQuestion() {
         if (typeof window !== 'undefined' && window.localStorage &&
             this.question.category != null && this.question.question != "") {
-            this.user_home.createQuestion(this.question).subscribe(
+            let data:any = new FormData()
+            data.append("question", JSON.stringify(this.question.question))
+            data.append("category", JSON.stringify(this.question.category))
+            this.attached_files.forEach(file => {
+                data.append("question_attachments", file, file.name)
+            })
+            this.user_home.createQuestion(data).subscribe(
                 response => {
                     this.question = {
                         question: "",
                         category: null
                     }
                     this.selected_category = null
+                    this.attached_files = []
                 })
         }
     }

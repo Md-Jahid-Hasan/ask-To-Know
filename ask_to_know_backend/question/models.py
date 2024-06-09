@@ -9,12 +9,15 @@ class Question(models.Model):
     assignee = models.ForeignKey(User(), on_delete=models.SET_NULL, null=True, related_name='questions_assigned')
     category = models.ForeignKey("Category", on_delete=models.SET_NULL, null=True, related_name='questions_category')
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    answered_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 class QuestionAttachment(models.Model):
     attachment = models.FileField(upload_to='questions/')
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question_attachments')
 
 
 class Category(models.Model):
