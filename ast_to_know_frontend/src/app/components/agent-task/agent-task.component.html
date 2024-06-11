@@ -13,31 +13,35 @@
                 <!--                <img class="rounded-circle" src="../../assets/img/../../assets/img/team/1-thumb.png" alt="">-->
                 <!--            </div>-->
                 <!--            </a>-->
-                <p class="mb-0">
+                <p class="mb-2">
                     <a class="fw-semi-bold mb-0 text-decoration-none d-block">{{ question.user.name }}</a>
                     <span class="text-muted text-800 fw-normal mx-2">Category -</span>
                     <span class="badge text-bg-dark px-4">{{ question.category.name }}</span>
                 </p>
             </div>
-            <p class="text-muted mb-0 fs-11 fs-sm-10 fw-semi-bold mt-2 mt-md-0 mt-xl-2 mt-xxl-0">{{formatDate(question.created_at, "dd MMMM - yyyy", 'en-US')}}
+            <p class="text-muted mb-0 fs-11 fs-sm-10 fw-semi-bold mt-2 mt-md-0 mt-xl-2 mt-xxl-0">
+                {{ formatDate(question.created_at, "dd MMMM - yyyy", 'en-US') }}
                 <span class="mx-1">|</span><span class="fst-italic">
-                    {{formatDate(question.created_at, "h:mm a", 'en-US')}} ({{getTimeDifference(question.created_at)}})</span>
+                    {{ formatDate(question.created_at, "h:mm a", 'en-US') }}
+                    ({{ getTimeDifference(question.created_at) }})</span>
                 <!--                <i class="bi bi-star-fill"></i>-->
             </p>
         </div>
         <div class="text-body-secondary">
-            <h6 class="mb-3 fw-semi-bold fw-bold">{{ question?.question }}</h6>
+            <h5 class="mb-3 fw-semi-bold fw-bold">{{ question?.question }}</h5>
 
             <textarea class="form-control" rows="5" [(ngModel)]="answer"></textarea>
 
             <!--                        Code segment for File show-->
             <div class="p-2 bg-body-tertiary rounded-3 mt-3">
                 <div class="d-inline-flex flex-column">
-                    <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2" *ngFor="let attachment of question.question_attachments">
-                        <i class="bi bi-image-fill"></i>
-                        <span class="ms-2 me-3">broken_tv_solve.jpg (873kb)</span>
-                        <a class="text-300 ms-auto" href="#">
-                            <i class="bi bi-arrow-down text-dark"></i></a>
+                    <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2"
+                         *ngFor="let attachment of question.question_attachments">
+                        <a class="text-reset ms-auto text-decoration-none" href="{{attachment.attachment}}" target="_blank">
+                            <i class="bi bi-image-fill"></i>
+                            <span class="ms-2 me-3">{{ attachment.name }}</span>
+                            <i class="bi bi-arrow-down text-dark"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -50,12 +54,14 @@
                             {{ question.question_attachments.length || "No" }} files attached
                         </p>
                     </div>
-                    <div class="col-auto">
-                        <button class="btn btn-sm btn-light shadow m-1 border" *ngIf="question.quesetion_attachments.length">
-                            <i class="bi bi-file-arrow-down-fill"></i>
-                            Download all
-                        </button>
-                    </div>
+
+                    <!--                    TODO: Add download functionality late-->
+                    <!--                    <div class="col-auto">-->
+                    <!--                        <button class="btn btn-sm btn-light shadow m-1 border" *ngIf="question.question_attachments.length != 0">-->
+                    <!--                            <i class="bi bi-file-arrow-down-fill"></i>-->
+                    <!--                            Download all-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
                 </div>
             </div>
 

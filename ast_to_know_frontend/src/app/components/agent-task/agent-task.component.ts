@@ -27,16 +27,16 @@ export class AgentTaskComponent implements OnInit {
         return moment(time).fromNow()
     }
 
+    test(x:any){
+        console.log(x)
+    }
+
     ngOnInit(): void {
         if (typeof window !== 'undefined' && window.localStorage) {
             this.agent_service.getSingleQuestion(this.question_id).subscribe(
                 value => {
                     this.question = value;
                     this.answer = value && value.answer
-                    // value && this.answer=value.answer;
-                    // if (value){
-                    //     this.answer = value
-                    // }
                 }
             )
         }

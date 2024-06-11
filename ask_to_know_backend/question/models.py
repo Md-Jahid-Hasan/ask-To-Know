@@ -16,7 +16,7 @@ class Question(models.Model):
 
 
 class QuestionAttachment(models.Model):
-    attachment = models.FileField(upload_to='questions/')
+    attachment = models.FileField(upload_to='media/questions/')
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='question_attachments')
 
 

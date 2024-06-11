@@ -1,13 +1,22 @@
+import os
+
 from rest_framework import serializers
 from .models import Question, Category, QuestionAttachment
 from user.serializers import UserNameSerializer
 
 
 class QuestionAttachmentSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    # type = serializers.SerializerMethodField()
+
     class Meta:
         model = QuestionAttachment
-        fields = ('attachment', 'question')
-        write_only_fields = ('attachment',)
+        fields = ('attachment', 'question', 'name')
+        extra_kwargs = {'question': {'write_only': True}}
+
+    def get_name(self, obj):
+        name = os.path.basename(obj.attachment.name)
+        return name
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -21,7 +30,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         request = self.context["request"]
         files = request.FILES.getlist('question_attachments')
         question = super(QuestionSerializer, self).create(validated_data)
-        print(files)
+
         if files:
             for file in files:
                 QuestionAttachment.objects.create(question=question, attachment=file)
