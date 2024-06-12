@@ -13,6 +13,4 @@ export const routes: Routes = [
     {path: 'signup', component: UserCreateComponent},
     {path: 'agent', component: AgentHomeComponent},
     {path: 'task/:id', component: AgentTaskComponent},
-    {path: 'questions', component: UserQuestionsComponent},
-    {path: 'question/:id', component: UserQuestionDetailsComponent},
 ];
