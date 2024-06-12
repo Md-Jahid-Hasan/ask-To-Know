@@ -51,17 +51,21 @@
                 </div>
                 <div class="border-bottom mt-4 mb-3"></div>
                 <div class="d-flex justify-content-end ms-auto">
-                    <div class="row g-3 align-items-center justify-content-end">
-                        <div class="col-3">
-                            <input type="number" id="hourInput" class="form-control form-control-sm" min="0"
-                                   max="12" placeholder="HH">
-                        </div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Button with data-bs-target
+                    </button>
+                </div>
+            </div>
+            <div class="row g-3 align-items-center justify-content-end collapse" id="collapseExample">
+                <div class="col-lg-1 col-md-3 col-sm-6">
+                    <input type="number" id="hourInput" class="form-control form-control-sm" min="0"
+                           max="12" placeholder="HH">
+                </div>
 
-                        <div class="col-3">
-                            <input type="number" id="minuteInput" class="form-control form-control-sm" min="0"
-                                   max="59" placeholder="MM">
-                        </div>
-                    </div>
+                <div class="col-lg-1 col-md-3 col-sm-6">
+                    <input type="number" id="minuteInput" class="form-control form-control-sm" min="0"
+                           max="59" placeholder="MM">
                 </div>
             </div>
             <div
