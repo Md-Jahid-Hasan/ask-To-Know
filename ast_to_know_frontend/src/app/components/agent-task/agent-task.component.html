@@ -1,10 +1,8 @@
-<div class="card mt-4">
-    <div class="card-header bg-body-tertiary">
-        <h5 class="fw-semi-bold">
-            <i class="bi bi-envelope"></i>
-            <span class="ms-2">Received a broken TV</span>
-        </h5>
+<div class="card mt-4" *ngIf="question">
+    <div class="card-header bg-body-tertiary text-truncate">
+            <i class="bi fw-semi-bold bi-envelope me-2"></i>{{question.question}}
     </div>
+
     <div class="card-body">
         <div class="d-md-flex d-xl-inline-block d-xxl-flex align-items-center justify-content-between mb-x1">
             <div class="d-flex align-items-center gap-2">
@@ -14,7 +12,7 @@
                 <!--            </div>-->
                 <!--            </a>-->
                 <p class="mb-2">
-                    <a class="fw-semi-bold mb-0 text-decoration-none d-block">{{ question.user.name }}</a>
+                    <a class="fw-semi-bold mb-0 text-decoration-none d-block">{{ question.user?.name }}</a>
                     <span class="text-muted text-800 fw-normal mx-2">Category -</span>
                     <span class="badge text-bg-dark px-4">{{ question.category.name }}</span>
                 </p>
@@ -28,9 +26,11 @@
             </p>
         </div>
         <div class="text-body-secondary">
-            <h5 class="mb-3 fw-semi-bold fw-bold">{{ question?.question }}</h5>
+            <h5 class="mb-3 fw-semi-bold fw-bold">{{ question.question }}</h5>
 
-            <textarea class="form-control" rows="5" [(ngModel)]="answer"></textarea>
+            <quill-editor [(ngModel)]="answer" name="question" [modules]="modules"
+                          placeholder="Submit your answer..." [styles]="{'height': '20rem'}"
+                          class="shadow-none form-control rounded-0 px-3 border-0 border-opacity-10"></quill-editor>
 
             <!--                        Code segment for File show-->
             <div class="p-2 bg-body-tertiary rounded-3 mt-3">

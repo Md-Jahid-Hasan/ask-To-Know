@@ -5,6 +5,25 @@ import {UserHomeService} from "../../services/user-home.service";
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {File} from "node:buffer";
+import {QuillEditorComponent} from "ngx-quill";
+
+const modules = {
+    toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{'list': 'ordered'}],
+        [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+        [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+        [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+        [{'font': []}],
+        [{'align': []}],
+
+        ['clean']
+    ]
+};
 
 @Component({
     selector: 'app-user-home',
@@ -14,7 +33,8 @@ import {File} from "node:buffer";
         UserHomeSidepanelComponent,
         FormsModule,
         NgForOf,
-        NgIf
+        NgIf,
+        QuillEditorComponent
     ],
     templateUrl: './user-home.component.html',
     styleUrl: './user-home.component.css'
@@ -24,7 +44,7 @@ export class UserHomeComponent implements OnInit {
     searched_categories: any[] = []
     selected_category: string | null = null
     question: { question: string, category: number | null} = {
-        question: "test",
+        question: "",
         category: null
     }
     attached_files: File[] = []
@@ -81,4 +101,6 @@ export class UserHomeComponent implements OnInit {
                 })
         }
     }
+
+    protected readonly modules = modules;
 }

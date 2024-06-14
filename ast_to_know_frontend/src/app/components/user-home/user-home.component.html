@@ -9,11 +9,10 @@
         </div>
     </div>
     <div class="card-body p-0">
-        <form (ngSubmit)="submitQuestion()">
-            <textarea [(ngModel)]="question.question" name="question" id="question" required
-                      class="shadow-none form-control rounded-0 px-3 border-0 border-opacity-10"
-                      placeholder="What do you want to talk about?" rows="4">
-            </textarea>
+        <form>
+            <quill-editor [(ngModel)]="question.question" name="question" [modules]="modules"
+                          placeholder="Ask what you want to know!" [styles]="{'height': '20rem'}"
+                          class="shadow-none form-control rounded-0 px-3 border-0 border-opacity-10"></quill-editor>
 
             <div class="row g-0 justify-content-between mt-3 px-2 py-2 border-top">
                 <div class="col">
@@ -47,7 +46,7 @@
                 </div>
 
                 <div class="col-auto">
-                    <button class="btn btn-primary btn-sm px-4 px-sm-5" type="submit">Share</button>
+                    <button class="btn btn-primary btn-sm px-4 px-sm-5" type="button" (click)="submitQuestion()">Share</button>
                 </div>
             </div>
         </form>

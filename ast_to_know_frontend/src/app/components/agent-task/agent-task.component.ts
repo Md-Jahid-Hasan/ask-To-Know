@@ -4,17 +4,38 @@ import {ActivatedRoute} from "@angular/router";
 import {AgentService} from "../../services/agent.service";
 import moment from 'moment';
 import {formatDate, NgForOf, NgIf} from "@angular/common";
+import {QuillEditorComponent} from "ngx-quill";
+import {Question} from "../../services/Question";
+
+
+const modules = {
+    toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{'list': 'ordered'}],
+        [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+        [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+        [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+        [{'font': []}],
+        [{'align': []}],
+
+        ['clean']
+    ]
+};
 
 @Component({
     selector: 'app-agent-task',
     standalone: true,
-    imports: [FormsModule, NgForOf, NgIf],
+    imports: [FormsModule, NgForOf, NgIf, QuillEditorComponent],
     templateUrl: './agent-task.component.html',
     styleUrl: './agent-task.component.css'
 })
 export class AgentTaskComponent implements OnInit {
     question_id: string | null = null
-    question: any = undefined
+    question:Question|null = null;
     answer: string = ""
 
     constructor(private activeRoute: ActivatedRoute, private agent_service: AgentService) {
@@ -23,12 +44,8 @@ export class AgentTaskComponent implements OnInit {
         })
     }
 
-    getTimeDifference(time:string){
+    getTimeDifference(time: string) {
         return moment(time).fromNow()
-    }
-
-    test(x:any){
-        console.log(x)
     }
 
     ngOnInit(): void {
@@ -42,15 +59,15 @@ export class AgentTaskComponent implements OnInit {
         }
     }
 
-    saveAnswer(){
-        if (this.answer){
+    saveAnswer() {
+        if (this.answer) {
             this.agent_service.answerQuestion(this.question_id, {answer: this.answer}).subscribe(
                 value => console.log(value)
             )
         }
     }
 
-
     protected readonly formatDate = formatDate;
     protected readonly moment = moment;
+    protected readonly modules = modules;
 }
