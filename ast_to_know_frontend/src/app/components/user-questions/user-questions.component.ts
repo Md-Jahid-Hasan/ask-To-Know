@@ -3,7 +3,10 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {PaginationComponent} from "../pagination/pagination.component";
 import {UserHomeService} from "../../services/user-home.service";
+import moment from 'moment';
 import {Question} from "../../services/Question";
+import {QuillViewHTMLComponent} from "ngx-quill";
+import {NzRibbonComponent} from "ng-zorro-antd/badge";
 
 @Component({
     selector: 'app-user-questions',
@@ -14,7 +17,9 @@ import {Question} from "../../services/Question";
         PaginationComponent,
         RouterLink,
         NgForOf,
-        NgIf
+        NgIf,
+        QuillViewHTMLComponent,
+        NzRibbonComponent
     ],
     templateUrl: './user-questions.component.html',
     styleUrl: './user-questions.component.css'
@@ -36,6 +41,10 @@ export class UserQuestionsComponent implements OnInit {
                 }
             )
         }
+    }
+
+    getTimeDifference(time: string) {
+        return moment(time).fromNow()
     }
 
     paginatedData(page_number: number) {

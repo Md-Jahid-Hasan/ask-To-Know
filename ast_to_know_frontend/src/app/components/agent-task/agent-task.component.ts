@@ -4,8 +4,15 @@ import {ActivatedRoute} from "@angular/router";
 import {AgentService} from "../../services/agent.service";
 import moment from 'moment';
 import {formatDate, NgForOf, NgIf} from "@angular/common";
-import {QuillEditorComponent} from "ngx-quill";
+import {QuillEditorComponent, QuillViewHTMLComponent} from "ngx-quill";
 import {Question} from "../../services/Question";
+
+import {NzButtonComponent, NzButtonModule} from 'ng-zorro-antd/button';
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
+import {NzFlexDirective} from "ng-zorro-antd/flex";
+import {NzTagComponent} from "ng-zorro-antd/tag";
+import {File} from "node:buffer";
 
 
 const modules = {
@@ -29,13 +36,14 @@ const modules = {
 @Component({
     selector: 'app-agent-task',
     standalone: true,
-    imports: [FormsModule, NgForOf, NgIf, QuillEditorComponent],
+    imports: [FormsModule, NgForOf, NgIf, QuillEditorComponent, QuillViewHTMLComponent, NzButtonComponent, NzIconDirective, NzUploadComponent, NzFlexDirective, NzTagComponent],
     templateUrl: './agent-task.component.html',
     styleUrl: './agent-task.component.css'
 })
 export class AgentTaskComponent implements OnInit {
+    fileList: NzUploadFile[] = [];
     question_id: string | null = null
-    question:Question|null = null;
+    question: Question | null = null;
     answer: string = ""
 
     constructor(private activeRoute: ActivatedRoute, private agent_service: AgentService) {
@@ -65,6 +73,15 @@ export class AgentTaskComponent implements OnInit {
                 value => console.log(value)
             )
         }
+    }
+
+    beforeUpload = (file: NzUploadFile): boolean => {
+        this.fileList = this.fileList.concat(file);
+        return false;
+    };
+
+    deleteFile() {
+        // this.fileList = this.fileList.filter(f => f != file)
     }
 
     protected readonly formatDate = formatDate;

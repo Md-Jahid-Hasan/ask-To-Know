@@ -1,6 +1,6 @@
 <div class="card mt-4" *ngIf="question">
-    <div class="card-header bg-body-tertiary text-truncate">
-            <i class="bi fw-semi-bold bi-envelope me-2"></i>{{question.question}}
+    <div class="card-header bg-body-tertiary text-truncate fw-bold">
+        <i class="bi fw-semi-bold bi-envelope me-2"></i> Task
     </div>
 
     <div class="card-body">
@@ -21,15 +21,14 @@
                 {{ formatDate(question.created_at, "dd MMMM - yyyy", 'en-US') }}
                 <span class="mx-1">|</span><span class="fst-italic">
                     {{ formatDate(question.created_at, "h:mm a", 'en-US') }}
-                    ({{ getTimeDifference(question.created_at) }})</span>
+                ({{ getTimeDifference(question.created_at) }})</span>
                 <!--                <i class="bi bi-star-fill"></i>-->
             </p>
         </div>
         <div class="text-body-secondary">
-            <h5 class="mb-3 fw-semi-bold fw-bold">{{ question.question }}</h5>
-
-            <quill-editor [(ngModel)]="answer" name="question" [modules]="modules"
-                          placeholder="Submit your answer..." [styles]="{'height': '20rem'}"
+            <quill-view-html class="mb-3" [content]="question.question" theme="snow"></quill-view-html>
+            <quill-editor [(ngModel)]="answer" name="question" [modules]="modules" [styles]="{'height': '20rem'}"
+                          placeholder="Submit your answer..."
                           class="shadow-none form-control rounded-0 px-3 border-0 border-opacity-10"></quill-editor>
 
             <!--                        Code segment for File show-->
@@ -37,7 +36,8 @@
                 <div class="d-inline-flex flex-column">
                     <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2"
                          *ngFor="let attachment of question.question_attachments">
-                        <a class="text-reset ms-auto text-decoration-none" href="{{attachment.attachment}}" target="_blank">
+                        <a class="text-reset ms-auto text-decoration-none" href="{{attachment.attachment}}"
+                           target="_blank">
                             <i class="bi bi-image-fill"></i>
                             <span class="ms-2 me-3">{{ attachment.name }}</span>
                             <i class="bi bi-arrow-down text-dark"></i>
@@ -49,9 +49,9 @@
 
                 <div class="row justify-content-between gx-4 gy-2">
                     <div class="col-auto">
-                        <p class="fw-semibold mb-0">
+                        <p class="mb-0">
                             <i class="bi bi-link-45deg"></i>
-                            {{ question.question_attachments.length || "No" }} files attached
+                            {{ question.question_attachments?.length || "No" }} files attached by <strong>User</strong>
                         </p>
                     </div>
 
@@ -65,9 +65,32 @@
                 </div>
             </div>
 
-            <div class="col-auto float-end mt-3">
-                <button class="btn btn-primary btn-sm px-4 px-sm-5" type="button" (click)="saveAnswer()">Submit Answer
+            <div class="p-2 bg-body-tertiary rounded-3 mt-3">
+                <div nz-flex>
+                    <nz-tag  *ngFor="let file of fileList" nzMode="closeable" (nzOnClose)="deleteFile()">File 1</nz-tag>
+                </div>
+
+                <hr class="my-2">
+
+                <div class="col-auto">
+                    <p class="mb-0">
+                        <i class="bi bi-link-45deg"></i>
+                        {{ fileList.length || "No" }} files attached by <strong>You</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-2" nz-flex [nzJustify]="'flex-end'" nzAlign="center">
+                <nz-upload [nzBeforeUpload]="beforeUpload">
+                    <button class="me-2 rounded" nz-button nzType="primary" [nzSize]="'large'">
+                        <span nz-icon nzType="download"></span>
+                        Attach File
+                    </button>
+                </nz-upload>
+                <button class="rounded" nz-button nzType="primary" [nzSize]="'large'" (click)="saveAnswer()">
+                    Submit Answer
                 </button>
+
             </div>
         </div>
 

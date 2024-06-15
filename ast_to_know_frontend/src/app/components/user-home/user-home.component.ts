@@ -67,7 +67,6 @@ export class UserHomeComponent implements OnInit {
     }
 
     selectFile(event: any) {
-        // console.log(event.target.files[0].name)
         this.attached_files.push(event.target.files[0])
     }
 
@@ -85,8 +84,8 @@ export class UserHomeComponent implements OnInit {
         if (typeof window !== 'undefined' && window.localStorage &&
             this.question.category != null && this.question.question != "") {
             let data:any = new FormData()
-            data.append("question", JSON.stringify(this.question.question))
-            data.append("category", JSON.stringify(this.question.category))
+            data.append("question", this.question.question)
+            data.append("category", this.question.category)
             this.attached_files.forEach(file => {
                 data.append("question_attachments", file, file.name)
             })

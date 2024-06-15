@@ -10,17 +10,23 @@
                         <div class="input-group">
                             <input class="form-control form-control-sm shadow-none" type="search" aria-label="search"
                                    placeholder="Search Question">
-                            <button class="btn btn-sm btn-outline-secondary border"><i class="bi bi-search"></i>
-                            </button>
+                            <button class="btn btn-sm btn-outline-secondary border"><i class="bi bi-search"></i></button>
                         </div>
                     </form>
                 </div>
             </div>
 
             <div class="form-check form-switch pe-2">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked
-                       data-bs-toggle="modal" data-bs-target="#availabilityModal">
-                <!--                <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>-->
+                <a
+                    nz-popconfirm
+                    nzPopconfirmTitle="Are you sure delete this task?"
+                    nzPopconfirmPlacement="bottom"
+                    (nzOnCancel)="cancel()"
+                    (nzOnConfirm)="confirm()"
+                >
+                    <nz-switch [nzLoading]="status_loading" [ngModel]="agent_status" nzCheckedChildren="Active"
+                               nzUnCheckedChildren="Inactive" (click)="changingStatus()" [nzControl]="true"></nz-switch>
+                </a>
             </div>
         </div>
     </div>
@@ -100,26 +106,22 @@
                         (paginatedData)="paginatedData($event)">
         </app-pagination>
 
-        <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModal"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="availabilityModalLabel">You are going
-                            online/offline!</h1>
-                        <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-                    </div>
-                    <div class="modal-body">
-                        Are you sure about your action?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                        </button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm
-                        </button>
-                    </div>
+    <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="availabilityModalLabel">You are going online/offline!</h1>
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                </div>
+                <div class="modal-body">
+                    Are you sure about your action?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
