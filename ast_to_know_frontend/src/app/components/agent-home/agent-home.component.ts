@@ -8,6 +8,9 @@ import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {FormsModule} from "@angular/forms";
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzPopconfirmDirective, NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {AgentService} from "../../services/agent.service";
+import {NzRibbonComponent} from "ng-zorro-antd/badge";
+import moment from "moment";
 
 @Component({
     selector: 'app-agent-home',
@@ -17,7 +20,7 @@ import {NzPopconfirmDirective, NzPopconfirmModule} from 'ng-zorro-antd/popconfir
         NgForOf,
         RouterLink,
         NgIf,
-        PaginationComponent, NzSwitchModule, FormsModule, NzPopconfirmDirective
+        PaginationComponent, NzSwitchModule, FormsModule, NzPopconfirmDirective, NzRibbonComponent
     ],
     templateUrl: './agent-home.component.html',
     styleUrl: './agent-home.component.css'
@@ -29,8 +32,13 @@ export class AgentHomeComponent implements OnInit{
     questions: any = []
     current_page: number = 1
     total_pages: number = 1
+    waiting_time_for_user = {
+        hh: "0",
+        mm:"0"
+    }
 
-    constructor(private user_home: UserHomeService, private nzMessageService: NzMessageService) {
+    constructor(private user_home: UserHomeService, private nzMessageService: NzMessageService,
+                private agent_service: AgentService) {
     }
 
     cancel(): void {
@@ -64,5 +72,22 @@ export class AgentHomeComponent implements OnInit{
         this.user_home.getQuestions(`?page=${page_number}`).subscribe(
             questions => this.questions = questions.results
         )
+    }
+
+    setWaitingTimeForUser(question:any){
+        if (this.waiting_time_for_user.hh !== "0" || this.waiting_time_for_user.mm !== "0"){
+            let total_minutes = (parseInt(this.waiting_time_for_user.hh)*60+parseInt(this.waiting_time_for_user.mm))
+            let expected_answer_at= new Date(new Date().getTime() + total_minutes*60000)
+            question.expected_answer_at = expected_answer_at
+            // let question_data = {expected_answer_at: new Date(new Date().getTime() + total_minutes*60000)}
+            this.agent_service.answerQuestion(question.id, {expected_answer_at:expected_answer_at}).subscribe(res => {
+                this.waiting_time_for_user.hh = "0"
+                this.waiting_time_for_user.mm = "0"
+            })
+        }
+    }
+
+    getTimeDifference(time: string) {
+        return moment(time).fromNow()
     }
 }

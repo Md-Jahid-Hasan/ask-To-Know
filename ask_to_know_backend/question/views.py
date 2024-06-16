@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
@@ -6,10 +6,11 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
 
-from question.models import Question, Category
+from question.models import Question, Category, QuestionAttachment
 from django.contrib.auth import get_user_model as User
 
-from question.serializers import QuestionSerializer, CategorySerializer, AdminQuestionSerializer
+from question.serializers import QuestionSerializer, CategorySerializer, AdminQuestionSerializer, \
+    AdminQuestionListSerializer
 
 
 class BasePagination(PageNumberPagination):
@@ -28,11 +29,14 @@ class QuestionListCreateView(ListCreateAPIView):
         if user.is_staff:
             return Question.objects.filter(assignee=user)
         else:
-            return Question.objects.filter(user=user)
+            return Question.objects.filter(user=user).prefetch_related(
+                Prefetch('question_attachments', queryset=QuestionAttachment.objects.exclude(user=user),
+                         to_attr='agent_attachments')
+            )
 
     def get_serializer_class(self):
         if self.request.user.is_staff:
-            return AdminQuestionSerializer
+            return AdminQuestionListSerializer
         return QuestionSerializer
 
     def perform_create(self, serializer):
@@ -51,8 +55,14 @@ class AnswerQuestionView(RetrieveUpdateAPIView):
     permission_classes = (IsAdminUser,)
 
     def get_object(self):
+        user = self.request.user
         lookup_field = self.kwargs.get('pk')
-        obj = get_object_or_404(Question, pk=lookup_field, assignee=self.request.user)
+        queryset = Question.objects.filter(assignee=user, pk=lookup_field).prefetch_related(
+            Prefetch('question_attachments', queryset=QuestionAttachment.objects.filter(user=user),
+                     to_attr='agent_attachments'),
+            Prefetch('question_attachments', queryset=QuestionAttachment.objects.exclude(user=user),
+                     to_attr='user_attachments'))
+        obj = get_object_or_404(queryset)
         return obj
 
     def get_serializer_class(self):
@@ -69,5 +79,5 @@ class CategoryListCreateView(ListCreateAPIView):
         if self.request.method == 'POST':
             self.permission_classes = (IsAuthenticated,)
         else:
-            self.permission_classes = (AllowAny, )
+            self.permission_classes = (AllowAny,)
         return super(CategoryListCreateView, self).get_permissions()

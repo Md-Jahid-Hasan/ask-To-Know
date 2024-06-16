@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {formatDate, NgClass, NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {PaginationComponent} from "../pagination/pagination.component";
 import {UserHomeService} from "../../services/user-home.service";
@@ -7,6 +7,8 @@ import moment from 'moment';
 import {Question} from "../../services/Question";
 import {QuillViewHTMLComponent} from "ngx-quill";
 import {NzRibbonComponent} from "ng-zorro-antd/badge";
+import {NzTagComponent} from "ng-zorro-antd/tag";
+import {NzIconDirective} from "ng-zorro-antd/icon";
 
 @Component({
     selector: 'app-user-questions',
@@ -19,7 +21,9 @@ import {NzRibbonComponent} from "ng-zorro-antd/badge";
         NgForOf,
         NgIf,
         QuillViewHTMLComponent,
-        NzRibbonComponent
+        NzRibbonComponent,
+        NzTagComponent,
+        NzIconDirective
     ],
     templateUrl: './user-questions.component.html',
     styleUrl: './user-questions.component.css'
@@ -53,4 +57,6 @@ export class UserQuestionsComponent implements OnInit {
             questions => this.questions = questions.results
         )
     }
+
+    protected readonly formatDate = formatDate;
 }

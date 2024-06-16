@@ -11,16 +11,19 @@ interface User {
 export interface Question {
     id: number,
     question: string,
-    question_attachments?: Question_Attachments[],
+    user_attachments?: Question_Attachments[],
+    agent_attachments?: Question_Attachments[],
     answer: null | string,
     user?: User,
     assignee?: number,
     category: Category
     created_at: string,
-    answered_at: string
+    answered_at: string,
+    expected_answer_at: string
 }
 
-interface Question_Attachments {
+export interface Question_Attachments {
     attachment: string,
-    name: string
+    name: string,
+    id: number
 }

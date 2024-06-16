@@ -35,7 +35,7 @@
             <div class="p-2 bg-body-tertiary rounded-3 mt-3">
                 <div class="d-inline-flex flex-column">
                     <div class="border p-1 rounded-3 d-flex bg-white dark__bg-1000 mb-2"
-                         *ngFor="let attachment of question.question_attachments">
+                         *ngFor="let attachment of question.user_attachments">
                         <a class="text-reset ms-auto text-decoration-none" href="{{attachment.attachment}}"
                            target="_blank">
                             <i class="bi bi-image-fill"></i>
@@ -51,7 +51,7 @@
                     <div class="col-auto">
                         <p class="mb-0">
                             <i class="bi bi-link-45deg"></i>
-                            {{ question.question_attachments?.length || "No" }} files attached by <strong>User</strong>
+                            {{ question.user_attachments?.length || "No" }} files attached by <strong>User</strong>
                         </p>
                     </div>
 
@@ -66,8 +66,10 @@
             </div>
 
             <div class="p-2 bg-body-tertiary rounded-3 mt-3">
-                <div nz-flex>
-                    <nz-tag  *ngFor="let file of fileList" nzMode="closeable" (nzOnClose)="deleteFile()">File 1</nz-tag>
+                <div nz-flex nzWrap="wrap">
+                    <nz-tag  *ngFor="let file of fileList" nzMode="closeable" (nzOnClose)="deleteFile(file)">
+                        {{file.name}}
+                    </nz-tag>
                 </div>
 
                 <hr class="my-2">

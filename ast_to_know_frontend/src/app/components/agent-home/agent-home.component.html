@@ -10,7 +10,8 @@
                         <div class="input-group">
                             <input class="form-control form-control-sm shadow-none" type="search" aria-label="search"
                                    placeholder="Search Question">
-                            <button class="btn btn-sm btn-outline-secondary border"><i class="bi bi-search"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary border"><i class="bi bi-search"></i>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -36,18 +37,21 @@
         </div>
         <div class="bg-body-tertiary d-flex flex-column gap-3 p-3" id="card-ticket-body">
             <div *ngFor="let question of questions">
+                <nz-ribbon *ngIf="!question.is_answered && question.expected_answer_at" nzColor="#ffc107"
+                           [nzText]="'Answer '+getTimeDifference(question.expected_answer_at)"></nz-ribbon>
                 <div
-                    class="bg-white dark__bg-1100 d-md-flex d-xl-inline-block d-xxl-flex align-items-center p-3 rounded-3 shadow-sm">
+                    class="bg-white d-md-flex d-xl-inline-block d-xxl-flex align-items-center p-3 rounded-3 shadow-sm">
                     <div class="d-flex align-items-start align-items-sm-center">
                         <div class="form-check me-2 me-xxl-3 mb-0"><input class="form-check-input" type="checkbox">
                         </div>
                         <div class="ms-1 ms-sm-3">
                             <p class="fw-semibold mb-3 mb-sm-2">
-                                <a routerLink="/task/{{question.id}}/"
-                                   class="text-decoration-none">{{ question.question }}</a>
+                                <a routerLink="/task/{{question.id}}/" class="text-decoration-none">
+                                    <p [innerHTML]="question.question"></p>
+                                </a>
                             </p>
-                            <div class="row align-items-center gx-0 gy-2">
-                                <div class="col-auto me-2">
+                            <div class="row align-items-center row-gap-1">
+                                <div class="col-auto">
                                     <h6 class="client mb-0">
                                         <a class="text-reset d-flex align-items-center gap-1 text-decoration-none"
                                            href="#">
@@ -56,17 +60,20 @@
                                     </h6>
                                 </div>
 
-                                <div class="col-auto me-2">
+                                <div class="col-auto">
                                     <h6 class="mb-0 text-body-secondary">2d ago</h6>
                                 </div>
                                 <div class="col-auto">
                                     <span class="badge text-bg-dark px-4">{{ question.category.name }}</span>
                                 </div>
+                                <div class="col-auto" *ngIf="question.is_answered">
+                                    <span class="badge text-bg-success">Answered</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="border-bottom mt-4 mb-3"></div>
-                    <div class="d-flex justify-content-end ms-auto">
+                    <div class="d-flex justify-content-end ms-auto" *ngIf="!question.is_answered">
                         <button class="btn btn-warning btn-sm px-4 px-sm-5" type="button" data-bs-toggle="collapse"
                                 [attr.data-bs-target]="'#'+question.id" aria-expanded="false"
                                 aria-controls="collapseExample">
@@ -75,24 +82,30 @@
                     </div>
                 </div>
 
+                <!--                Code section for add waiting time-->
                 <div class="row g-2 pt-2 align-items-center justify-content-end collapse" id="{{question.id}}">
                     <div class="col-lg-1 col-md-3 col-sm-6">
-                        <select class="form-select form-select-sm">
-                            <option disabled hidden="hidden" selected>HH</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
+                        <select class="form-select form-select-sm" [(ngModel)]="waiting_time_for_user.hh" name="hh">
+                            <option value="0" disabled hidden="hidden" selected>HH</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
                         </select>
                     </div>
 
                     <div class="col-lg-1 col-md-3 col-sm-6">
-                        <select class="form-select form-select-sm">
-                            <option disabled hidden="hidden" selected>MM</option>
-                            <option>5</option>
-                            <option>10</option>
-                            <option>20</option>
-                            <option>30</option>
+                        <select class="form-select form-select-sm" [(ngModel)]="waiting_time_for_user.mm" name="mm">
+                            <option value="0" disabled hidden="hidden" selected>MM</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
                         </select>
+                    </div>
+
+                    <div class="col">
+                        <button class="btn btn-warning btn-sm px-4 px-sm-5" type="button"
+                                (click)="setWaitingTimeForUser(question)">Set</button>
                     </div>
                 </div>
             </div>
@@ -106,19 +119,21 @@
                         (paginatedData)="paginatedData($event)">
         </app-pagination>
 
-    <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="availabilityModalLabel">You are going online/offline!</h1>
-<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-                </div>
-                <div class="modal-body">
-                    Are you sure about your action?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+        <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModal"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="availabilityModalLabel">You are going online/offline!</h1>
+                        <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                    </div>
+                    <div class="modal-body">
+                        Are you sure about your action?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+                    </div>
                 </div>
             </div>
         </div>

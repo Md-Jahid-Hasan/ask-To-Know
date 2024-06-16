@@ -5,14 +5,13 @@ import {AgentService} from "../../services/agent.service";
 import moment from 'moment';
 import {formatDate, NgForOf, NgIf} from "@angular/common";
 import {QuillEditorComponent, QuillViewHTMLComponent} from "ngx-quill";
-import {Question} from "../../services/Question";
+import {Question, Question_Attachments} from "../../services/Question";
 
-import {NzButtonComponent, NzButtonModule} from 'ng-zorro-antd/button';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
 import {NzFlexDirective} from "ng-zorro-antd/flex";
 import {NzTagComponent} from "ng-zorro-antd/tag";
-import {File} from "node:buffer";
 
 
 const modules = {
@@ -45,6 +44,7 @@ export class AgentTaskComponent implements OnInit {
     question_id: string | null = null
     question: Question | null = null;
     answer: string = ""
+    deleted_attachment:number[] = []
 
     constructor(private activeRoute: ActivatedRoute, private agent_service: AgentService) {
         this.activeRoute.params.subscribe(value => {
@@ -62,6 +62,7 @@ export class AgentTaskComponent implements OnInit {
                 value => {
                     this.question = value;
                     this.answer = value && value.answer
+                    this.fileList = value.agent_attachments
                 }
             )
         }
@@ -69,7 +70,15 @@ export class AgentTaskComponent implements OnInit {
 
     saveAnswer() {
         if (this.answer) {
-            this.agent_service.answerQuestion(this.question_id, {answer: this.answer}).subscribe(
+            let data:any = new FormData()
+            data.append("answer", this.answer)
+            this.deleted_attachment.forEach(id => {
+                data.append("deleted_attachments", id)
+            })
+            this.fileList.forEach(file => {
+                !("id" in file) && data.append("question_attachments", file, file.name)
+            })
+            this.agent_service.answerQuestion(this.question_id, data).subscribe(
                 value => console.log(value)
             )
         }
@@ -80,8 +89,10 @@ export class AgentTaskComponent implements OnInit {
         return false;
     };
 
-    deleteFile() {
-        // this.fileList = this.fileList.filter(f => f != file)
+    deleteFile(file:NzUploadFile|Question_Attachments) {
+        if ("id" in file){
+            this.deleted_attachment.push(file.id)
+        }
     }
 
     protected readonly formatDate = formatDate;

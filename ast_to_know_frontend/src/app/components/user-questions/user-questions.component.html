@@ -4,7 +4,9 @@
     </div>
     <div class="card-body p-0 border-end border-start rounded-bottom">
             <div *ngFor="let question of questions">
-                <nz-ribbon nzText="Expected answer at 2:30" nzColor="yellow"></nz-ribbon>
+                <nz-ribbon *ngIf="!question.answer && question.expected_answer_at"
+                           [nzText]="'Expected answer at '+formatDate(question.expected_answer_at, 'h:mm a', 'en-US')"
+                           nzColor="#ffc107"></nz-ribbon>
                 <div class="border-top p-2 d-flex text-decoration-none"
                      [ngClass]="question.answer && 'accordion-button collapsed'" type="button" data-bs-toggle="collapse"
                      [attr.data-bs-target]="'#'+question.id" aria-expanded="false" aria-controls="collapseOne">
@@ -23,6 +25,11 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <quill-view-html class="mb-3" [content]="question.answer || ''" theme="snow"></quill-view-html>
+                        <nz-tag *ngFor="let attachment of question.agent_attachments" nzColor="processing">
+                            <a class="text-decoration-none" href="{{attachment.attachment}}" target="_blank">
+                                {{attachment.name}} <span class="ps-1" nz-icon nzType="download" nzTheme="outline"></span>
+                            </a>
+                        </nz-tag>
                     </div>
                 </div>
             </div>
