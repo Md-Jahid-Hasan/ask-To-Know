@@ -37,8 +37,9 @@
         </div>
         <div class="bg-body-tertiary d-flex flex-column gap-3 p-3" id="card-ticket-body">
             <div *ngFor="let question of questions">
-                <nz-ribbon *ngIf="!question.is_answered && question.expected_answer_at" nzColor="#ffc107"
-                           [nzText]="'Answer '+getTimeDifference(question.expected_answer_at)"></nz-ribbon>
+                <nz-ribbon *ngIf="!question.is_answered && question.expected_answer_at"
+                           nzColor="isExpectedAnswerDelay ? 'red' :'#ffc107'"
+                           [nzText]="getExpectedAnswerTime(question.expected_answer_at)"></nz-ribbon>
                 <div
                     class="bg-white d-md-flex d-xl-inline-block d-xxl-flex align-items-center p-3 rounded-3 shadow-sm">
                     <div class="d-flex align-items-start align-items-sm-center">

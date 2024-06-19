@@ -5,8 +5,8 @@
     <div class="card-body p-0 border-end border-start rounded-bottom">
             <div *ngFor="let question of questions">
                 <nz-ribbon *ngIf="!question.answer && question.expected_answer_at"
-                           [nzText]="'Expected answer at '+formatDate(question.expected_answer_at, 'h:mm a', 'en-US')"
-                           nzColor="#ffc107"></nz-ribbon>
+                           [nzText]="getExpectedAnswerTime(question.expected_answer_at)"
+                           [nzColor]="isExpectedAnswerDelay ? 'red' :'#ffc107'"></nz-ribbon>
                 <div class="border-top p-2 d-flex text-decoration-none"
                      [ngClass]="question.answer && 'accordion-button collapsed'" type="button" data-bs-toggle="collapse"
                      [attr.data-bs-target]="'#'+question.id" aria-expanded="false" aria-controls="collapseOne">

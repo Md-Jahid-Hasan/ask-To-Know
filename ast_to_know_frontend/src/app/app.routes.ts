@@ -4,11 +4,13 @@ import {UserCreateComponent} from "./components/user-create/user-create.componen
 import {AgentHomeComponent} from "./components/agent-home/agent-home.component";
 import {UserHomeComponent} from "./components/user-home/user-home.component";
 import {AgentTaskComponent} from "./components/agent-task/agent-task.component";
+import {userAuthGuard} from "./guard/user-auth.guard";
+import {adminGuard} from "./guard/admin.guard";
 
 export const routes: Routes = [
-    {path: '', component: UserHomeComponent},
+    {path: '', component: UserHomeComponent, canActivate: [userAuthGuard]},
     {path: 'login', component: LoginComponent},
     {path: 'signup', component: UserCreateComponent},
-    {path: 'agent', component: AgentHomeComponent},
-    {path: 'task/:id', component: AgentTaskComponent},
+    {path: 'agent', component: AgentHomeComponent, canActivate:[adminGuard]},
+    {path: 'task/:id', component: AgentTaskComponent, canActivate:[adminGuard]},
 ];

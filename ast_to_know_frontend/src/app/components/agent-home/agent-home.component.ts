@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PaginationComponent} from "../pagination/pagination.component";
 import {UserHomeService} from "../../services/user-home.service";
-import {Question} from "../../services/Question";
 import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
@@ -25,16 +24,17 @@ import moment from "moment";
     templateUrl: './agent-home.component.html',
     styleUrl: './agent-home.component.css'
 })
-export class AgentHomeComponent implements OnInit{
-    agent_status:boolean = true;
+export class AgentHomeComponent implements OnInit {
+    agent_status: boolean = true;
     status_loading: boolean = false;
+    isExpectedAnswerDelay: boolean = false;
 
     questions: any = []
     current_page: number = 1
     total_pages: number = 1
     waiting_time_for_user = {
         hh: "0",
-        mm:"0"
+        mm: "0"
     }
 
     constructor(private user_home: UserHomeService, private nzMessageService: NzMessageService,
@@ -43,7 +43,7 @@ export class AgentHomeComponent implements OnInit{
 
     cancel(): void {
         this.status_loading = false
-        this.nzMessageService.info('click cancel', {nzAnimate: true });
+        this.nzMessageService.info('click cancel', {nzAnimate: true});
     }
 
     confirm(): void {
@@ -52,7 +52,7 @@ export class AgentHomeComponent implements OnInit{
         this.nzMessageService.info('click confirm');
     }
 
-    changingStatus(){
+    changingStatus() {
         this.status_loading = true
     }
 
@@ -74,13 +74,13 @@ export class AgentHomeComponent implements OnInit{
         )
     }
 
-    setWaitingTimeForUser(question:any){
-        if (this.waiting_time_for_user.hh !== "0" || this.waiting_time_for_user.mm !== "0"){
-            let total_minutes = (parseInt(this.waiting_time_for_user.hh)*60+parseInt(this.waiting_time_for_user.mm))
-            let expected_answer_at= new Date(new Date().getTime() + total_minutes*60000)
+    setWaitingTimeForUser(question: any) {
+        if (this.waiting_time_for_user.hh !== "0" || this.waiting_time_for_user.mm !== "0") {
+            let total_minutes = (parseInt(this.waiting_time_for_user.hh) * 60 + parseInt(this.waiting_time_for_user.mm))
+            let expected_answer_at = new Date(new Date().getTime() + total_minutes * 60000)
             question.expected_answer_at = expected_answer_at
             // let question_data = {expected_answer_at: new Date(new Date().getTime() + total_minutes*60000)}
-            this.agent_service.answerQuestion(question.id, {expected_answer_at:expected_answer_at}).subscribe(res => {
+            this.agent_service.answerQuestion(question.id, {expected_answer_at: expected_answer_at}).subscribe(res => {
                 this.waiting_time_for_user.hh = "0"
                 this.waiting_time_for_user.mm = "0"
             })
@@ -89,5 +89,16 @@ export class AgentHomeComponent implements OnInit{
 
     getTimeDifference(time: string) {
         return moment(time).fromNow()
+    }
+
+    getExpectedAnswerTime(time: string) {
+        let expectedTime = this.getTimeDifference(time)
+        if (new Date(time) > new Date()) {
+            this.isExpectedAnswerDelay = false
+            return "Answer within " + expectedTime
+        } else {
+            this.isExpectedAnswerDelay = true
+            return "Answer " + expectedTime
+        }
     }
 }

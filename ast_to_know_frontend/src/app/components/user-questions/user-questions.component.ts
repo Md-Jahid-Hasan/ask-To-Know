@@ -32,6 +32,7 @@ export class UserQuestionsComponent implements OnInit {
     questions: Question[] = []
     current_page: number = 1
     total_pages: number = 1
+    isExpectedAnswerDelay: boolean = false
 
     constructor(private user_home: UserHomeService) {
     }
@@ -41,7 +42,7 @@ export class UserQuestionsComponent implements OnInit {
             this.current_page = 1
             this.user_home.getQuestions().subscribe(questions => {
                     this.questions = questions.results
-                    this.total_pages = Math.ceil(questions.count/5)
+                    this.total_pages = Math.ceil(questions.count / 5)
                 }
             )
         }
@@ -56,6 +57,17 @@ export class UserQuestionsComponent implements OnInit {
         this.user_home.getQuestions(`?page=${page_number}`).subscribe(
             questions => this.questions = questions.results
         )
+    }
+
+    getExpectedAnswerTime(time: string) {
+        let expectedTime = this.getTimeDifference(time)
+        if (new Date(time) > new Date()) {
+            this.isExpectedAnswerDelay = false
+            return "Expected answer " + expectedTime
+        } else {
+            this.isExpectedAnswerDelay = true
+            return "Expected answer " + expectedTime
+        }
     }
 
     protected readonly formatDate = formatDate;
