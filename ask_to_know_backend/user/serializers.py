@@ -19,6 +19,14 @@ class UserNameSerializer(serializers.ModelSerializer):
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Serializer for the user token/login. As a login user will get a new token and user details by using
     UserDetailsSerializer."""
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['admin'] = user.is_staff
+        return token
+
     def validate(self, attrs):
         data = super().validate(attrs)
         serializer = UserDetailsSerializer(self.user).data
