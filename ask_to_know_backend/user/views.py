@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
 
@@ -26,6 +27,21 @@ class UpdateUserView(generics.UpdateAPIView):
     serializer_class = UserCreateSerializer
     permission_classes = (permissions.IsAuthenticated,)
     queryset = User().objects.all()
+
+
+class UpdateAdminStatus(APIView):
+    permission_classes = (permissions.IsAdminUser,)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            query_params = request.query_params.get("status")
+            user = request.user
+            user.admin_status = bool(int(query_params))
+            user.save()
+            return Response({"success": True}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CurrentUser(generics.RetrieveAPIView):

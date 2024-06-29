@@ -30,6 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     role = models.CharField(max_length=10, choices=USER_ROLE, default="user")
     phone_number = models.CharField(max_length=15)
+    admin_status = models.BooleanField(default=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -40,3 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return str(self.email)
+
+    def save(self, *args, **kwargs):
+        if self.role == "user":
+            self.admin_status = True
+        super(User, self).save(*args, **kwargs)
