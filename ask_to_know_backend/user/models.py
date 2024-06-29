@@ -23,8 +23,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model that supports using email instead of username.
     Use custom user manager instead of default manager to overwrite default behaviour"""
 
+    USER_ROLE = (("user", "User"), ("agent", "Agent"), ("admin", "Admin"), ("content", "Content"))
+
     email = models.EmailField(max_length=100, unique=True)
     name = models.CharField(max_length=255)
+    username = models.CharField(max_length=50, unique=True)
+    role = models.CharField(max_length=10, choices=USER_ROLE, default="user")
+    phone_number = models.CharField(max_length=15)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

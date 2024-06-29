@@ -7,7 +7,7 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     """Serializer for user details. Returns fields with username, email and is_staff."""
     class Meta:
         model = User()
-        fields = ['name', 'email', 'is_staff']
+        fields = ['name', 'email', 'is_staff', 'phone_number', 'role', 'id', 'username']
 
 
 class UserNameSerializer(serializers.ModelSerializer):
@@ -38,21 +38,25 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    """User create serializer. Receive data email, name, password and password1(same as password). Override validate
-    method to check if both password are same."""
+    """User create serializer use for both update and create. Receive data email, name, password and
+    password1(same as password). Override validate method to check if both password are same."""
     confirm_password = serializers.CharField(required=True, write_only=True)
 
     class Meta:
         model = User()
-        fields = ['pk', 'name', 'email', 'password', 'confirm_password']
+        fields = ['pk', 'name', 'email', 'password', 'confirm_password', 'phone_number', 'username']
         extra_kwargs = {
             'password': {'write_only': True},
             'pk': {'read_only': True}
         }
 
     def validate(self, attrs):
-        if attrs['confirm_password'] != attrs['password']:
-            raise serializers.ValidationError({'password': "Password Don't match"})
+        if self.context['request'].method == "POST":
+            if attrs['confirm_password'] != attrs['password']:
+                raise serializers.ValidationError({'password': "Password Don't match"})
+        else:
+            if attrs.get('username'):
+                attrs.pop('username')
         return attrs
 
     def create(self, validated_data):

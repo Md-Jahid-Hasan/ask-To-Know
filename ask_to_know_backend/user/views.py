@@ -1,7 +1,11 @@
-from rest_framework import generics, permissions
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.decorators import api_view
 
 from .serializers import MyTokenObtainPairSerializer, UserCreateSerializer, UserDetailsSerializer
+from django.contrib.auth import get_user_model as User
 
 
 class LoginView(TokenObtainPairView):
@@ -13,6 +17,16 @@ class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system"""
     serializer_class = UserCreateSerializer
 
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response({"success": True}, status=status.HTTP_201_CREATED)
+
+
+class UpdateUserView(generics.UpdateAPIView):
+    serializer_class = UserCreateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = User().objects.all()
+
 
 class CurrentUser(generics.RetrieveAPIView):
     """Return authenticated user."""
@@ -21,3 +35,13 @@ class CurrentUser(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+@api_view(['GET'])
+def check_username(request):
+    username = request.query_params.get('username', None)
+    try:
+        User().objects.get(username=username)
+    except ObjectDoesNotExist:
+        return Response({"is_unique": True}, status=status.HTTP_200_OK)
+    return Response({"is_unique": False}, status=status.HTTP_200_OK)
