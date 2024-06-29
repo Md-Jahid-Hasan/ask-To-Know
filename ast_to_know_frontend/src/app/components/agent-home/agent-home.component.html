@@ -24,6 +24,7 @@
                     nzPopconfirmPlacement="bottom"
                     (nzOnCancel)="cancel()"
                     (nzOnConfirm)="confirm()"
+                    [nzPopconfirmVisible]="status_loading"
                 >
                     <nz-switch [nzLoading]="status_loading" [ngModel]="agent_status" nzCheckedChildren="Active"
                                nzUnCheckedChildren="Inactive" (click)="changingStatus()" [nzControl]="true"></nz-switch>

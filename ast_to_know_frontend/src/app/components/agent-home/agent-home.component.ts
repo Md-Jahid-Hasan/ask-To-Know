@@ -10,6 +10,7 @@ import {NzPopconfirmDirective, NzPopconfirmModule} from 'ng-zorro-antd/popconfir
 import {AgentService} from "../../services/agent.service";
 import {NzRibbonComponent} from "ng-zorro-antd/badge";
 import moment from "moment";
+import {response} from "express";
 
 @Component({
     selector: 'app-agent-home',
@@ -43,13 +44,20 @@ export class AgentHomeComponent implements OnInit {
 
     cancel(): void {
         this.status_loading = false
-        this.nzMessageService.info('click cancel', {nzAnimate: true});
     }
 
     confirm(): void {
-        this.agent_status = !this.agent_status
-        this.status_loading = false
-        this.nzMessageService.info('click confirm');
+        this.agent_service.updateAgentStatus(+!this.agent_status).subscribe(response => {
+                if (response.success == true) {
+                    this.agent_status = !this.agent_status
+                    this.status_loading = false
+                    this.nzMessageService.success(`Change your status to ${this.agent_status ? 'Active' : 'Inactive'}`);
+                }
+            },
+            error => {
+            this.status_loading = false
+                this.nzMessageService.error("Failed change your status")
+            })
     }
 
     changingStatus() {
