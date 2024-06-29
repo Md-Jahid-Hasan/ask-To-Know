@@ -1,4 +1,4 @@
-<div class="row justify-content-center py-5">
+<div class="row justify-content-center py-5" *ngIf="user_data">
     <div class="col-lg-8">
         <div class="card mb-3">
             <div class="card-header">
@@ -7,32 +7,48 @@
             <div class="card-body bg-body-tertiary">
                 <form class="row g-3">
                     <div class="col-lg-12">
-                        <label class="form-label" for="name">First Name</label>
-                        <input class="form-control" id="name" type="text" value="Anthony">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" id="name" name="name" type="text" [(ngModel)]="user_data.name"
+                               (change)="handleUpdateData($event)">
                     </div>
-<!--                    <div class="col-lg-6">-->
-<!--                        <label class="form-label" for="last-name">Last Name</label>-->
-<!--                        <input class="form-control" id="last-name" type="text" value="Hopkins">-->
-<!--                    </div>-->
+                    <div class="col-lg-12">
+                        <label class="form-label">Username</label>
+                        <input class="form-control" type="text" disabled [value]="user_data.username">
+                    </div>
                     <div class="col-lg-6">
                         <label class="form-label" for="email">Email</label>
-                        <input class="form-control" id="email" type="text" value="anthony@gmail.com">
+                        <input class="form-control" id="email" name="email" type="email" [(ngModel)]="user_data.email"
+                               (change)="handleUpdateData($event)">
                     </div>
                     <div class="col-lg-6">
                         <label class="form-label" for="phone_number">Phone</label>
-                        <input class="form-control" id="phone_number" type="text" value="+44098098304">
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label" for="password">Password</label>
-                        <input class="form-control" id="password" type="password" value="Software Engineer">
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label" for="confirm_password">Confirm Password</label>
-                        <input class="form-control" id="confirm_password" type="password" value="Software Engineer">
+                        <input class="form-control" id="phone_number" name="phone_number" type="text"
+                               [(ngModel)]="user_data.phone_number" (change)="handleUpdateData($event)">
                     </div>
 
+                    <nz-form-control [nzValidateStatus]="password_validate_status" [nzSpan]="24"
+                                     nzErrorTip="Password don't match">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="form-label" for="password">Password</label>
+                                <input nz-input class="form-control" id="password" name="password" type="password"
+                                       [(ngModel)]="user_data.password" (change)="handleUpdateData($event)"
+                                        (ngModelChange)="handlePasswordValidateStatus($event)">
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label" for="confirm_password">Confirm Password</label>
+                                <input nz-input class="form-control" id="confirm_password" name="confirm_password"
+                                       type="password" [(ngModel)]="user_data.confirm_password"
+                                       (change)="handleUpdateData($event)"
+                                       (ngModelChange)="handlePasswordValidateStatus($event)">
+                            </div>
+                        </div>
+                    </nz-form-control>
+
                     <div class="col-12 d-flex justify-content-end">
-                        <button class="btn btn-primary" type="submit">Update</button>
+                        <button class="btn btn-primary" [disabled]="password_validate_status == 'error'"
+                                type="button" (click)="updateData()">Update
+                        </button>
                     </div>
                 </form>
             </div>

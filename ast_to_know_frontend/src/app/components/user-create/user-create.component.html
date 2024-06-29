@@ -1,4 +1,4 @@
-<div class="row align-items-center justify-content-center py-5">
+<div nz-row class="align-items-center justify-content-center py-5">
     <div class="col-sm-10 col-md-8 col-lg-8 col-xl-6 col-xxl-6">
         <div class="card">
             <div class="card-body p-4">
@@ -7,22 +7,52 @@
                         <h5>Sign up</h5>
                     </div>
                     <div class="col-auto text-body-secondary"><span>Have an account? </span>
-                        <a class="text-decoration-none" href="/login">Login</a></div>
+                        <a class="text-decoration-none" routerLink="/login">Login</a></div>
                 </div>
-                <form>
-                    <div class="mb-3"><input class="form-control" type="text" placeholder="Name"></div>
-                    <div class="mb-3"><input class="form-control" type="email" placeholder="Email address"></div>
-                    <div class="mb-3"><input class="form-control" type="text" placeholder="Phone Number"></div>
-                    <div class="row gx-2">
-                        <div class="mb-3 col-sm-6">
-                            <input class="form-control" type="password" autocomplete="on" placeholder="Password">
-                        </div>
-                        <div class="mb-3 col-sm-6">
-                            <input class="form-control" type="password" autocomplete="on"
-                                   placeholder="Confirm Password">
-                        </div>
+                <form (ngSubmit)="createUser()">
+                    <div class="mb-3">
+                        <input class="form-control" type="text" placeholder="Name" name="name" required
+                               [(ngModel)]="user_details.name">
                     </div>
-                    <div class="form-check text-body-secondary">
+                    <div class="mb-4">
+                        <nz-form-control
+                            [nzValidateStatus]="username_validate_status"
+                            [nzSpan]="24"
+                            nzHasFeedback
+                            nzErrorTip="This username is already taken"
+                            nzSuccessTip="Available username"
+                        >
+                            <input nz-input type="text" placeholder="Username" name="username" required
+                                   [(ngModel)]="user_details.username" (ngModelChange)="validateUsername($event)" >
+                        </nz-form-control>
+                    </div>
+
+                    <div class="mb-3">
+                        <input class="form-control" type="email" placeholder="Your Email" name="email"
+                               [(ngModel)]="user_details.email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input class="form-control" type="number" placeholder="Phone Number" name="phone_number"
+                               [(ngModel)]="user_details.phone_number" required>
+                    </div>
+
+                    <nz-form-control [nzValidateStatus]="password_validate_status" [nzSpan]="24"
+                                     nzErrorTip="Password don't match">
+                        <div class="row gx-2">
+                            <div class="col-sm-6">
+                                <input nz-input type="password" placeholder="Password" name="password" required
+                                       [(ngModel)]="user_details.password" (ngModelChange)="checkPasswordMatch($event)">
+                            </div>
+                            <div class="col-sm-6">
+                                <input nz-input type="password" [(ngModel)]="user_details.confirm_password"
+                                       placeholder="Confirm Password" name="confirm_password" required
+                                       (ngModelChange)="checkPasswordMatch($event)">
+                            </div>
+                        </div>
+                    </nz-form-control>
+
+                    <div class="form-check text-body-secondary mt-3">
                         <input class="form-check-input" type="checkbox" id="basic-register-checkbox">
                         <label class="form-label" for="basic-register-checkbox">I accept the terms and privacy
                             policy</label>

@@ -6,6 +6,7 @@ import {UserHomeComponent} from "./components/user-home/user-home.component";
 import {AgentTaskComponent} from "./components/agent-task/agent-task.component";
 import {userAuthGuard} from "./guard/user-auth.guard";
 import {adminGuard} from "./guard/admin.guard";
+import {UserProfileComponent} from "./components/user-profile/user-profile.component";
 
 export const routes: Routes = [
     {path: '', component: UserHomeComponent, canActivate: [userAuthGuard]},
@@ -13,4 +14,5 @@ export const routes: Routes = [
     {path: 'signup', component: UserCreateComponent},
     {path: 'agent', component: AgentHomeComponent, canActivate:[adminGuard]},
     {path: 'task/:id', component: AgentTaskComponent, canActivate:[adminGuard]},
+    {path: 'user', component: UserProfileComponent},
 ];
