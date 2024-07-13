@@ -19,4 +19,8 @@ export class AgentService {
         let url = `api/question/client-answer/${question_id}/`
         return this.http.patch<any>(url, question)
     }
+
+    updateAgentStatus(status:number){
+        return this.http.get<any>(`api/user/admin/?status=${status}`)
+    }
 }

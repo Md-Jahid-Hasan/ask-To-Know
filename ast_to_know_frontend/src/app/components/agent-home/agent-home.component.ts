@@ -11,6 +11,7 @@ import {AgentService} from "../../services/agent.service";
 import {NzRibbonComponent} from "ng-zorro-antd/badge";
 import moment from "moment";
 import {response} from "express";
+import {UserService} from "../../services/user.service";
 
 @Component({
     selector: 'app-agent-home',
@@ -39,7 +40,7 @@ export class AgentHomeComponent implements OnInit {
     }
 
     constructor(private user_home: UserHomeService, private nzMessageService: NzMessageService,
-                private agent_service: AgentService) {
+                private agent_service: AgentService, private user_service: UserService) {
     }
 
     cancel(): void {
@@ -73,6 +74,8 @@ export class AgentHomeComponent implements OnInit {
                 }
             )
         }
+
+        this.user_service.currentUser.subscribe(user => this.agent_status = user.admin_status)
     }
 
     paginatedData(page_number: number) {

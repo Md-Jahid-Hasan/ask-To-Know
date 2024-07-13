@@ -6,6 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {NzColDirective} from "ng-zorro-antd/grid";
 import {NzFormControlComponent} from "ng-zorro-antd/form";
 import {NzInputDirective} from "ng-zorro-antd/input";
+import {NzSkeletonComponent} from "ng-zorro-antd/skeleton";
 
 @Component({
     selector: 'app-user-profile',
@@ -15,7 +16,8 @@ import {NzInputDirective} from "ng-zorro-antd/input";
         FormsModule,
         NzColDirective,
         NzFormControlComponent,
-        NzInputDirective
+        NzInputDirective,
+        NzSkeletonComponent
     ],
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.css'
@@ -28,11 +30,8 @@ export class UserProfileComponent implements OnInit {
     constructor(private userService: UserService) {}
 
     ngOnInit() {
-        if (typeof window !== 'undefined') {
-            this.userService.getLoginUser().subscribe(user => {
-                this.user_data = user
-            })
-        }
+        if (typeof window !== 'undefined') this.userService.getLoginUser()
+        this.userService.currentUser.subscribe(user => this.user_data = user)
     }
 
     updateData() {

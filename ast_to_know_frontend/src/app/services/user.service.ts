@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable, Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
+
+    currentUser = new Subject<any>()
 
     constructor(private http: HttpClient) {}
 
@@ -13,8 +15,8 @@ export class UserService {
         return this.http.post<any>("api/user/login/", user)
     }
 
-    getLoginUser():Observable<any>{
-        return this.http.get<any>("api/user/")
+    getLoginUser(){
+        this.http.get<any>("api/user/").subscribe(res => this.currentUser.next(res))
     }
 
     updateUser(user:any, user_id:number):Observable<any>{
