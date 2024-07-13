@@ -5,7 +5,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
 
-from .serializers import MyTokenObtainPairSerializer, UserCreateSerializer, UserDetailsSerializer
+from .serializers import (MyTokenObtainPairSerializer, UserCreateSerializer, UserDetailsSerializerForAdmin,
+                          UserDetailsSerializerForUser)
 from django.contrib.auth import get_user_model as User
 
 
@@ -46,11 +47,16 @@ class UpdateAdminStatus(APIView):
 
 class CurrentUser(generics.RetrieveAPIView):
     """Return authenticated user."""
-    serializer_class = UserDetailsSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return UserDetailsSerializerForAdmin
+        else:
+            return UserDetailsSerializerForUser
 
 
 @api_view(['GET'])
