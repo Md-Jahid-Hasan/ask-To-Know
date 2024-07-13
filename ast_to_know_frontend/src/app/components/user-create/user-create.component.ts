@@ -5,7 +5,6 @@ import {NzFormControlComponent} from "ng-zorro-antd/form";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../../services/user.service";
-import {response} from "express";
 import {debounceTime, Subject} from "rxjs";
 
 @Component({
@@ -23,7 +22,6 @@ import {debounceTime, Subject} from "rxjs";
     styleUrl: './user-create.component.css'
 })
 export class UserCreateComponent implements OnInit {
-    // TODO Need to implement user create functionality
     username_validate_status:string = ""
     password_validate_status:string = ""
     username_subject = new Subject()

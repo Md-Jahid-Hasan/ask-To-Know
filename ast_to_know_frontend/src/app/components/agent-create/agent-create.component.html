@@ -1,0 +1,31 @@
+<nz-modal [(nzVisible)]="is_visible" nzTitle="Create new agent." (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+          nzCentered [nzOkLoading]="agent_create_modal_loading">
+    <ng-container *nzModalContent>
+        <form nz-form>
+            <nz-form-item nz-row>
+                <nz-form-label [nzSpan]="4" nzFor="name">Name</nz-form-label>
+                <nz-form-control nzSpan="20">
+                    <input nz-input type="text" id="name" name="name" placeholder="Agent Name" [(ngModel)]="user_details.name"
+                    required>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item nz-row>
+                <nz-form-label nzSpan="4" nzFor="username">username</nz-form-label>
+                <nz-form-control nzSpan="20" nzHasFeedback nzErrorTip="This username is already taken"
+                            nzSuccessTip="Available username" [nzValidateStatus]="username_validate_status">
+                    <input nz-input id="username" type="text" name="username" placeholder="unique agent username"
+                    [(ngModel)]="user_details.username" required  (ngModelChange)="validateUsername($event)">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-row>
+                <nz-form-label nzSpan="4" nzFor="email">email</nz-form-label>
+                <nz-form-control nzSpan="20">
+                    <input nz-input type="email" placeholder="agent email" id="email" name="email"
+                           [(ngModel)]="user_details.email"
+                    required>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>

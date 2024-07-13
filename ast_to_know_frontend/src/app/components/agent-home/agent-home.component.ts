@@ -6,11 +6,10 @@ import {RouterLink} from "@angular/router";
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {FormsModule} from "@angular/forms";
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {NzPopconfirmDirective, NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {NzPopconfirmDirective} from 'ng-zorro-antd/popconfirm';
 import {AgentService} from "../../services/agent.service";
 import {NzRibbonComponent} from "ng-zorro-antd/badge";
 import moment from "moment";
-import {response} from "express";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -57,7 +56,7 @@ export class AgentHomeComponent implements OnInit {
             },
             error => {
             this.status_loading = false
-                this.nzMessageService.error("Failed change your status")
+                this.nzMessageService.error("Failed to change your status")
             })
     }
 
@@ -90,11 +89,13 @@ export class AgentHomeComponent implements OnInit {
             let total_minutes = (parseInt(this.waiting_time_for_user.hh) * 60 + parseInt(this.waiting_time_for_user.mm))
             let expected_answer_at = new Date(new Date().getTime() + total_minutes * 60000)
             question.expected_answer_at = expected_answer_at
-            // let question_data = {expected_answer_at: new Date(new Date().getTime() + total_minutes*60000)}
+
+            // call api for save data
             this.agent_service.answerQuestion(question.id, {expected_answer_at: expected_answer_at}).subscribe(res => {
                 this.waiting_time_for_user.hh = "0"
                 this.waiting_time_for_user.mm = "0"
-            })
+                this.nzMessageService.success("Successfully save!")
+            }, error => {this.nzMessageService.error("Failed to set time!")})
         }
     }
 
@@ -109,7 +110,7 @@ export class AgentHomeComponent implements OnInit {
             return "Answer within " + expectedTime
         } else {
             this.isExpectedAnswerDelay = true
-            return "Answer " + expectedTime
+            return "Expected " + expectedTime
         }
     }
 }

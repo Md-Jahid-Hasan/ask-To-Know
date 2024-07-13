@@ -5,11 +5,13 @@ import {UserCreateComponent} from "./components/user-create/user-create.componen
 import {UserHomeComponent} from "./components/user-home/user-home.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {UserService} from "./services/user.service";
+import {NzFlexDirective} from "ng-zorro-antd/flex";
+import {NzAlertComponent} from "ng-zorro-antd/alert";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-    imports: [RouterOutlet, LoginComponent, UserCreateComponent, UserHomeComponent, NavbarComponent],
+    imports: [RouterOutlet, LoginComponent, UserCreateComponent, UserHomeComponent, NavbarComponent, NzFlexDirective, NzAlertComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

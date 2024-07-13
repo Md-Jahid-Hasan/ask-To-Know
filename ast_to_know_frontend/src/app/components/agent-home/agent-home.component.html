@@ -21,8 +21,8 @@
                 <a nz-popconfirm nzPopconfirmTitle="Are you sure to change your action?"
                     nzPopconfirmPlacement="bottom" (nzOnCancel)="cancel()" (nzOnConfirm)="confirm()"
                     [nzPopconfirmVisible]="status_loading">
-                    <nz-switch [nzLoading]="status_loading" [ngModel]="agent_status" nzCheckedChildren="Active"
-                               nzUnCheckedChildren="Inactive" (click)="changingStatus()" [nzControl]="true"></nz-switch>
+                    <nz-switch [nzLoading]="status_loading" [ngModel]="agent_status"
+                               (click)="changingStatus()" [nzControl]="true"></nz-switch>
                 </a>
             </div>
         </div>
@@ -34,8 +34,9 @@
         <div class="bg-body-tertiary d-flex flex-column gap-3 p-3" id="card-ticket-body">
             <div *ngFor="let question of questions">
                 <nz-ribbon *ngIf="!question.is_answered && question.expected_answer_at"
-                           nzColor="isExpectedAnswerDelay ? 'red' :'#ffc107'"
-                           [nzText]="getExpectedAnswerTime(question.expected_answer_at)"></nz-ribbon>
+                           [nzText]="getExpectedAnswerTime(question.expected_answer_at)"
+                           [nzColor]="isExpectedAnswerDelay ? 'red': '#ffc107'"
+                ></nz-ribbon>
                 <div
                     class="bg-white d-md-flex d-lg-flex d-xxl-flex align-items-center p-3 rounded-3 shadow-sm">
                     <div class="d-flex align-items-start align-items-sm-center">
