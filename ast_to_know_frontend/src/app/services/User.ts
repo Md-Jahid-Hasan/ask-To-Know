@@ -7,3 +7,5 @@ export interface User {
     password?: string,
     confirm_password?: string
 }
+
+export interface NewAgent {name:string, username:string, email:string}

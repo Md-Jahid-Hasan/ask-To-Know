@@ -4,7 +4,7 @@
         <form nz-form>
             <nz-form-item nz-row>
                 <nz-form-label [nzSpan]="4" nzFor="name">Name</nz-form-label>
-                <nz-form-control nzSpan="20">
+                <nz-form-control nzSpan="20" [nzValidateStatus]="name_validate_status" nzErrorTip="This field can't be empty">
                     <input nz-input type="text" id="name" name="name" placeholder="Agent Name" [(ngModel)]="user_details.name"
                     required>
                 </nz-form-control>
@@ -20,7 +20,7 @@
             </nz-form-item>
             <nz-form-item nz-row>
                 <nz-form-label nzSpan="4" nzFor="email">email</nz-form-label>
-                <nz-form-control nzSpan="20">
+                <nz-form-control nzSpan="20" [nzValidateStatus]="email_validate_status" nzErrorTip="This field can't be empty">
                     <input nz-input type="email" placeholder="agent email" id="email" name="email"
                            [(ngModel)]="user_details.email"
                     required>

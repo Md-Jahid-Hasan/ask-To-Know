@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {NewAgent} from "./User";
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,10 @@ export class AgentService {
     }
 
     updateAgentStatus(status:number){
-        return this.http.get<any>(`api/user/admin/?status=${status}`)
+        return this.http.get<any>(`api/user/agent/?status=${status}`)
+    }
+
+    createNewAgent(agent_details:NewAgent){
+        return this.http.post<any>('api/user/agent/', agent_details)
     }
 }
