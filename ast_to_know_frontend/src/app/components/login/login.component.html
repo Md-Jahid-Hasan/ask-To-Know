@@ -12,11 +12,11 @@
                 <form (ngSubmit)="onLogin()">
                     <div class="mb-3">
                         <input class="form-control" type="email" placeholder="Email address" name="email" id="email"
-                               [(ngModel)]="user_details.email">
+                               [(ngModel)]="user_details.email" required>
                     </div>
                     <div class="mb-3">
                         <input class="form-control" type="password" placeholder="Password" name="password" id="password"
-                        [(ngModel)]="user_details.password">
+                        [(ngModel)]="user_details.password" required>
                     </div>
                     <div class="row">
                         <div class="col-auto">
@@ -25,8 +25,10 @@
                                 <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
                             </div>
                         </div>
-
                     </div>
+                    <nz-alert nzType="error" nzCloseable [nzMessage]="error_message" *ngIf="error_message!=null"
+                              (nzOnClose)="closeErrorMessage()"
+                    ></nz-alert>
                     <div class="mb-3">
                         <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Log in</button>
                     </div>
