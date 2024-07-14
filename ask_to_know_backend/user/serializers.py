@@ -1,3 +1,5 @@
+import string, random
+
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model as User
@@ -70,3 +72,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
         """Remove password1 field because this is not part of model"""
         validated_data.pop('confirm_password')
         return User().objects.create_user(**validated_data)
+
+
+class AgentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User()
+        fields = ('email', 'username', 'name')
+
+    def create(self, validated_data):
+        # TODO send email when agent created
+        generate_password = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
+        user = User().objects.create_user(**validated_data, password=generate_password, is_staff=True, role="agent",
+                                          admin_status=False)
+        return user

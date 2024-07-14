@@ -9,5 +9,5 @@ urlpatterns = [
     path('create/', CreateUserView.as_view(), name='create'),
     path('update/<int:pk>/', UpdateUserView.as_view(), name='update'),
     path('username/', check_username, name='username_check'),
-    path('admin/', UpdateAdminStatus.as_view(), name='admin_status_update')
+    path('agent/', UpdateAdminStatus.as_view(), name='admin_status_update')
 ]

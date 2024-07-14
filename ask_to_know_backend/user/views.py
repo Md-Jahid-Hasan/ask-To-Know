@@ -1,3 +1,5 @@
+import string, random
+
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
@@ -6,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view
 
 from .serializers import (MyTokenObtainPairSerializer, UserCreateSerializer, UserDetailsSerializerForAdmin,
-                          UserDetailsSerializerForUser)
+                          UserDetailsSerializerForUser, AgentCreateSerializer)
 from django.contrib.auth import get_user_model as User
 
 
@@ -41,8 +43,31 @@ class UpdateAdminStatus(APIView):
             user.save()
             return Response({"success": True}, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
             return Response({"success": False}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, *args, **kwargs):
+        serializer = AgentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"success": True}, status=status.HTTP_201_CREATED)
+
+        # error_message = {}
+        # email = request.data.get("email")
+        # if not email:
+        #     error_message["email"] = "Email is required"
+        # name = request.data.get("name")
+        # if not name:
+        #     error_message["name"] = "Name is required"
+        # username = request.data.get("username")
+        # if not username:
+        #     error_message["username"] = "Username is required"
+        # if email and name and username:
+        #     generate_password = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
+        #     user = User().objects.create_user(name=name, email=email, password=generate_password, username=username)
+        #
+        # else:
+        #     return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CurrentUser(generics.RetrieveAPIView):
