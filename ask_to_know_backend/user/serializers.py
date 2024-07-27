@@ -1,10 +1,9 @@
 import string, random
-
-from django.core.mail import send_mail
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.contrib.auth import get_user_model as User
 
+from django.contrib.auth import get_user_model as User
+from .tasks import send_agent_create_mail
 
 class UserDetailsSerializerForUser(serializers.ModelSerializer):
     """Serializer for user details. Returns fields with username, email and is_staff."""
@@ -85,8 +84,5 @@ class AgentCreateSerializer(serializers.ModelSerializer):
         generate_password = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
         user = User().objects.create_user(**validated_data, password=generate_password, is_staff=True, role="agent",
                                           admin_status=False)
-        message = (f"A new agent is registered for {user.username}. You receive a random password {generate_password}."
-                   f"You can update your password any time from the website. For login please use this email and "
-                   f"password first time.")
-        send_mail("New Agent Account Created", message, None, (user.email, ), fail_silently=True)
+        send_agent_create_mail.delay(user.username, user.email, generate_password)
         return user

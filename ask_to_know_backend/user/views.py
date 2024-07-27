@@ -1,5 +1,3 @@
-import string, random
-
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
@@ -51,22 +49,6 @@ class UpdateAdminStatus(APIView):
             serializer.save()
             return Response({"success": True}, status=status.HTTP_201_CREATED)
 
-        # error_message = {}
-        # email = request.data.get("email")
-        # if not email:
-        #     error_message["email"] = "Email is required"
-        # name = request.data.get("name")
-        # if not name:
-        #     error_message["name"] = "Name is required"
-        # username = request.data.get("username")
-        # if not username:
-        #     error_message["username"] = "Username is required"
-        # if email and name and username:
-        #     generate_password = ''.join(random.choices(string.digits + string.ascii_letters, k=8))
-        #     user = User().objects.create_user(name=name, email=email, password=generate_password, username=username)
-        #
-        # else:
-        #     return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -87,6 +69,8 @@ class CurrentUser(generics.RetrieveAPIView):
 @api_view(['GET'])
 def check_username(request):
     username = request.query_params.get('username', None)
+    if str(username).strip() == "":
+        return Response({"is_unique": False}, status=status.HTTP_200_OK)
     try:
         User().objects.get(username=username)
     except ObjectDoesNotExist:
