@@ -55,7 +55,7 @@ export class AgentHomeComponent implements OnInit {
                 }
             },
             error => {
-            this.status_loading = false
+                this.status_loading = false
                 this.nzMessageService.error("Failed to change your status")
             })
     }
@@ -65,16 +65,21 @@ export class AgentHomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        //TODO solve error of after return from question details subject subscribe is not calling.
+        this.user_service.currentUser.subscribe(user => {
+            this.agent_status = user.admin_status
+            console.log(this.agent_status)
+        })
+
         if (typeof window !== 'undefined' && window.localStorage) {
             this.current_page = 1
             this.user_home.getQuestions().subscribe(questions => {
+                    console.log("list")
                     this.questions = questions.results
                     this.total_pages = Math.ceil(questions.count / 5)
                 }
             )
         }
-
-        this.user_service.currentUser.subscribe(user => this.agent_status = user.admin_status)
     }
 
     paginatedData(page_number: number) {
@@ -95,7 +100,9 @@ export class AgentHomeComponent implements OnInit {
                 this.waiting_time_for_user.hh = "0"
                 this.waiting_time_for_user.mm = "0"
                 this.nzMessageService.success("Successfully save!")
-            }, error => {this.nzMessageService.error("Failed to set time!")})
+            }, error => {
+                this.nzMessageService.error("Failed to set time!")
+            })
         }
     }
 

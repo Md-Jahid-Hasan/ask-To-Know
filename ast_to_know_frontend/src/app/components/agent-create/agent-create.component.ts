@@ -75,6 +75,7 @@ export class AgentCreateComponent implements OnInit {
                 this.agent_create_modal_loading = false
                 this.is_visible = false
                 this.user_details = {name: "", username: "", email: ""}
+                this.close_create_agent_from_parent.emit()
             }, error => {
                 for (let property in error.error) {
                     this.message.error(error.error[property][0], {nzDuration: 5000})

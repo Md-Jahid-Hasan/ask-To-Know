@@ -12,6 +12,7 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzUploadComponent, NzUploadFile} from "ng-zorro-antd/upload";
 import {NzFlexDirective} from "ng-zorro-antd/flex";
 import {NzTagComponent} from "ng-zorro-antd/tag";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 
 const modules = {
@@ -46,7 +47,7 @@ export class AgentTaskComponent implements OnInit {
     answer: string = ""
     deleted_attachment:number[] = []
 
-    constructor(private activeRoute: ActivatedRoute, private agent_service: AgentService) {
+    constructor(private activeRoute: ActivatedRoute, private agent_service: AgentService, private message: NzMessageService) {
         this.activeRoute.params.subscribe(value => {
             this.question_id = value['id']
         })
@@ -79,7 +80,9 @@ export class AgentTaskComponent implements OnInit {
                 !("id" in file) && data.append("question_attachments", file, file.name)
             })
             this.agent_service.answerQuestion(this.question_id, data).subscribe(
-                value => console.log(value)
+                value => {
+                    this.message.success("Your answer is submitted!", {nzDuration: 5000})
+                }, error => {this.message.error("Failed to save message", {nzDuration: 5000})}
             )
         }
     }
