@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Posts, PostVote
+from .models import Posts, PostVote, PostComments
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -11,10 +11,16 @@ class PostSerializer(serializers.ModelSerializer):
 class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
-        fields = ('content', 'user', 'created_at', 'average_votes', 'total_comments')
-        read_only_fields = ('user', 'created_at', 'average_votes', 'total_comments')
-        write_only_fields = ('content', )
+        fields = ('content', 'user')
+        extra_kwargs = {'user': {'required': False}}
 
 
 class PostVoteSerializer(serializers.Serializer):
     rating = serializers.IntegerField()
+
+
+class PostCommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostComments
+        fields = ('content', 'user', 'post')
+        extra_kwargs = {'user': {'required': False}, 'post': {'required': False}}

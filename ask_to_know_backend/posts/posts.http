@@ -1,0 +1,42 @@
+### POST request to vote a user post
+POST http://127.0.0.1:8000/api/post/vote/1/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NzgxODk1LCJpYXQiOjE3MjIxODk4OTUsImp0aSI6IjVmZWM3YmExMDgzMDQxNDhhMTM3YjJkMjlkYWVmMDEwIiwidXNlcl9pZCI6MzMsImFkbWluIjp0cnVlfQ.ZT61sBL5T_fOCDEh4nKmL5X0i-ZLamVJplAQOCBKOR8
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyMjUxMTg5LCJpYXQiOjE3MTk2NTkxODksImp0aSI6IjM5MGY1N2RmNzYwZDQwN2I4NDEyZTQ4YjE1ZGVkMTU2IiwidXNlcl9pZCI6MSwiYWRtaW4iOnRydWV9.p4rylyDRKhKMDorErociiWvsV9aiF6LWlMhCEbkG1Gs
+
+{
+  "rating": 8
+}
+
+###
+### POST request to vote a user post
+POST http://127.0.0.1:8000/api/post/create/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NzgxODk1LCJpYXQiOjE3MjIxODk4OTUsImp0aSI6IjVmZWM3YmExMDgzMDQxNDhhMTM3YjJkMjlkYWVmMDEwIiwidXNlcl9pZCI6MzMsImFkbWluIjp0cnVlfQ.ZT61sBL5T_fOCDEh4nKmL5X0i-ZLamVJplAQOCBKOR8
+
+{
+  "content": "Another new post"
+}
+
+###
+### Delete a post
+DELETE http://127.0.0.1:8000/api/post/2/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NzgxODk1LCJpYXQiOjE3MjIxODk4OTUsImp0aSI6IjVmZWM3YmExMDgzMDQxNDhhMTM3YjJkMjlkYWVmMDEwIiwidXNlcl9pZCI6MzMsImFkbWluIjp0cnVlfQ.ZT61sBL5T_fOCDEh4nKmL5X0i-ZLamVJplAQOCBKOR8
+
+###
+### Make comment to a post
+POST http://127.0.0.1:8000/api/post/comment/1/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NzgxODk1LCJpYXQiOjE3MjIxODk4OTUsImp0aSI6IjVmZWM3YmExMDgzMDQxNDhhMTM3YjJkMjlkYWVmMDEwIiwidXNlcl9pZCI6MzMsImFkbWluIjp0cnVlfQ.ZT61sBL5T_fOCDEh4nKmL5X0i-ZLamVJplAQOCBKOR8
+
+{
+  "content": "New Comment"
+}
+
+###
+### delete comment
+DELETE http://127.0.0.1:8000/api/post/comment/2/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NzgxODk1LCJpYXQiOjE3MjIxODk4OTUsImp0aSI6IjVmZWM3YmExMDgzMDQxNDhhMTM3YjJkMjlkYWVmMDEwIiwidXNlcl9pZCI6MzMsImFkbWluIjp0cnVlfQ.ZT61sBL5T_fOCDEh4nKmL5X0i-ZLamVJplAQOCBKOR8
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0ODY4NDU0LCJpYXQiOjE3MjIyNzY0NTQsImp0aSI6ImRhOGM0M2IxYTY0ZjQzZmViZTJiNDc5Yzg2M2Q1ODg0IiwidXNlcl9pZCI6NSwiYWRtaW4iOmZhbHNlfQ.0NZF2YDjdX77wTV1Amj-rqBpNGqmt1Uxn7p6wZTMH8Y

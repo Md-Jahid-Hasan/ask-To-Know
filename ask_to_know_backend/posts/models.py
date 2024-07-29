@@ -28,7 +28,7 @@ class PostComments(models.Model):
 
 class Posts(models.Model):
     user = models.ForeignKey(User(), on_delete=models.CASCADE)
-    content = models.TextField(blank=True, null=True)
+    content = models.TextField()
     votes = models.ManyToManyField(User(), related_name='voted_user', blank=True, through=PostVote)
     created_at = models.DateTimeField(auto_now_add=True)
     average_votes = models.IntegerField(default=0)
