@@ -1,0 +1,85 @@
+<nz-card class="mt-3 rounded" nzTitle="Create a Public Post">
+    <div nz-row nzJustify="end">
+        <textarea class="rounded p-2" nz-col nzSpan="24" rows="4" placeholder="Share your thoughts"></textarea>
+        <button class="mt-3" nz-button nzType="primary" nzShape="round">Share</button>
+    </div>
+</nz-card>
+
+<div class="shadow-sm mt-2 border rounded-1" nz-row>
+    <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+            <div nz-flex nzAlign="center">
+                <div>
+                    <a class="nav-link pe-0 ps-2" role="button" data-bs-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div class="">
+                            <img class="img avatar object-fit-cover" src="/assets/user-icon.png" alt="user-icon">
+                        </div>
+                    </a>
+                </div>
+                <div class="ps-3" nz-flex [nzVertical]="true">
+                    <span class="fw-medium text-primary small-font line-gap">Md Jahid Hasan</span>
+                    <span class="fw-light small-font">11 hours ago</span>
+                </div>
+            </div>
+            <div>
+                <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white p-2 border rounded-1" nz-col nzSpan="24">
+        <p>Some text that asked by question</p>
+    </div>
+    <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+        <button nz-button nzType="primary" nzShape="round" (click)="toggleVoteView()">Vote</button>
+        <button class="ms-2" nz-button nzType="primary" nzShape="round" (click)="toggleCommentView()">Comments</button>
+    </div>
+    <div class="bg-body-secondary p-2" [class]="!is_visible_vote ? 'd-none' : ''" nz-col nzSpan="24">
+        <nz-radio-group>
+            <label *ngFor="let n of [0,1,2,3,4,5,6,7,8,9,10]" nz-radio-button [nzValue]="n"
+            class="border rounded-1">{{ n }}</label>
+        </nz-radio-group>
+    </div>
+    <div class="comments-section bg-body-secondary" [class]="is_visible_comments ? 'd-block' : 'd-none'">
+        <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+            <div nz-row nzJustify="end">
+                <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Share your thoughts"></textarea>
+                <button class="mt-3" nz-button nzType="primary" nzShape="round">Share</button>
+            </div>
+        </div>
+
+        <div class="p-2" nz-col nzSpan="24">
+            <nz-comment class="border rounded-4 bg-white ps-2">
+                <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
+                <nz-comment-content>
+                    <p>
+                        We supply a series of design principles, practical patterns and high quality design resources
+                        (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
+                    </p>
+                </nz-comment-content>
+                <nz-comment-action>
+                    <span nz-tooltip nzTitle="Like" nz-icon nzType="like"
+                          [nzTheme]="1 > 0 ? 'twotone' : 'outline'"></span>
+                    <span class="ps-1">2</span>
+                </nz-comment-action>
+            </nz-comment>
+        </div>
+
+        <div class="p-1" nz-col nzSpan="24">
+            <nz-comment class="border rounded-4 bg-white ps-1">
+                <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
+                <nz-comment-content>
+                    <p>
+                        We supply a series of design principles, practical patterns and high quality design resources
+                        (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
+                    </p>
+                </nz-comment-content>
+                <nz-comment-action>
+                    <span nz-tooltip nzTitle="Like" nz-icon nzType="like"
+                          [nzTheme]="1 > 0 ? 'twotone' : 'outline'"></span>
+                    <span class="ps-1">2</span>
+                </nz-comment-action>
+            </nz-comment>
+        </div>
+    </div>
+</div>

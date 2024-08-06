@@ -39,3 +39,15 @@ body {
     display: block;
 }
 
+.small-font {
+    font-size: small;
+}
+
+.line-gap {
+    line-height: 1;
+}
+
+.comments-section {
+    max-height: 25rem;
+    overflow-y: auto;
+}
