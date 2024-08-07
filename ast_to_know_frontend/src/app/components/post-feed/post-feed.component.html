@@ -5,7 +5,7 @@
     </div>
 </nz-card>
 
-<div class="shadow-sm mt-2 border rounded-1" nz-row>
+<div class="shadow-sm mt-2 border rounded-1" nz-row *ngFor="let post of all_post">
     <div class="bg-body-secondary p-2" nz-col nzSpan="24">
         <div nz-flex nzJustify="space-between" nzAlign="center">
             <div nz-flex nzAlign="center">
@@ -18,8 +18,8 @@
                     </a>
                 </div>
                 <div class="ps-3" nz-flex [nzVertical]="true">
-                    <span class="fw-medium text-primary small-font line-gap">Md Jahid Hasan</span>
-                    <span class="fw-light small-font">11 hours ago</span>
+                    <span class="fw-medium text-primary small-font line-gap"> {{post.user.name}} </span>
+                    <span class="fw-light small-font">{{getTimeDifference(post.created_at)}}</span>
                 </div>
             </div>
             <div>
@@ -28,19 +28,27 @@
         </div>
     </div>
     <div class="bg-white p-2 border rounded-1" nz-col nzSpan="24">
-        <p>Some text that asked by question</p>
+        <p> {{post.content}} </p>
     </div>
     <div class="bg-body-secondary p-2" nz-col nzSpan="24">
-        <button nz-button nzType="primary" nzShape="round" (click)="toggleVoteView()">Vote</button>
-        <button class="ms-2" nz-button nzType="primary" nzShape="round" (click)="toggleCommentView()">Comments</button>
+        <button nz-button nzType="primary" nzShape="round" (click)="toggleVoteView()">
+            Vote ({{post.average_votes}})
+        </button>
+        <button class="ms-2" nz-button nzType="primary" nzShape="round" (click)="toggleCommentView(post.id)">
+            Comments ({{post.total_comments}})
+        </button>
     </div>
+
+    <!--    Vote Section -->
     <div class="bg-body-secondary p-2" [class]="!is_visible_vote ? 'd-none' : ''" nz-col nzSpan="24">
         <nz-radio-group>
             <label *ngFor="let n of [0,1,2,3,4,5,6,7,8,9,10]" nz-radio-button [nzValue]="n"
             class="border rounded-1">{{ n }}</label>
         </nz-radio-group>
     </div>
-    <div class="comments-section bg-body-secondary" [class]="is_visible_comments ? 'd-block' : 'd-none'">
+
+    <!--    Comment Section -->
+    <div class="comments-section bg-body-secondary" nz-col nzSpan="24" [class]="is_visible_comments==post.id ? 'd-block' : 'd-none'">
         <div class="bg-body-secondary p-2" nz-col nzSpan="24">
             <div nz-row nzJustify="end">
                 <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Share your thoughts"></textarea>
@@ -48,30 +56,17 @@
             </div>
         </div>
 
-        <div class="p-2" nz-col nzSpan="24">
-            <nz-comment class="border rounded-4 bg-white ps-2">
-                <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
-                <nz-comment-content>
-                    <p>
-                        We supply a series of design principles, practical patterns and high quality design resources
-                        (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
-                    </p>
-                </nz-comment-content>
-                <nz-comment-action>
-                    <span nz-tooltip nzTitle="Like" nz-icon nzType="like"
-                          [nzTheme]="1 > 0 ? 'twotone' : 'outline'"></span>
-                    <span class="ps-1">2</span>
-                </nz-comment-action>
-            </nz-comment>
+        <div class="p-1" nz-col nzSpan="24" *ngIf="!all_comments[post.id]">
+            <nz-skeleton [nzAvatar]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
         </div>
 
-        <div class="p-1" nz-col nzSpan="24">
-            <nz-comment class="border rounded-4 bg-white ps-1">
+        <div class="p-2" nz-col nzSpan="24" *ngFor="let comment of all_comments[post.id]">
+            <nz-comment class="border rounded-4 bg-white ps-1" [nzAuthor]="comment.user.name"
+                        [nzDatetime]="getTimeDifference(comment.comment_at)">
                 <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
                 <nz-comment-content>
                     <p>
-                        We supply a series of design principles, practical patterns and high quality design resources
-                        (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
+                        {{comment.content}}
                     </p>
                 </nz-comment-content>
                 <nz-comment-action>
