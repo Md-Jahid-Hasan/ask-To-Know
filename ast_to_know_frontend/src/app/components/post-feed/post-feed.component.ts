@@ -16,6 +16,7 @@ import {PostFeedService} from "../../services/post-feed.service";
 import {Post} from "../../services/Post";
 import {getTimeDifference} from "../common/time"
 import {NzSkeletonComponent} from "ng-zorro-antd/skeleton";
+import {FormsModule} from "@angular/forms";
 
 
 @Component({
@@ -25,16 +26,19 @@ import {NzSkeletonComponent} from "ng-zorro-antd/skeleton";
         NzCardComponent, NzColDirective, NzRowDirective, NzButtonComponent, NzFlexDirective, NzIconDirective,
         NzCollapseComponent, NzCollapsePanelComponent, NzRadioGroupComponent, NzRadioComponent, NgForOf,
         NzCommentComponent, NzCommentActionComponent, NzTooltipDirective, NzAvatarComponent,
-        NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf
+        NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule
     ],
     templateUrl: './post-feed.component.html',
     styleUrl: './post-feed.component.css'
 })
 export class PostFeedComponent implements OnInit{
-    is_visible_vote: boolean = false
+    is_visible_vote: boolean|number = false
     is_visible_comments: boolean|number = false
     all_post: Post[] = []
     all_comments: any = {}
+    new_post: string = ""
+    new_comment: string = ""
+    rating: string = ""
 
     constructor(private post_service: PostFeedService) {}
 
@@ -46,13 +50,22 @@ export class PostFeedComponent implements OnInit{
         }
     }
 
-    toggleVoteView() {
-        this.is_visible_vote = !this.is_visible_vote
+    toggleVoteView(post_id:number) {
+        this.is_visible_vote = post_id == this.is_visible_vote ? false : post_id
     }
 
     toggleCommentView(post_id:number){
        this.is_visible_comments = post_id == this.is_visible_comments ? false : post_id
         if (!(post_id in this.all_comments)) this.getComments(post_id)
+        this.new_comment = ""
+
+    }
+
+    createNewPost(){
+        this.post_service.createPost({content: this.new_post}).subscribe(post =>{
+            this.all_post.unshift(post)
+            this.new_post = ""
+        })
     }
 
     getComments(post_id: number) {
@@ -61,6 +74,21 @@ export class PostFeedComponent implements OnInit{
                 this.all_comments[post_id] = comments.results
             })
         }
+    }
+
+    createComments(post_id: number){
+        if (typeof window !== 'undefined' && window.localStorage){
+            this.post_service.createComment(post_id, {content: this.new_comment}).subscribe(comment => {
+                let prev_comments = this.all_comments[post_id] || []
+                prev_comments.unshift(comment)
+                this.all_comments[post_id] = prev_comments
+                this.new_comment = ""
+            })
+        }
+    }
+
+    giveVote(post_id: number){
+
     }
 
     protected readonly getTimeDifference = getTimeDifference;
