@@ -1,7 +1,7 @@
 <nz-card class="mt-3 rounded" nzTitle="Create a Public Post">
     <form nz-row nzJustify="end" (ngSubmit)="createNewPost()">
         <textarea class="rounded p-2" nz-col nzSpan="24" rows="4" placeholder="Share your thoughts"
-        [(ngModel)]="new_post" name="new_post"></textarea>
+                  [(ngModel)]="new_post" name="new_post"></textarea>
         <button class="mt-3" nz-button nzType="primary" nzShape="round" type="submit">Share</button>
     </form>
 </nz-card>
@@ -19,41 +19,49 @@
                     </a>
                 </div>
                 <div class="ps-3" nz-flex [nzVertical]="true">
-                    <span class="fw-medium text-primary small-font line-gap"> {{post.user.name}} </span>
-                    <span class="fw-light small-font">{{getTimeDifference(post.created_at)}}</span>
+                    <span class="fw-medium text-primary small-font line-gap"> {{ post.user.name }} </span>
+                    <span class="fw-light small-font">{{ getTimeDifference(post.created_at) }}</span>
                 </div>
             </div>
-            <div>
-                <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
-            </div>
+<!--            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">-->
+<!--                <span nz-icon nzType="ellipsis" nzTheme="outline"></span>-->
+<!--            </a>-->
+<!--            <nz-dropdown-menu #menu="nzDropdownMenu">-->
+<!--                <ul nz-menu>-->
+<!--                    <li nz-menu-item>Delete</li>-->
+<!--                </ul>-->
+<!--            </nz-dropdown-menu>-->
         </div>
     </div>
     <div class="bg-white p-2 border rounded-1" nz-col nzSpan="24">
-        <p> {{post.content}} </p>
+        <p> {{ post.content }} </p>
     </div>
     <div class="bg-body-secondary p-2" nz-col nzSpan="24">
-        <button nz-button nzType="primary" nzShape="round" (click)="toggleVoteView(post.id)">
-            Vote ({{post.average_votes}})
+        <button nz-button nzType="primary" nzShape="round" (click)="toggleVoteView(post.id)" nz-tooltip
+                disabled="{{post.is_voted}}" nzTooltipColor="blue" nzTooltipTitle="You already voted"
+                [nzTooltipTrigger]="post.is_voted ? 'hover': null">
+            Vote ({{ post.average_votes }})
         </button>
         <button class="ms-2" nz-button nzType="primary" nzShape="round" (click)="toggleCommentView(post.id)">
-            Comments ({{post.total_comments}})
+            Comments ({{ post.total_comments }})
         </button>
     </div>
 
     <!--    Vote Section -->
     <div class="bg-body-secondary p-2" [class]="!(is_visible_vote==post.id) ? 'd-none' : ''" nz-col nzSpan="24">
-        <nz-radio-group [(ngModel)]="rating">
+        <nz-radio-group [(ngModel)]="rating" [nzDisabled]="post.is_voted" (ngModelChange)="giveVote(post.id)">
             <label *ngFor="let n of [0,1,2,3,4,5,6,7,8,9,10]" nz-radio-button [nzValue]="n"
-                class="border rounded-1">{{ n }}</label>
+                   class="border rounded-1">{{ n }}</label>
         </nz-radio-group>
     </div>
 
     <!--    Comment Section -->
-    <div class="comments-section bg-body-secondary" nz-col nzSpan="24" [class]="is_visible_comments==post.id ? 'd-block' : 'd-none'">
+    <div class="comments-section bg-body-secondary" nz-col nzSpan="24"
+         [class]="is_visible_comments==post.id ? 'd-block' : 'd-none'">
         <div class="bg-body-secondary p-2" nz-col nzSpan="24">
             <form nz-row nzJustify="end" (ngSubmit)="createComments(post.id)">
                 <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Share your thoughts"
-                [(ngModel)]="new_comment" name="new_comment"></textarea>
+                          [(ngModel)]="new_comment" name="new_comment"></textarea>
                 <button class="mt-3" type="submit" nz-button nzType="primary" nzShape="round">Share</button>
             </form>
         </div>
@@ -67,15 +75,24 @@
                         [nzDatetime]="getTimeDifference(comment.comment_at)">
                 <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
                 <nz-comment-content>
-                    <p>
-                        {{comment.content}}
-                    </p>
+                    <p>{{ comment.content }}</p>
+
+                    <div class="d-flex justify-content-end pe-3" [class]="comment.is_owner ? '' : 'd-none'">
+                        <a class="w-25 d-flex justify-content-end" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
+                        </a>
+                    </div>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="deleteComment(comment.id, post.id)">Delete</li>
+                        </ul>
+                    </nz-dropdown-menu>
                 </nz-comment-content>
-                <nz-comment-action>
-                    <span nz-tooltip nzTitle="Like" nz-icon nzType="like"
-                          [nzTheme]="1 > 0 ? 'twotone' : 'outline'"></span>
-                    <span class="ps-1">2</span>
-                </nz-comment-action>
+<!--                <nz-comment-action>-->
+<!--                    <span nz-tooltip nzTitle="Like" nz-icon nzType="like"-->
+<!--                          [nzTheme]="1 > 0 ? 'twotone' : 'outline'"></span>-->
+<!--                    <span class="ps-1">2</span>-->
+<!--                </nz-comment-action>-->
             </nz-comment>
         </div>
     </div>
