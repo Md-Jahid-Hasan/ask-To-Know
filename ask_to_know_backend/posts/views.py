@@ -19,16 +19,12 @@ class BasePagination(PageNumberPagination):
 class PostFeedView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = BasePagination
-    queryset = Posts.objects.all()
+    queryset = Posts.objects.all().order_by('-created_at')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return PostCreateSerializer
         return PostSerializer
-
-    def post(self, request, *args, **kwargs):
-        self.create(request, *args, **kwargs)
-        return Response({"result": True}, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -50,8 +46,8 @@ class PostVoteAPIView(APIView):
             post_id = kwargs['pk']
             post = Posts.objects.get(pk=post_id)
             post.votes.add(request.user, through_defaults={'rating': rating})
-
-        return Response({"result": True}, status=status.HTTP_200_OK)
+            return Response({"result": True, "average": post.average_votes}, status=status.HTTP_200_OK)
+        return Response({"result": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class PostCommentView(ListCreateAPIView, DestroyAPIView):
@@ -78,10 +74,6 @@ class PostCommentView(ListCreateAPIView, DestroyAPIView):
         except Posts.DoesNotExist:
             raise serializers.ValidationError({"post": ["Post does not exist"]})
         return PostComments.objects.filter(post=post)
-
-    def post(self, request, *args, **kwargs):
-        self.create(request, *args, **kwargs)
-        return Response({"result": True}, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         try:

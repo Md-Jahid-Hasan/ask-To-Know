@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model as User
 from django.db.models import Avg
-from django.db.models.signals import m2m_changed, post_save
+from django.db.models.signals import m2m_changed, post_save, post_delete
 from django.dispatch import receiver
 
 
@@ -44,7 +44,15 @@ def update_total_likes(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=PostComments)
-def update_total_comments(sender, instance, **kwargs):
+def update_total_comments(sender, instance, created, **kwargs):
+    if created:
+        post = instance.post
+        post.total_comments += 1
+        post.save()
+
+
+@receiver(post_delete, sender=PostComments)
+def update_total_comments_after_delete(sender, instance, **kwargs):
     post = instance.post
-    post.total_comments += 1
+    post.total_comments -= 1
     post.save()
