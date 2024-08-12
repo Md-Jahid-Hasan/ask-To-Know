@@ -9,8 +9,8 @@ export class PostFeedService {
 
     constructor(private http: HttpClient) {}
 
-    getPostFeed(): Observable<any>{
-        return this.http.get<any>("/api/post/")
+    getPostFeed(page_number: number): Observable<any>{
+        return this.http.get<any>(`api/post/?page=${page_number}`)
     }
 
     createPost(post: {content: string}):Observable<any>{

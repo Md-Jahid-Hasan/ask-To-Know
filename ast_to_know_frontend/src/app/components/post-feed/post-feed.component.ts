@@ -20,6 +20,7 @@ import {FormsModule} from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 
 @Component({
@@ -29,7 +30,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
         NzCardComponent, NzColDirective, NzRowDirective, NzButtonComponent, NzFlexDirective, NzIconDirective,
         NzCollapseComponent, NzCollapsePanelComponent, NzRadioGroupComponent, NzRadioComponent, NgForOf,
         NzCommentComponent, NzCommentActionComponent, NzTooltipDirective, NzAvatarComponent,
-        NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule, NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent
+        NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule, NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, InfiniteScrollModule
     ],
     templateUrl: './post-feed.component.html',
     styleUrl: './post-feed.component.css'
@@ -38,19 +39,26 @@ export class PostFeedComponent implements OnInit {
     is_visible_vote: boolean | number = false
     is_visible_comments: boolean | number = false
     all_post: Post[] = []
-    all_comments:any = {}
+    all_comments: any = {}
     new_post: string = ""
     new_comment: string = ""
     rating: string = ""
+    post_page_number: number = 1
 
     constructor(private post_service: PostFeedService, private messageService: NzMessageService) {
     }
 
     ngOnInit() {
         if (typeof window !== 'undefined' && window.localStorage) {
-            this.post_service.getPostFeed().subscribe(posts => {
-                this.all_post = posts.results
-            })
+            this.getPosts()
+        }
+    }
+
+    onScroll() {
+        console.log("scrolled!!");
+        if (this.post_page_number !== 0) {
+            this.post_page_number += 1
+            this.getPosts()
         }
     }
 
@@ -65,6 +73,14 @@ export class PostFeedComponent implements OnInit {
 
     }
 
+    getPosts() {
+        if (this.post_page_number!==0)
+            this.post_service.getPostFeed(this.post_page_number).subscribe(posts => {
+                this.all_post = this.all_post.concat(posts.results)
+                if (posts.next===null) this.post_page_number = 0
+            })
+    }
+
     createNewPost() {
         this.post_service.createPost({content: this.new_post}).subscribe(post => {
                 this.all_post.unshift(post)
@@ -73,7 +89,7 @@ export class PostFeedComponent implements OnInit {
             },
             error => {
                 let error_message = error.error
-                for (const key in error_message){
+                for (const key in error_message) {
                     this.messageService.error(`${key}: ${error_message[key][0]}`)
                 }
 
@@ -96,8 +112,8 @@ export class PostFeedComponent implements OnInit {
                 this.all_comments[post_id] = prev_comments
                 this.new_comment = ""
 
-                this.all_post = this.all_post.map(post => post.id===post_id ?
-                {...post, total_comments:post.total_comments+1} : post)
+                this.all_post = this.all_post.map(post => post.id === post_id ?
+                    {...post, total_comments: post.total_comments + 1} : post)
             })
         }
     }
@@ -112,15 +128,15 @@ export class PostFeedComponent implements OnInit {
         })
     }
 
-    deleteComment(comment_id: number, post_id: number){
+    deleteComment(comment_id: number, post_id: number) {
         this.post_service.deleteComment(comment_id).subscribe(res => {
             let comments: Comment[] = this.all_comments[post_id] || []
             comments = comments.filter(comm => comm.id !== comment_id)
             this.all_comments[post_id] = comments
 
-            this.all_post = this.all_post.map(post => post.id===post_id ?
-                {...post, total_comments:post.total_comments-1} : post)
-            this.messageService.success("successfully deleted your message")
+            this.all_post = this.all_post.map(post => post.id === post_id ?
+                {...post, total_comments: post.total_comments - 1} : post)
+            this.messageService.success("successfully deleted your comment")
         })
     }
 
