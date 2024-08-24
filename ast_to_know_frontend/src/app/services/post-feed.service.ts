@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
     providedIn: 'root'
 })
 export class PostFeedService {
+    user_question_visibility = new Subject<boolean>()
 
     constructor(private http: HttpClient) {}
 

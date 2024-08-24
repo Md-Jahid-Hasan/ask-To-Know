@@ -1,12 +1,15 @@
-<div class="card border border-0 accordion" style="margin-left: 16rem">
+<div class="card border border-0 accordion">
     <div class="card-header border">
         <h5 class="mb-0">My Questions</h5>
     </div>
-    <div class="card-body p-0 border-end border-start rounded-bottom">
-            <div *ngFor="let question of questions">
+
+    <nz-spin nzTip="Getting Questions..." [nzSize]="'large'" [nzSpinning]="is_loading">
+        <div class="card-body p-0 border-end border-start rounded-bottom">
+            <div *ngFor="let question of getQuestions()">
                 <nz-ribbon *ngIf="!question.answer && question.expected_answer_at"
                            [nzText]="getExpectedAnswerTime(question.expected_answer_at)"
-                           [nzColor]="isExpectedAnswerDelay ? 'red' :'#ffc107'"></nz-ribbon>
+                           [nzColor]="isExpectedAnswerDelay ? 'red' :'#ffc107'">
+                </nz-ribbon>
                 <div class="border-top p-2 d-flex text-decoration-none"
                      [ngClass]="question.answer && 'accordion-button collapsed'" type="button" data-bs-toggle="collapse"
                      [attr.data-bs-target]="'#'+question.id" aria-expanded="false" aria-controls="collapseOne">
@@ -27,13 +30,16 @@
                         <quill-view-html class="mb-3" [content]="question.answer || ''" theme="snow"></quill-view-html>
                         <nz-tag *ngFor="let attachment of question.agent_attachments" nzColor="processing">
                             <a class="text-decoration-none" href="{{attachment.attachment}}" target="_blank">
-                                {{attachment.name}} <span class="ps-1" nz-icon nzType="download" nzTheme="outline"></span>
+                                {{ attachment.name }} <span class="ps-1" nz-icon nzType="download"
+                                                            nzTheme="outline"></span>
                             </a>
                         </nz-tag>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
+    </nz-spin>
+
     <app-pagination [current_page]="current_page" [total_pages]="total_pages"
                     (paginatedData)="paginatedData($event)"></app-pagination>
 </div>

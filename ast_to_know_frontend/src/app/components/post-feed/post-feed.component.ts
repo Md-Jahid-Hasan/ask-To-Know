@@ -21,6 +21,8 @@ import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdo
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {NzDrawerModule } from "ng-zorro-antd/drawer";
+import {UserHomeComponent} from "../user-home/user-home.component";
 
 
 @Component({
@@ -30,10 +32,13 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         NzCardComponent, NzColDirective, NzRowDirective, NzButtonComponent, NzFlexDirective, NzIconDirective,
         NzCollapseComponent, NzCollapsePanelComponent, NzRadioGroupComponent, NzRadioComponent, NgForOf,
         NzCommentComponent, NzCommentActionComponent, NzTooltipDirective, NzAvatarComponent,
-        NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule, NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, InfiniteScrollModule
+        NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule,
+        NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, InfiniteScrollModule,
+        NzDrawerModule, UserHomeComponent
     ],
     templateUrl: './post-feed.component.html',
-    styleUrl: './post-feed.component.css'
+    styleUrl: './post-feed.component.css',
+    host: {ngSkipHydration: 'true'}
 })
 export class PostFeedComponent implements OnInit {
     is_visible_vote: boolean | number = false
@@ -44,18 +49,19 @@ export class PostFeedComponent implements OnInit {
     new_comment: string = ""
     rating: string = ""
     post_page_number: number = 1
+    is_loading: boolean = false
+    user_questions_visible: boolean = false
 
     constructor(private post_service: PostFeedService, private messageService: NzMessageService) {
     }
 
     ngOnInit() {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            this.getPosts()
-        }
+        this.post_service.user_question_visibility.subscribe(
+            data => this.user_questions_visible=data)
+        if (typeof window !== 'undefined' && window.localStorage) {this.getPosts()}
     }
 
     onScroll() {
-        console.log("scrolled!!");
         if (this.post_page_number !== 0) {
             this.post_page_number += 1
             this.getPosts()
@@ -75,10 +81,12 @@ export class PostFeedComponent implements OnInit {
 
     getPosts() {
         if (this.post_page_number!==0)
+            this.is_loading = true
             this.post_service.getPostFeed(this.post_page_number).subscribe(posts => {
                 this.all_post = this.all_post.concat(posts.results)
                 if (posts.next===null) this.post_page_number = 0
-            })
+                this.is_loading = false
+            }, error => {this.is_loading=false})
     }
 
     createNewPost() {
@@ -121,6 +129,7 @@ export class PostFeedComponent implements OnInit {
     giveVote(post_id: number) {
         this.post_service.votePost(post_id, {rating: this.rating}).subscribe(res => {
             if (res.result == true) {
+                this.messageService.success("Your vote is recorded")
                 this.all_post = this.all_post.map(post => post.id == post_id ?
                     {...post, is_voted: true, average_votes: res.average} : post)
                 this.is_visible_vote = false
@@ -138,6 +147,16 @@ export class PostFeedComponent implements OnInit {
                 {...post, total_comments: post.total_comments - 1} : post)
             this.messageService.success("successfully deleted your comment")
         })
+    }
+
+    closeUserQuestions(){
+        this.post_service.user_question_visibility.next(false)
+    }
+
+    userQuestionsVisibilityChange(){
+        if (this.user_questions_visible) {
+            console.log("user question task todo")
+        }
     }
 
     protected readonly getTimeDifference = getTimeDifference;

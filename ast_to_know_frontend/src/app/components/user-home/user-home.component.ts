@@ -40,7 +40,6 @@ const modules = {
     styleUrl: './user-home.component.css'
 })
 export class UserHomeComponent implements OnInit {
-    categories: any[] = []
     searched_categories: any[] = []
     selected_category: string | null = null
     question: { question: string, category: number | null} = {
@@ -53,11 +52,13 @@ export class UserHomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && this.user_home.categories.length == 0) {
             this.user_home.getAllCategory().subscribe(categories => {
-                this.categories = categories
                 this.searched_categories = categories
+                this.user_home.categories = categories
             })
+        } else {
+            this.searched_categories = this.user_home.categories
         }
     }
 
@@ -76,8 +77,8 @@ export class UserHomeComponent implements OnInit {
 
     searchCategory(event: any) {
         let query = event.target.value
-        if (query == "") this.searched_categories = this.categories
-        else this.searched_categories = this.categories.filter(cat => cat.name.toLowerCase().includes(query))
+        if (query == "") this.searched_categories = this.user_home.categories
+        else this.searched_categories = this.user_home.categories.filter(cat => cat.name.toLowerCase().includes(query))
     }
 
     submitQuestion() {
