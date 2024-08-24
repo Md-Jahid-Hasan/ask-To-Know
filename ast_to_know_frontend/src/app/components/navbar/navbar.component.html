@@ -18,9 +18,13 @@
         </li>
     </ul>
     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
-<!--        <li class="nav-item me-2">-->
-<!--            <a class="nav-link btn btn-sm btn-light border border-2 text-secondary" routerLink="/agent"> Agent</a>-->
-<!--        </li>-->
+        @if (is_admin !== null && !is_admin) {
+            <li class="nav-item me-2">
+                <button class="btn btn-sm btn-info border border-2 rounded-3 p-2"
+                        (click)="openUserQuestionSection()">Ask a Question
+                </button>
+            </li>
+        }
 
         <li class="nav-item dropdown">
             <a class="nav-link px-0" role="button" data-bs-toggle="dropdown" aria-haspopup="true"

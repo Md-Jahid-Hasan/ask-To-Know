@@ -34,6 +34,7 @@ export class LoginComponent {
             alert("Valid Data not provided")
         else {
             this.userService.userLogin(this.user_details).subscribe(user_data => {
+                    this.userService.currentUser.next(user_data.user)
                     localStorage.setItem('token', user_data.access)
                     this.router.navigate(["/"])
                 },

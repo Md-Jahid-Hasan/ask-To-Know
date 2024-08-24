@@ -24,5 +24,5 @@ export const userAuthGuard = () => {
             router.navigate(['/login'])
             return false
         }
-    } else return true
+    } else return false
 }

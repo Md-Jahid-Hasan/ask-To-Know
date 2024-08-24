@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {NgIf} from "@angular/common";
 import {AgentCreateComponent} from "../agent-create/agent-create.component";
+import {PostFeedService} from "../../services/post-feed.service";
 
 @Component({
   selector: 'app-navbar',
@@ -17,15 +18,15 @@ import {AgentCreateComponent} from "../agent-create/agent-create.component";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit{
-    is_admin: boolean = false;
+    is_admin: boolean|null = null;
     is_create_agent_open: boolean = false;
 
-    constructor(private router: Router, private user_service: UserService) {}
+    constructor(private router: Router, private user_service: UserService, private post_feed: PostFeedService) {}
 
     doLogout() {
         if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.removeItem("token")
             this.router.navigate(['/login'])
+            localStorage.removeItem("token")
         }
     }
 
@@ -39,6 +40,10 @@ export class NavbarComponent implements OnInit{
 
     closeCreateAgentModal(){
         this.is_create_agent_open = false
+    }
+
+    openUserQuestionSection(){
+        if (!this.is_admin) this.post_feed.user_question_visibility.next(true)
     }
 
 }
