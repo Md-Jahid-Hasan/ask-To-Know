@@ -5,6 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model as User
 from .tasks import send_agent_create_mail
 
+
 class UserDetailsSerializerForUser(serializers.ModelSerializer):
     """Serializer for user details. Returns fields with username, email and is_staff."""
     class Meta:
@@ -38,10 +39,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        serializer = UserDetailsSerializerForUser(self.user).data
-
-        for k, v in serializer.items():
-            data[k] = v
+        if self.user.is_staff:
+            serializer = UserDetailsSerializerForAdmin(self.user).data
+        else:
+            serializer = UserDetailsSerializerForUser(self.user).data
+        data['user'] = serializer
+        # for k, v in serializer.items():
+        #     data[k] = v
 
         return data
 

@@ -9,3 +9,10 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         else:
             return obj.user == request.user
+
+
+class IsRoleAdmin(permissions.BasePermission):
+    message = 'Your role need to be Admin to perform this action'
+
+    def has_permission(self, request, view):
+        return request.user.role == "admin"

@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from .serializers import (MyTokenObtainPairSerializer, UserCreateSerializer, UserDetailsSerializerForAdmin,
                           UserDetailsSerializerForUser, AgentCreateSerializer)
 from django.contrib.auth import get_user_model as User
+from ask_to_know_backend.custom_permissions import IsRoleAdmin
 
 
 class LoginView(TokenObtainPairView):
@@ -32,6 +33,12 @@ class UpdateUserView(generics.UpdateAPIView):
 
 class UpdateAdminStatus(APIView):
     permission_classes = (permissions.IsAdminUser,)
+
+    def get_permissions(self):
+        permissions = super().get_permissions()
+        if self.request.method == "POST":
+            permissions.append(IsRoleAdmin())
+        return permissions
 
     def get(self, request, *args, **kwargs):
         try:
