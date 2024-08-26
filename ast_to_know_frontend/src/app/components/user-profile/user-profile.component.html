@@ -11,10 +11,16 @@
                         <input class="form-control" id="name" name="name" type="text" [(ngModel)]="user_data.name"
                                (change)="handleUpdateData($event)">
                     </div>
-                    <div class="col-lg-12">
+                    <div [class]="user_data.is_staff ? 'col-lg-6' : 'col-lg-12' ">
                         <label class="form-label">Username</label>
                         <input class="form-control" type="text" disabled [value]="user_data.username">
                     </div>
+                    @if (user_data.is_staff){
+                        <div class="col-lg-6">
+                            <label class="form-label">Admin Role</label>
+                            <input class="form-control" type="text" disabled [value]="user_data.role">
+                        </div>
+                    }
                     <div class="col-lg-6">
                         <label class="form-label" for="email">Email</label>
                         <input class="form-control" id="email" name="email" type="email" [(ngModel)]="user_data.email"

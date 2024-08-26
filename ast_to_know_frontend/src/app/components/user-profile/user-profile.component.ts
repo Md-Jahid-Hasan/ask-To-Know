@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {NgIf} from "@angular/common";
-import {User} from "../../services/User";
 import {FormsModule} from "@angular/forms";
 import {NzColDirective} from "ng-zorro-antd/grid";
 import {NzFormControlComponent} from "ng-zorro-antd/form";
@@ -30,7 +29,6 @@ export class UserProfileComponent implements OnInit {
     constructor(private userService: UserService) {}
 
     ngOnInit() {
-        if (typeof window !== 'undefined') this.userService.getLoginUser()
         this.userService.currentUser.subscribe(user => this.user_data = user)
     }
 

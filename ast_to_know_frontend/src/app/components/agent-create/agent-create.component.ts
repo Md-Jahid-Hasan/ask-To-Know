@@ -34,6 +34,7 @@ export class AgentCreateComponent implements OnInit {
     username_validate_status: string = "";
     name_validate_status: string = "";
     email_validate_status: string = "";
+    user_role:string = ""
 
     username_subject = new Subject();
     user_details: NewAgent = {name: "", username: "", email: ""};
@@ -43,13 +44,13 @@ export class AgentCreateComponent implements OnInit {
 
     @Output() close_create_agent_from_parent = new EventEmitter();
 
-    constructor(private user_service: UserService, private agent_service: AgentService, private message: NzMessageService) {
-    }
+    constructor(private user_service: UserService, private agent_service: AgentService,
+                private message: NzMessageService) {}
 
     ngOnInit() {
-        this.username_subject.pipe(
-            debounceTime(1500)
-        ).subscribe(value => {
+        this.user_service.currentUser.subscribe(user => this.user_role=user.role||"")
+
+        this.username_subject.pipe(debounceTime(1500)).subscribe(value => {
             this.username_validate_status = "validating"
             this.user_service.checkUniqueUsername(value).subscribe(response => {
                 if (response.is_unique == true) {
@@ -62,27 +63,37 @@ export class AgentCreateComponent implements OnInit {
     }
 
     handleOk() {
-        let input_email = this.user_details.email.split(" ").join("")
-        let input_name = this.user_details.name.split(" ").join("")
+        if (this.user_role === "admin") {
+            let input_email = this.user_details.email.split(" ").join("")
+            let input_name = this.user_details.name.split(" ").join("")
 
-        if (input_email == "") this.email_validate_status = "error"
-        if (input_name == "") this.name_validate_status = "error"
+            if (input_email == "") this.email_validate_status = "error"
+            if (input_name == "") this.name_validate_status = "error"
 
-        if (input_name != "" && input_email != "" && this.user_details.username != "") {
-            this.agent_create_modal_loading = true
-            this.agent_service.createNewAgent(this.user_details).subscribe(res => {
-                if (res.success == true) this.message.success("New Agent successfully create")
-                this.agent_create_modal_loading = false
-                this.is_visible = false
-                this.user_details = {name: "", username: "", email: ""}
-                this.close_create_agent_from_parent.emit()
-            }, error => {
-                for (let property in error.error) {
-                    this.message.error(error.error[property][0], {nzDuration: 5000})
-                }
-                this.agent_create_modal_loading = false
-            })
-        } else this.is_visible = true
+            if (input_name != "" && input_email != "" && this.user_details.username != "") {
+                this.agent_create_modal_loading = true
+                this.agent_service.createNewAgent(this.user_details).subscribe(res => {
+                    if (res.success == true) this.message.success("New Agent successfully create")
+                    this.agent_create_modal_loading = false
+                    this.is_visible = false
+                    this.user_details = {name: "", username: "", email: ""}
+                    this.close_create_agent_from_parent.emit()
+                }, error => {
+                    if(error.status == 403){
+                        this.message.error(error.error.detail)
+                    }
+                    else if(error.status == 500){
+                        this.message.error("something bad happened from our end. Sorry for the inconvenience")
+                    }
+                    else {
+                        for (let property in error.error) {
+                            this.message.error(error.error[property][0], {nzDuration: 5000})
+                        }
+                    }
+                    this.agent_create_modal_loading = false
+                })
+            } else this.is_visible = true
+        } else this.message.error("You are not allowed to create Agent")
     }
 
     handleCancel() {

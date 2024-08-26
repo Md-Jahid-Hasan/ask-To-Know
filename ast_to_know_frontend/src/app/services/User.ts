@@ -8,4 +8,15 @@ export interface User {
     confirm_password?: string
 }
 
+export interface UserDetails {
+    name: string,
+    email: string,
+    is_staff: boolean,
+    phone_number: string,
+    role: string,
+    id: number,
+    username: string,
+    admin_status?: boolean
+}
+
 export interface NewAgent {name:string, username:string, email:string}

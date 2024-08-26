@@ -67,7 +67,7 @@ export class AgentHomeComponent implements OnInit {
     ngOnInit() {
         //TODO solve error of after return from question details subject subscribe is not calling.
         this.user_service.currentUser.subscribe(user => {
-            this.agent_status = user.admin_status
+            this.agent_status = user.admin_status || false
             console.log(this.agent_status)
         })
 

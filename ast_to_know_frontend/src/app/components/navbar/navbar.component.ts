@@ -19,6 +19,7 @@ import {PostFeedService} from "../../services/post-feed.service";
 })
 export class NavbarComponent implements OnInit{
     is_admin: boolean|null = null;
+    user_role: string = ""
     is_create_agent_open: boolean = false;
 
     constructor(private router: Router, private user_service: UserService, private post_feed: PostFeedService) {}
@@ -31,7 +32,10 @@ export class NavbarComponent implements OnInit{
     }
 
     ngOnInit() {
-        this.user_service.currentUser.subscribe(user => this.is_admin=user.is_staff)
+        this.user_service.currentUser.subscribe(user => {
+            this.is_admin = user.is_staff
+            this.user_role = user.role
+        })
     }
 
     openCreateAgentModal(){
