@@ -73,7 +73,7 @@ class PostCommentView(ListCreateAPIView, DestroyAPIView):
             post = Posts.objects.get(pk=post_id)
         except Posts.DoesNotExist:
             raise serializers.ValidationError({"post": ["Post does not exist"]})
-        return PostComments.objects.filter(post=post)
+        return PostComments.objects.filter(post=post, reply_to=None).prefetch_related('replies')
 
     def perform_create(self, serializer):
         try:
