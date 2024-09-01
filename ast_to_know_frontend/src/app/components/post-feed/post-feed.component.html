@@ -61,45 +61,45 @@
         </div>
 
         <!--    Comment Section -->
-        <div class="comments-section bg-body-secondary" nz-col nzSpan="24"
-             [class]="is_visible_comments==post.id ? 'd-block' : 'd-none'">
-            <div class="bg-body-secondary p-2" nz-col nzSpan="24">
-                <form nz-row nzJustify="end" (ngSubmit)="createComments(post.id)">
-                <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Share your thoughts"
-                          [(ngModel)]="new_comment" name="new_comment"></textarea>
-                    <button class="mt-3" type="submit" nz-button nzType="primary" nzShape="round">Share</button>
-                </form>
-            </div>
+        <div class="comments-section bg-body-secondary" [class]="is_visible_comments==post.id ? 'd-block' : 'd-none'"
+             nz-col nzSpan="24">
 
             <div class="p-1" nz-col nzSpan="24" *ngIf="!all_comments[post.id]">
                 <nz-skeleton [nzAvatar]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
             </div>
 
             <div class="p-2" nz-col nzSpan="24" *ngFor="let comment of all_comments[post.id]">
-                <nz-comment class="border rounded-4 bg-white ps-1" [nzAuthor]="comment.user.name"
-                            [nzDatetime]="getTimeDifference(comment.comment_at)">
-                    <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
-                    <nz-comment-content>
-                        <p>{{ comment.content }}</p>
+                <app-comment [comment]="comment" [post]="post" [is_visible_comments]="is_visible_comments"
+                         (updateTotalComments)="updateTotalComments($event)" (removeComment)="removeComment($event)">bj
+                </app-comment>
+<!--                <nz-comment class="border rounded-4 bg-white ps-1" [nzAuthor]="comment.user.name"-->
+<!--                            [nzDatetime]="getTimeDifference(comment.comment_at)">-->
+<!--                    <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>-->
+<!--                    <nz-comment-content>-->
+<!--                        <p>{{ comment.content }}</p>-->
 
-                        <div class="d-flex justify-content-end pe-3" [class]="comment.is_owner ? '' : 'd-none'">
-                            <a class="w-25 d-flex justify-content-end" nz-dropdown nzTrigger="click"
-                               [nzDropdownMenu]="menu">
-                                <span nz-icon nzType="ellipsis" nzTheme="outline"></span>
-                            </a>
-                        </div>
-                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                            <ul nz-menu>
-                                <li nz-menu-item (click)="deleteComment(comment.id, post.id)">Delete</li>
-                            </ul>
-                        </nz-dropdown-menu>
-                    </nz-comment-content>
-                    <!--                <nz-comment-action>-->
-                    <!--                    <span nz-tooltip nzTitle="Like" nz-icon nzType="like"-->
-                    <!--                          [nzTheme]="1 > 0 ? 'twotone' : 'outline'"></span>-->
-                    <!--                    <span class="ps-1">2</span>-->
-                    <!--                </nz-comment-action>-->
-                </nz-comment>
+<!--                        <div class="d-flex justify-content-end pe-3" [class]="comment.is_owner ? '' : 'd-none'">-->
+<!--                            <a class="w-25 d-flex justify-content-end" nz-dropdown nzTrigger="click"-->
+<!--                               [nzDropdownMenu]="menu">-->
+<!--                                <span nz-icon nzType="ellipsis" nzTheme="outline"></span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <nz-dropdown-menu #menu="nzDropdownMenu">-->
+<!--                            <ul nz-menu>-->
+<!--                                <li nz-menu-item (click)="deleteComment(comment.id, post.id)">Delete</li>-->
+<!--                            </ul>-->
+<!--                        </nz-dropdown-menu>-->
+<!--                    </nz-comment-content>-->
+<!--                    <nz-comment-action>Reply To</nz-comment-action>-->
+<!--                </nz-comment>-->
+            </div>
+
+            <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+                <form nz-row nzJustify="end" (ngSubmit)="createComments(post.id)">
+                <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Share your thoughts"
+                          [(ngModel)]="new_comment" name="new_comment"></textarea>
+                    <button class="mt-3" type="submit" nz-button nzType="primary" nzShape="round">Share</button>
+                </form>
             </div>
         </div>
     </div>

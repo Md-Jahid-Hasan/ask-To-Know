@@ -23,6 +23,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {NzDrawerModule } from "ng-zorro-antd/drawer";
 import {UserHomeComponent} from "../user-home/user-home.component";
+import {CommentComponent} from "../post/comment/comment.component";
 
 
 @Component({
@@ -34,7 +35,7 @@ import {UserHomeComponent} from "../user-home/user-home.component";
         NzCommentComponent, NzCommentActionComponent, NzTooltipDirective, NzAvatarComponent,
         NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule,
         NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, InfiniteScrollModule,
-        NzDrawerModule, UserHomeComponent
+        NzDrawerModule, UserHomeComponent, CommentComponent
     ],
     templateUrl: './post-feed.component.html',
     styleUrl: './post-feed.component.css',
@@ -76,7 +77,6 @@ export class PostFeedComponent implements OnInit {
         this.is_visible_comments = post_id == this.is_visible_comments ? false : post_id
         if (!(post_id in this.all_comments)) this.getComments(post_id)
         this.new_comment = ""
-
     }
 
     getPosts() {
@@ -119,9 +119,10 @@ export class PostFeedComponent implements OnInit {
                 prev_comments.unshift(comment)
                 this.all_comments[post_id] = prev_comments
                 this.new_comment = ""
+                this.updateTotalComments({func: (x:number) => x+1, post_id:post_id})
 
-                this.all_post = this.all_post.map(post => post.id === post_id ?
-                    {...post, total_comments: post.total_comments + 1} : post)
+                // this.all_post = this.all_post.map(post => post.id === post_id ?
+                //     {...post, total_comments: post.total_comments + 1} : post)
             })
         }
     }
@@ -137,16 +138,16 @@ export class PostFeedComponent implements OnInit {
         })
     }
 
-    deleteComment(comment_id: number, post_id: number) {
-        this.post_service.deleteComment(comment_id).subscribe(res => {
-            let comments: Comment[] = this.all_comments[post_id] || []
-            comments = comments.filter(comm => comm.id !== comment_id)
-            this.all_comments[post_id] = comments
+    removeComment(comment_id: number) {
+        let post_id:any = this.is_visible_comments
+        let comments: Comment[] = this.all_comments[post_id] || []
+        comments = comments.filter(comm => comm.id !== comment_id)
+        this.all_comments[post_id] = comments
+    }
 
-            this.all_post = this.all_post.map(post => post.id === post_id ?
-                {...post, total_comments: post.total_comments - 1} : post)
-            this.messageService.success("successfully deleted your comment")
-        })
+    updateTotalComments(kwargs:{func: any, post_id: number}){
+        this.all_post = this.all_post.map(post => post.id === kwargs.post_id ?
+                {...post, total_comments: kwargs.func(post.total_comments)} : post)
     }
 
     closeUserQuestions(){
