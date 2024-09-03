@@ -12,7 +12,7 @@ import {
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
-import {Comment, Post} from "../../../services/Post";
+import {Post} from "../../../services/Post";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzSkeletonComponent} from "ng-zorro-antd/skeleton";
@@ -20,8 +20,8 @@ import {PostFeedService} from "../../../services/post-feed.service";
 import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
-  selector: 'app-comment',
-  standalone: true,
+    selector: 'app-comment',
+    standalone: true,
     imports: [
         NgForOf,
         NzAvatarComponent,
@@ -42,8 +42,8 @@ import {NzMessageService} from "ng-zorro-antd/message";
         NzSkeletonComponent,
         ReactiveFormsModule
     ],
-  templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+    templateUrl: './comment.component.html',
+    styleUrl: './comment.component.css'
 })
 export class CommentComponent {
     @Input() comment: any = {}
@@ -57,25 +57,37 @@ export class CommentComponent {
         user: {name: ""}
     }
     @Input() is_visible_comments: boolean | number = false
-    @Output() updateTotalComments : EventEmitter<any> = new EventEmitter()
-    @Output() removeComment : EventEmitter<any> = new EventEmitter()
 
-    constructor(private post_service: PostFeedService, private messageService: NzMessageService) {}
+    @Output() updateTotalComments: EventEmitter<any> = new EventEmitter()
+    @Output() removeComment: EventEmitter<any> = new EventEmitter()
+
+    constructor(private post_service: PostFeedService, private messageService: NzMessageService) {
+    }
 
     deleteComment(comment_id: number, post_id: number) {
         this.post_service.deleteComment(comment_id).subscribe(res => {
-            this.removeCommentContainer(comment_id)
-            this.updateTotalCommentsContainer(post_id)
+            this.removeCommentContainer({comment_id: comment_id, comment: {}})
+            // this.updateTotalCommentsContainer(post_id)
             this.messageService.success("successfully deleted your comment")
         })
     }
 
-    removeCommentContainer(comment_id:number){
-        this.removeComment.emit(comment_id)
+    removeCommentContainer(kwargs:{comment_id:number, comment:any}) {
+        if (this.comment.replies.length !== 0) {
+            if (this.comment.id === kwargs.comment_id){
+                this.removeComment.emit({comment_id: this.comment.id, comment: {}})
+            } else {
+                let new_comment = this.comment
+                new_comment.replies = this.comment.replies.filter((com: any) => com.id !== kwargs.comment_id)
+                this.removeComment.emit({comment_id: this.comment.id, comment: new_comment})
+            }
+        } else {
+            this.removeComment.emit({comment_id: this.comment.id, comment: {}})
+        }
     }
 
-    updateTotalCommentsContainer(post_id:number){
-        this.updateTotalComments.emit({func: (x:number) => x-1, post_id:post_id})
+    updateTotalCommentsContainer(post_id: number) {
+        this.updateTotalComments.emit({func: (x: number) => x - 1, post_id: post_id})
     }
 
     protected readonly getTimeDifference = getTimeDifference;

@@ -21,7 +21,7 @@ import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdo
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
-import {NzDrawerModule } from "ng-zorro-antd/drawer";
+import {NzDrawerModule} from "ng-zorro-antd/drawer";
 import {UserHomeComponent} from "../user-home/user-home.component";
 import {CommentComponent} from "../post/comment/comment.component";
 
@@ -58,8 +58,10 @@ export class PostFeedComponent implements OnInit {
 
     ngOnInit() {
         this.post_service.user_question_visibility.subscribe(
-            data => this.user_questions_visible=data)
-        if (typeof window !== 'undefined' && window.localStorage) {this.getPosts()}
+            data => this.user_questions_visible = data)
+        if (typeof window !== 'undefined' && window.localStorage) {
+            this.getPosts()
+        }
     }
 
     onScroll() {
@@ -80,13 +82,15 @@ export class PostFeedComponent implements OnInit {
     }
 
     getPosts() {
-        if (this.post_page_number!==0)
+        if (this.post_page_number !== 0)
             this.is_loading = true
-            this.post_service.getPostFeed(this.post_page_number).subscribe(posts => {
-                this.all_post = this.all_post.concat(posts.results)
-                if (posts.next===null) this.post_page_number = 0
-                this.is_loading = false
-            }, error => {this.is_loading=false})
+        this.post_service.getPostFeed(this.post_page_number).subscribe(posts => {
+            this.all_post = this.all_post.concat(posts.results)
+            if (posts.next === null) this.post_page_number = 0
+            this.is_loading = false
+        }, error => {
+            this.is_loading = false
+        })
     }
 
     createNewPost() {
@@ -119,7 +123,7 @@ export class PostFeedComponent implements OnInit {
                 prev_comments.unshift(comment)
                 this.all_comments[post_id] = prev_comments
                 this.new_comment = ""
-                this.updateTotalComments({func: (x:number) => x+1, post_id:post_id})
+                this.updateTotalComments({func: (x: number) => x + 1, post_id: post_id})
 
                 // this.all_post = this.all_post.map(post => post.id === post_id ?
                 //     {...post, total_comments: post.total_comments + 1} : post)
@@ -138,23 +142,24 @@ export class PostFeedComponent implements OnInit {
         })
     }
 
-    removeComment(comment_id: number) {
-        let post_id:any = this.is_visible_comments
+    removeComment(kwargs: { comment_id: number, comment: any }) {
+        let post_id: any = this.is_visible_comments
         let comments: Comment[] = this.all_comments[post_id] || []
-        comments = comments.filter(comm => comm.id !== comment_id)
+        comments = comments.map(comm => comm.id === kwargs.comment_id ? kwargs.comment : comm)
+            .filter(com => Object.keys(com).length !== 0)
         this.all_comments[post_id] = comments
     }
 
-    updateTotalComments(kwargs:{func: any, post_id: number}){
+    updateTotalComments(kwargs: { func: any, post_id: number }) {
         this.all_post = this.all_post.map(post => post.id === kwargs.post_id ?
-                {...post, total_comments: kwargs.func(post.total_comments)} : post)
+            {...post, total_comments: kwargs.func(post.total_comments)} : post)
     }
 
-    closeUserQuestions(){
+    closeUserQuestions() {
         this.post_service.user_question_visibility.next(false)
     }
 
-    userQuestionsVisibilityChange(){
+    userQuestionsVisibilityChange() {
         if (this.user_questions_visible) {
             console.log("user question task todo")
         }
