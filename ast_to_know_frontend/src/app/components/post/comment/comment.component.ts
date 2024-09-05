@@ -67,7 +67,7 @@ export class CommentComponent {
     deleteComment(comment_id: number, post_id: number) {
         this.post_service.deleteComment(comment_id).subscribe(res => {
             this.removeCommentContainer({comment_id: comment_id, comment: {}})
-            // this.updateTotalCommentsContainer(post_id)
+            this.updateTotalCommentsContainer({func: (x: number) => x - 1, post_id:post_id})
             this.messageService.success("successfully deleted your comment")
         })
     }
@@ -75,6 +75,9 @@ export class CommentComponent {
     removeCommentContainer(kwargs:{comment_id:number, comment:any}) {
         if (this.comment.replies.length !== 0) {
             if (this.comment.id === kwargs.comment_id){
+                let replies_delete = this.comment.replies.length
+                this.updateTotalCommentsContainer({func: (x: number) => x - replies_delete,
+                    post_id:this.is_visible_comments as number})
                 this.removeComment.emit({comment_id: this.comment.id, comment: {}})
             } else {
                 let new_comment = this.comment
@@ -86,8 +89,8 @@ export class CommentComponent {
         }
     }
 
-    updateTotalCommentsContainer(post_id: number) {
-        this.updateTotalComments.emit({func: (x: number) => x - 1, post_id: post_id})
+    updateTotalCommentsContainer(kwargs:{func:any, post_id: number}) {
+        this.updateTotalComments.emit({func: kwargs.func, post_id: kwargs.post_id})
     }
 
     protected readonly getTimeDifference = getTimeDifference;

@@ -6,15 +6,15 @@ import {NzFlexDirective} from "ng-zorro-antd/flex";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzCollapseComponent, NzCollapsePanelComponent} from "ng-zorro-antd/collapse";
 import {NzRadioComponent, NzRadioGroupComponent} from "ng-zorro-antd/radio";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {NzCommentActionComponent, NzCommentAvatarDirective, NzCommentComponent} from "ng-zorro-antd/comment";
 import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 import {NzAvatarComponent} from "ng-zorro-antd/avatar";
 import {NzCommentContentDirective} from "ng-zorro-antd/comment";
 
-import {PostFeedService} from "../../services/post-feed.service";
-import {Post, Comment} from "../../services/Post";
-import {getTimeDifference} from "../common/time"
+import {PostFeedService} from "../../../services/post-feed.service";
+import {Post, Comment} from "../../../services/Post";
+import {getTimeDifference} from "../../common/time"
 import {NzSkeletonComponent} from "ng-zorro-antd/skeleton";
 import {FormsModule} from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
@@ -22,8 +22,8 @@ import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {NzDrawerModule} from "ng-zorro-antd/drawer";
-import {UserHomeComponent} from "../user-home/user-home.component";
-import {CommentComponent} from "../post/comment/comment.component";
+import {UserHomeComponent} from "../../user-home/user-home.component";
+import {CommentComponent} from "../comment/comment.component";
 
 
 @Component({
@@ -35,7 +35,7 @@ import {CommentComponent} from "../post/comment/comment.component";
         NzCommentComponent, NzCommentActionComponent, NzTooltipDirective, NzAvatarComponent,
         NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule,
         NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, InfiniteScrollModule,
-        NzDrawerModule, UserHomeComponent, CommentComponent
+        NzDrawerModule, UserHomeComponent, CommentComponent, NgOptimizedImage
     ],
     templateUrl: './post-feed.component.html',
     styleUrl: './post-feed.component.css',
