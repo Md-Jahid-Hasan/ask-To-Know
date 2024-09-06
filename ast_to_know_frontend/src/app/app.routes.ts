@@ -7,7 +7,7 @@ import {AgentTaskComponent} from "./components/agent-task/agent-task.component";
 import {userAuthGuard} from "./guard/user-auth.guard";
 import {adminGuard} from "./guard/admin.guard";
 import {UserProfileComponent} from "./components/user-profile/user-profile.component";
-import {PostFeedComponent} from "./components/post-feed/post-feed.component";
+import {PostFeedComponent} from "./components/post/post-feed/post-feed.component";
 
 export const routes: Routes = [
     {path: '', component: PostFeedComponent, canActivate: [userAuthGuard]},

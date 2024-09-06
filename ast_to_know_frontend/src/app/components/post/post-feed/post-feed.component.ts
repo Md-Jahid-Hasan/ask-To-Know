@@ -24,6 +24,7 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {NzDrawerModule} from "ng-zorro-antd/drawer";
 import {UserHomeComponent} from "../../user-home/user-home.component";
 import {CommentComponent} from "../comment/comment.component";
+import {NzTagComponent} from "ng-zorro-antd/tag";
 
 
 @Component({
@@ -35,7 +36,7 @@ import {CommentComponent} from "../comment/comment.component";
         NzCommentComponent, NzCommentActionComponent, NzTooltipDirective, NzAvatarComponent,
         NzCommentAvatarDirective, NzCommentContentDirective, NzSkeletonComponent, NgIf, FormsModule,
         NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, InfiniteScrollModule,
-        NzDrawerModule, UserHomeComponent, CommentComponent, NgOptimizedImage
+        NzDrawerModule, UserHomeComponent, CommentComponent, NgOptimizedImage, NzTagComponent
     ],
     templateUrl: './post-feed.component.html',
     styleUrl: './post-feed.component.css',
@@ -45,16 +46,17 @@ export class PostFeedComponent implements OnInit {
     is_visible_vote: boolean | number = false
     is_visible_comments: boolean | number = false
     all_post: Post[] = []
-    all_comments: any = {}
     new_post: string = ""
-    new_comment: string = ""
-    rating: string = ""
     post_page_number: number = 1
+    all_comments: any = {}
+    new_comment: string = ""
+    comment_reply: number = 0
+    comment_reply_mention: string = ""
+    rating: string = ""
     is_loading: boolean = false
     user_questions_visible: boolean = false
 
-    constructor(private post_service: PostFeedService, private messageService: NzMessageService) {
-    }
+    constructor(private post_service: PostFeedService, private messageService: NzMessageService) {}
 
     ngOnInit() {
         this.post_service.user_question_visibility.subscribe(
@@ -104,7 +106,6 @@ export class PostFeedComponent implements OnInit {
                 for (const key in error_message) {
                     this.messageService.error(`${key}: ${error_message[key][0]}`)
                 }
-
             })
     }
 
@@ -118,17 +119,30 @@ export class PostFeedComponent implements OnInit {
 
     createComments(post_id: number) {
         if (typeof window !== 'undefined' && window.localStorage) {
-            this.post_service.createComment(post_id, {content: this.new_comment}).subscribe(comment => {
+            let comment:{content: string, reply_to?: number} = {content:"", reply_to:0}
+            if (this.comment_reply !== 0){comment = {content: this.new_comment, reply_to: this.comment_reply}}
+            else {comment = {content: this.new_comment}}
+
+            this.post_service.createComment(post_id, comment).subscribe(comment => {
                 let prev_comments = this.all_comments[post_id] || []
-                prev_comments.unshift(comment)
+
+                if (this.comment_reply === 0) prev_comments.unshift(comment)
+                else prev_comments.filter((com: any) => com.id===this.comment_reply)[0]['replies'].unshift(comment)
+
                 this.all_comments[post_id] = prev_comments
                 this.new_comment = ""
                 this.updateTotalComments({func: (x: number) => x + 1, post_id: post_id})
-
-                // this.all_post = this.all_post.map(post => post.id === post_id ?
-                //     {...post, total_comments: post.total_comments + 1} : post)
             })
         }
+    }
+
+    disableReply(e: Event){
+        this.comment_reply = 0
+    }
+
+    replyComment(kwargs: {comment_id: number, name: string}){
+        this.comment_reply = kwargs.comment_id
+        this.comment_reply_mention = kwargs.name
     }
 
     giveVote(post_id: number) {

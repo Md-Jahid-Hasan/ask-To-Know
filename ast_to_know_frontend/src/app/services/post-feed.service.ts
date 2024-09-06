@@ -26,7 +26,7 @@ export class PostFeedService {
         return this.http.get<any>(`api/post/comment/${post_id}/`)
     }
 
-    createComment(post_id: number, comment: {content: string}): Observable<any>{
+    createComment(post_id: number, comment: {content: string, reply_to?: number}): Observable<any>{
         return this.http.post<any>(`api/post/comment/${post_id}/`, comment)
     }
 

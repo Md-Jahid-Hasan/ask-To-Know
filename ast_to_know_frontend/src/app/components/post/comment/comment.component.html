@@ -3,6 +3,7 @@
 <nz-comment class="border rounded-4 bg-white ps-1" [nzAuthor]="comment.user.name"
             [nzDatetime]="getTimeDifference(comment.comment_at)">
     <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="/assets/user-icon.png"></nz-avatar>
+
     <nz-comment-content>
         <p>{{ comment.content }}</p>
 
@@ -18,13 +19,18 @@
             </ul>
         </nz-dropdown-menu>
     </nz-comment-content>
-    <nz-comment-action>Reply To</nz-comment-action>
+
+    <nz-comment-action>
+        <span class="m-0" (click)="replyThisComment({comment_id:comment.id, name:comment.user.name})">Reply To
+        </span>
+    </nz-comment-action>
     @if (comment.replies) {
         @for (reply of comment.replies; track reply.id) {
             <div class="pb-2">
                 <app-comment [comment]="reply" [post]="post" [is_visible_comments]="is_visible_comments"
                              (updateTotalComments)="updateTotalCommentsContainer($event)"
-                             (removeComment)="removeCommentContainer($event)">
+                             (removeComment)="removeCommentContainer($event)"
+                              (replyComment)="replyThisComment($event)">
                 </app-comment>
             </div>
         }

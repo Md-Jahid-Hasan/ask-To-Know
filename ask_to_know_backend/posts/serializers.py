@@ -40,10 +40,11 @@ class PostCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PostComments
-        fields = ('id', 'content', 'user', 'post', 'comment_at', 'is_owner', 'replies')
+        fields = ('id', 'content', 'user', 'post', 'comment_at', 'is_owner', 'replies', 'reply_to')
         read_only_fields = ('comment_at', )
         extra_kwargs = {'user': {'required': False}, 'post': {'required': False, 'write_only': True},
-                        'is_owner': {'required': False, 'read_only': True}}
+                        'is_owner': {'required': False, 'read_only': True},
+                        'reply_to': {'required': False, 'write_only': True}}
 
     def get_is_owner(self, obj):
         request = self.context.get('request')

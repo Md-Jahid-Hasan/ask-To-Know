@@ -58,11 +58,11 @@ export class CommentComponent {
     }
     @Input() is_visible_comments: boolean | number = false
 
+    @Output() replyComment: EventEmitter<any> = new EventEmitter()
     @Output() updateTotalComments: EventEmitter<any> = new EventEmitter()
     @Output() removeComment: EventEmitter<any> = new EventEmitter()
 
-    constructor(private post_service: PostFeedService, private messageService: NzMessageService) {
-    }
+    constructor(private post_service: PostFeedService, private messageService: NzMessageService) {}
 
     deleteComment(comment_id: number, post_id: number) {
         this.post_service.deleteComment(comment_id).subscribe(res => {
@@ -91,6 +91,10 @@ export class CommentComponent {
 
     updateTotalCommentsContainer(kwargs:{func:any, post_id: number}) {
         this.updateTotalComments.emit({func: kwargs.func, post_id: kwargs.post_id})
+    }
+
+    replyThisComment(kwargs: {comment_id: number, name: string}){
+        this.replyComment.emit({comment_id:this.comment.id, name: kwargs.name})
     }
 
     protected readonly getTimeDifference = getTimeDifference;
