@@ -1,4 +1,21 @@
 # AstToKnowFrontend
+**List of post of all user like social media**
+<img width="300" height="356.5" src="./screenshot/post-feed.png"/>
+
+**User can ask private question and question will distribute among the agent based on availability**
+<img width="300" height="356.5" src="./screenshot/user-private-question.png"/>
+
+**User can comment on public post**
+<img width="300" height="356.5" src="./screenshot/user-comment-1.png"/>
+
+**User can reply on a specific comment**
+<img width="300" height="356.5" src="./screenshot/user-comment-2.png"/>
+
+**Agent can see all the private question that assigned him by system automatically**
+<img width="300" height="356.5" src="./screenshot/agent-task-list.png"/>
+
+**Individual Question page where user can answer question and also can attach media**
+<img width="300" height="356.5" src="./screenshot/agent-task.png"/>
 
 ## Installation procedure
 
