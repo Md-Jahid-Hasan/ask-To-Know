@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, HostListener} from '@angular/core';
 import {NzCardComponent} from "ng-zorro-antd/card";
 import {NzColDirective, NzRowDirective} from "ng-zorro-antd/grid";
 import {NzButtonComponent} from "ng-zorro-antd/button";
@@ -43,11 +43,14 @@ import {NzTagComponent} from "ng-zorro-antd/tag";
     host: {ngSkipHydration: 'true'}
 })
 export class PostFeedComponent implements OnInit {
+    @ViewChild('comment_input') comment_input!: ElementRef;
+
     is_visible_vote: boolean | number = false
     is_visible_comments: boolean | number = false
     all_post: Post[] = []
     new_post: string = ""
     post_page_number: number = 1
+
     all_comments: any = {}
     new_comment: string = ""
     comment_reply: number = 0
@@ -55,16 +58,33 @@ export class PostFeedComponent implements OnInit {
     rating: string = ""
     is_loading: boolean = false
     user_questions_visible: boolean = false
+    drawerWidth:string = "50%"
 
     constructor(private post_service: PostFeedService, private messageService: NzMessageService) {}
 
     ngOnInit() {
+        this.adjustDrawerWidth()
         this.post_service.user_question_visibility.subscribe(
             data => this.user_questions_visible = data)
         if (typeof window !== 'undefined' && window.localStorage) {
             this.getPosts()
         }
     }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any): void {
+        this.adjustDrawerWidth();
+    }
+
+    adjustDrawerWidth(): void {
+        if (window.matchMedia('(max-width: 768px)').matches) {
+          this.drawerWidth = '100%';
+        } else if (window.matchMedia('(max-width: 1000px)').matches){
+            this.drawerWidth = '75%';
+        } else {
+          this.drawerWidth = '50%';
+        }
+  }
 
     onScroll() {
         if (this.post_page_number !== 0) {
@@ -81,6 +101,9 @@ export class PostFeedComponent implements OnInit {
         this.is_visible_comments = post_id == this.is_visible_comments ? false : post_id
         if (!(post_id in this.all_comments)) this.getComments(post_id)
         this.new_comment = ""
+
+        this.comment_reply = 0
+        this.comment_reply_mention = ""
     }
 
     getPosts() {
@@ -143,6 +166,7 @@ export class PostFeedComponent implements OnInit {
     replyComment(kwargs: {comment_id: number, name: string}){
         this.comment_reply = kwargs.comment_id
         this.comment_reply_mention = kwargs.name
+        this.comment_input.nativeElement.focus()
     }
 
     giveVote(post_id: number) {

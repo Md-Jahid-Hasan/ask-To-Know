@@ -9,8 +9,8 @@
 <div style="height: 100% !important;" infiniteScroll [infiniteScrollDistance]="0.3"
      [infiniteScrollThrottle]="300" (scrolled)="onScroll()">
 
-    <div class="shadow-sm mt-2 border rounded-1" nz-row *ngFor="let post of all_post">
-        <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+    <div class="shadow-sm mt-2 border rounded-2 border-top border-white" nz-row *ngFor="let post of all_post">
+        <div class="bg-white p-2 " nz-col nzSpan="24">
             <div nz-flex nzJustify="space-between" nzAlign="center">
                 <div nz-flex nzAlign="center">
                     <div>
@@ -40,7 +40,7 @@
         <div class="bg-white p-2 border rounded-1" nz-col nzSpan="24">
             <p> {{ post.content }} </p>
         </div>
-        <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+        <div class="bg-white p-2" nz-col nzSpan="24">
             <button nz-button nzType="primary" nzShape="round" (click)="toggleVoteView(post.id)" nz-tooltip
                     disabled="{{post.is_voted}}" nzTooltipColor="blue" nzTooltipTitle="You already voted"
                     [nzTooltipTrigger]="post.is_voted ? 'hover': null">
@@ -76,8 +76,8 @@
 
             <div class="bg-body-secondary p-2" nz-col nzSpan="24">
                 <form nz-row nzJustify="end" (ngSubmit)="createComments(post.id)">
-                    <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Share your thoughts"
-                              [(ngModel)]="new_comment" name="new_comment"></textarea>
+                    <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Your Opinion about this post"
+                              [(ngModel)]="new_comment" name="new_comment" #comment_input></textarea>
                     <div nz-col nzSpan="24">
                         <div nz-flex [nzJustify]="comment_reply ? 'space-between' : 'flex-end'">
                             <small class="text-secondary" *ngIf="comment_reply">reply to
@@ -98,7 +98,7 @@
 
 <nz-drawer
     nzSize="large"
-    [nzWidth]="920"
+    [nzWidth]="drawerWidth"
     [nzMaskClosable]="false"
     [nzVisible]="user_questions_visible"
     nzPlacement="right"
@@ -112,3 +112,4 @@
         }
     </ng-container>
 </nz-drawer>
+
