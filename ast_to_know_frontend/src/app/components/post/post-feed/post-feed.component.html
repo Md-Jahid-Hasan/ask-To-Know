@@ -6,7 +6,7 @@
     </form>
 </nz-card>
 
-<div style="height: 100% !important;" infiniteScroll [infiniteScrollDistance]="0.3"
+<div style="height: 100% !important;" infiniteScroll [infiniteScrollDistance]="0.5"
      [infiniteScrollThrottle]="300" (scrolled)="onScroll()">
 
     <div class="shadow-sm mt-2 border rounded-2 border-top border-white" nz-row *ngFor="let post of all_post">
@@ -61,7 +61,8 @@
 
         <!--    Comment Section -->
         <div class="comments-section bg-body-secondary" [class]="is_visible_comments==post.id ? 'd-block' : 'd-none'"
-             nz-col nzSpan="24">
+             nz-col nzSpan="24" style="height: 100% !important;" infiniteScroll [infiniteScrollDistance]="0.3"
+             [infiniteScrollThrottle]="300" (scrolled)="onCommentScroll()" [scrollWindow]="false">
 
             <div class="p-1" nz-col nzSpan="24" *ngIf="!all_comments[post.id]">
                 <nz-skeleton [nzAvatar]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
@@ -74,7 +75,7 @@
                 </app-comment>
             </div>
 
-            <div class="bg-body-secondary p-2" nz-col nzSpan="24">
+            <div class="bg-body-secondary p-2 sticky-bottom" nz-col nzSpan="24">
                 <form nz-row nzJustify="end" (ngSubmit)="createComments(post.id)">
                     <textarea class="rounded p-2" nz-col nzSpan="24" rows="2" placeholder="Your Opinion about this post"
                               [(ngModel)]="new_comment" name="new_comment" #comment_input></textarea>

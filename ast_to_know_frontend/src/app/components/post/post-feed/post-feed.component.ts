@@ -55,6 +55,8 @@ export class PostFeedComponent implements OnInit {
     new_comment: string = ""
     comment_reply: number = 0
     comment_reply_mention: string = ""
+    comment_page_number: number = 1
+
     rating: string = ""
     is_loading: boolean = false
     user_questions_visible: boolean = false
@@ -93,12 +95,21 @@ export class PostFeedComponent implements OnInit {
         }
     }
 
+    onCommentScroll() {
+        if (this.comment_page_number !== 0){
+            this.comment_page_number+=1
+            if (typeof this.is_visible_comments == "number")
+                this.getComments(this.is_visible_comments)
+        }
+    }
+
     toggleVoteView(post_id: number) {
         this.is_visible_vote = post_id == this.is_visible_vote ? false : post_id
     }
 
     toggleCommentView(post_id: number) {
         this.is_visible_comments = post_id == this.is_visible_comments ? false : post_id
+        this.comment_page_number = 1
         if (!(post_id in this.all_comments)) this.getComments(post_id)
         this.new_comment = ""
 
@@ -134,8 +145,13 @@ export class PostFeedComponent implements OnInit {
 
     getComments(post_id: number) {
         if (typeof window !== 'undefined' && window.localStorage) {
-            this.post_service.getCommentsOfPost(post_id).subscribe(comments => {
-                this.all_comments[post_id] = comments.results
+            this.post_service.getCommentsOfPost(post_id, this.comment_page_number).subscribe(comments => {
+                let post_comments = this.all_comments[post_id] || []
+                if (post_id in this.all_comments)
+                    this.all_comments[post_id] = post_comments.concat(comments.results)
+                else this.all_comments[post_id] = comments.results
+
+                if (comments.next === null) this.comment_page_number = 0
             })
         }
     }

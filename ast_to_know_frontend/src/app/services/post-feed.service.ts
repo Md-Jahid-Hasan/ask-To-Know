@@ -22,8 +22,8 @@ export class PostFeedService {
         return this.http.delete<any>(`api/post/${post_id}/`)
     }
 
-    getCommentsOfPost(post_id: number): Observable<any>{
-        return this.http.get<any>(`api/post/comment/${post_id}/`)
+    getCommentsOfPost(post_id: number, page_number: number): Observable<any>{
+        return this.http.get<any>(`api/post/comment/${post_id}/?page=${page_number}`)
     }
 
     createComment(post_id: number, comment: {content: string, reply_to?: number}): Observable<any>{
