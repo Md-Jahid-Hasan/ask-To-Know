@@ -1,0 +1,11 @@
+/* Add this to your CSS file */
+.fade-transition {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+.fade-transition.show {
+  opacity: 1;
+  visibility: visible;
+}
