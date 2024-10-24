@@ -5,7 +5,7 @@ import Postview from "../components/Postview";
 import Load from "../components/Load";
 import Createpost from "../components/Createpost";
 import Group from "../components/Group";
-import Contacts from "../components/Contacts";
+// import Storyslider from "../components/Storyslider";
 
 
 class Home extends Component {
@@ -20,6 +20,7 @@ class Home extends Component {
                         <div className="middle-sidebar-left">
                             <div className="row feed-body">
                                 <div className="col-xl-8 col-xxl-9 col-lg-8">
+                                    {/*<Storyslider />*/}
                                     <Createpost />
                                     <Postview id="32" postvideo="" postimage="post.png" avater="user.png" user="Surfiya Zakir" time="55 min ago" des="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus." />
                                     <Postview id="31" postvideo="" postimage="post.png" avater="user.png" user="David Goria" time="22 min ago" des="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus." />
@@ -31,7 +32,6 @@ class Home extends Component {
                                     <Load />
                                 </div>
                                 <div className="col-xl-4 col-xxl-3 col-lg-4 ps-lg-0">
-                                    <Contacts />
                                     <Group />
                                 </div>
                             </div>
