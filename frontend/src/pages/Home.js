@@ -5,7 +5,7 @@ import Postview from "../components/Postview";
 import Load from "../components/Load";
 import Createpost from "../components/Createpost";
 import Group from "../components/Group";
-// import Storyslider from "../components/Storyslider";
+import Appfooter from "../components/Appfooter";
 
 
 class Home extends Component {
@@ -38,6 +38,7 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
+                <Appfooter/>
             </Fragment>
         );
     }

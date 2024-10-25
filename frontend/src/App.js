@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import Email from "./pages/Email";
 import {EmailOpen} from "./pages/Emailopen";
@@ -7,39 +7,15 @@ import {Register} from "./pages/Register";
 import {Forgot} from "./pages/Forgot";
 
 function App() {
-    const router = createBrowserRouter([
-        {
-            children: [
-                {
-                    path: "/",
-                    element: <Home/>
-                },
-                {
-                    path: "/chat",
-                    element: <Email/>
-                },
-                {
-                    path: "/chat/:id",
-                    element: <EmailOpen/>
-                },
-                {
-                    path: "/login",
-                    element: <Login/>
-                },
-                {
-                    path: "/register",
-                    element: <Register/>
-                },
-                {
-                    path: "/change-password",
-                    element: <Forgot/>
-                }
-            ],
-        },
-    ]);
-
     return (
-        <RouterProvider router={router}/>
+        <Routes>
+            <Route path="/" element={<Home/>}></Route>
+            <Route path="/chat" element={<Email/>}></Route>
+            <Route path="/chat/:id" element={<EmailOpen/>}></Route>
+            <Route path="/login" element={<Login/>}></Route>
+            <Route path="/register" element={<Register/>}></Route>
+            <Route path="/change-password" element={<Forgot/>}></Route>
+        </Routes>
     );
 }
 
