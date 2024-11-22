@@ -15,6 +15,9 @@ class OneToOneMessage(MessageBaseModel):
     message_to = models.ForeignKey(User(), on_delete=models.SET_NULL, null=True, related_name='receiver_message')
     # content, created_at
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return f"{self.message_from} - {self.content[:20]}"
 
@@ -40,3 +43,6 @@ class MessageGroup(models.Model):
 class GroupParticipate(models.Model):
     group = models.ForeignKey(MessageGroup, on_delete=models.CASCADE)
     user = models.ForeignKey(User(), on_delete=models.CASCADE)
+
+    # class Meta:
+    #     unique_together = ('group', 'user')
